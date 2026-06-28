@@ -194,6 +194,45 @@ body {
 .sum-tab.active .tcount { background: var(--warn-dim); border-color: var(--warn-border); color: var(--warn); }
 .pto-tab.active { color: var(--pto); border-bottom-color: var(--pto); }
 .pto-tab.active .tcount { background: var(--pto-dim); border-color: var(--pto-border); color: var(--pto); }
+.dial-tab.active { color: var(--cyan); border-bottom-color: var(--cyan); }
+.dial-tab.active .tcount { background: var(--cyan-dim); border-color: var(--cyan-border); color: var(--cyan); }
+.dial-view { display: none; padding: 24px 28px; }
+.dial-view.active { display: block; }
+.dial-drop-zone { border: 2px dashed var(--border); border-radius: 8px; padding: 36px; text-align: center; cursor: pointer; transition: all .15s; position: relative; margin-bottom: 20px; }
+.dial-drop-zone:hover, .dial-drop-zone.drag-over { border-color: var(--navy); background: var(--surface); }
+.dial-drop-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+.dial-drop-zone-icon { font-size: 28px; margin-bottom: 8px; }
+.dial-drop-zone-text { font-size: 13px; font-weight: 700; color: var(--text-2); }
+.dial-drop-zone-sub { font-size: 11px; color: var(--text-3); margin-top: 4px; }
+.dial-mapper { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 16px; display: none; }
+.dial-mapper.open { display: block; }
+.dial-mapper-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--text-2); margin-bottom: 12px; }
+.dial-mapper-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+.dial-map-item label { font-size: 10px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: .5px; display: block; margin-bottom: 4px; }
+.dial-map-item select { width: 100%; font-size: 12px; padding: 6px 8px; border: 1px solid var(--border); border-radius: 4px; background: #fff; color: var(--text); }
+.dial-publish-bar { display: flex; align-items: center; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+.btn-dial-publish { background: var(--navy); color: #fff; border: none; font-size: 13px; font-weight: 700; padding: 10px 24px; border-radius: 6px; cursor: pointer; }
+.btn-dial-publish:hover { opacity: .88; }
+.btn-dial-publish:disabled { opacity: .45; cursor: not-allowed; }
+.btn-dial-clear { background: #fff; color: var(--danger); border: 1px solid var(--danger); font-size: 12px; font-weight: 700; padding: 9px 18px; border-radius: 6px; cursor: pointer; display: none; }
+.dial-pub-status { font-size: 12px; font-weight: 600; padding: 8px 14px; border-radius: 5px; display: none; }
+.dial-pub-status.ok { background: rgba(26,138,74,.1); color: #1A8A4A; display: block; }
+.dial-pub-status.err { background: rgba(217,64,64,.1); color: var(--danger); display: block; }
+.dial-pub-status.loading { background: var(--surface); color: var(--text-2); display: block; }
+.dial-tbl { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 8px; }
+.dial-tbl th { background: var(--surface-2); text-align: left; padding: 8px 10px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--text-2); }
+.dial-tbl th.center, .dial-tbl td.center { text-align: center; }
+.dial-tbl td { padding: 9px 10px; border-bottom: 1px solid var(--surface-2); vertical-align: middle; }
+.dial-tbl tr:last-child td { border-bottom: none; }
+.dial-tbl .total-row td { background: var(--surface); font-weight: 700; }
+.drg { color: #1A8A4A; font-weight: 700; } .drm { color: var(--warn); font-weight: 700; } .drb { color: var(--danger); font-weight: 700; }
+.dial-no-data { color: var(--text-3); font-style: italic; font-size: 12px; padding: 12px 0; }
+.dial-admin-note { font-size: 11px; color: var(--text-3); margin-top: 8px; }
+.dial-token-bar { display: flex; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; margin-bottom: 20px; flex-wrap: wrap; }
+.dial-token-bar label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--text-3); }
+.dial-token-bar input { font-size: 12px; padding: 6px 10px; border: 1px solid var(--border); border-radius: 4px; width: 300px; font-family: monospace; }
+.btn-save-token { background: #1A8A4A; color: #fff; border: none; font-size: 12px; font-weight: 700; padding: 7px 14px; border-radius: 4px; cursor: pointer; }
+.token-ok { font-size: 11px; font-weight: 700; color: #1A8A4A; } .token-no { font-size: 11px; font-weight: 700; color: var(--danger); }
 
 /* layout */
 .page-wrap { flex: 1; display: flex; overflow: hidden; min-height: 0; }
@@ -470,6 +509,7 @@ body {
     <div class="day-view" id="view-fri" data-day="2026-06-26"></div>
     <div class="sum-view" id="view-sum"></div>
     <div class="pto-view" id="view-pto"></div>
+    <div class="dial-view" id="view-dial"></div>
   </div>
   <aside class="pto-sidebar" id="ptoSidebar"></aside>
 </div>
@@ -1255,17 +1295,202 @@ function buildNav() {
     </button>
     <button class="day-tab pto-tab" data-id="pto" onclick="switchTo('pto')">
       <span class="tlabel">PTO</span><span class="tdate">Team Out</span><span class="tcount">${ptoOutCount()}</span>
+    </button>
+    <button class="day-tab dial-tab" data-id="dial" onclick="switchTo('dial')">
+      <span class="tlabel">Dialer</span><span class="tdate">Analytics</span><span class="tcount">↑</span>
     </button>`;
   document.getElementById('tabNav').innerHTML = html;
 }
 
 function switchTo(id) {
-  document.querySelectorAll('.day-view,.sum-view,.pto-view').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.day-view,.sum-view,.pto-view,.dial-view').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.day-tab').forEach(b => b.classList.remove('active'));
   document.querySelector(`[data-id="${id}"]`).classList.add('active');
   if (id === 'sum') { document.getElementById('view-sum').classList.add('active'); renderSummary(); }
   else if (id === 'pto') { document.getElementById('view-pto').classList.add('active'); renderPTO(); }
+  else if (id === 'dial') { document.getElementById('view-dial').classList.add('active'); renderDialer(); }
   else document.getElementById('view-' + id).classList.add('active');
+}
+
+// ── Dialer Tab ────────────────────────────────────────────────────────────────
+const GH_REPO = 'CaseyH713/pinecrest-weekly';
+const GH_FILE = 'index.html';
+let dialParsed = null;
+
+function dialPct(n,d){ return (d&&n!=null)?Math.round(n/d*100)+'%':'—'; }
+function dialRc(n,d){ if(!d||n==null)return''; const r=n/d; return r>=.5?'drg':r>=.3?'drm':'drb'; }
+function dialNum(v){ const n=parseFloat(v); return isNaN(n)?null:n; }
+
+function renderDialer() {
+  const saved = localStorage.getItem('pc_gh_token');
+  document.getElementById('view-dial').innerHTML = `
+    <div style="max-width:900px">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-bottom:16px;padding-bottom:6px;border-bottom:1px solid var(--surface-2)">Dialer Analytics — Upload</div>
+      <div class="dial-token-bar">
+        <label>GitHub Token</label>
+        <input type="password" id="dialToken" placeholder="ghp_... (saved locally)" value="">
+        <button class="btn-save-token" onclick="saveDialToken()">Save</button>
+        <span id="dialTokenStatus" class="${saved?'token-ok':'token-no'}">${saved?'✓ Token saved':'No token — save one to publish'}</span>
+      </div>
+      <div id="dial-result-table"><div class="dial-no-data">Drop your dialer Excel or CSV file below to get started.</div></div>
+      <div class="dial-drop-zone" id="dialDropZone"
+        ondragover="dialDzOver(event)" ondragleave="dialDzLeave()" ondrop="dialDzDrop(event)">
+        <input type="file" accept=".xlsx,.xls,.csv" onchange="dialFileChosen(event)">
+        <div class="dial-drop-zone-icon">📊</div>
+        <div class="dial-drop-zone-text">Drop dialer Excel / CSV here or click to browse</div>
+        <div class="dial-drop-zone-sub">Accepts .xlsx, .xls, .csv — Wed midweek or Fri end-of-week</div>
+      </div>
+      <div class="dial-mapper" id="dialMapper">
+        <div class="dial-mapper-title">Map your columns — match each field to the right column from your file</div>
+        <div class="dial-mapper-grid" id="dialMapperGrid"></div>
+      </div>
+      <div class="dial-publish-bar">
+        <button class="btn-dial-publish" id="dialPublishBtn" onclick="dialPublish()" disabled>↑ Publish to Team</button>
+        <button class="btn-dial-clear" id="dialClearBtn" onclick="dialClear()">Clear</button>
+        <span class="dial-pub-status" id="dialPubStatus"></span>
+      </div>
+    </div>`;
+}
+
+function saveDialToken(){
+  const t = document.getElementById('dialToken').value.trim();
+  if(!t){alert('Paste your token first.');return;}
+  localStorage.setItem('pc_gh_token', t);
+  document.getElementById('dialToken').value='';
+  document.getElementById('dialTokenStatus').textContent='✓ Token saved';
+  document.getElementById('dialTokenStatus').className='token-ok';
+}
+
+function dialDzOver(e){e.preventDefault();document.getElementById('dialDropZone').classList.add('drag-over');}
+function dialDzLeave(){document.getElementById('dialDropZone').classList.remove('drag-over');}
+function dialDzDrop(e){e.preventDefault();dialDzLeave();const f=e.dataTransfer.files[0];if(f)dialProcessFile(f);}
+function dialFileChosen(e){const f=e.target.files[0];if(f)dialProcessFile(f);}
+
+const DIAL_FIELDS=[
+  {key:'rep',     label:'Rep Name'},
+  {key:'role',    label:'Role / Title'},
+  {key:'dials',   label:'Dials / Attempts'},
+  {key:'connects',label:'Connects'},
+  {key:'appts',   label:'Appointments Set'},
+  {key:'talktime',label:'Talk Time (optional)'},
+];
+
+function dialProcessFile(file){
+  if(typeof XLSX==='undefined'){
+    const s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
+    s.onload=()=>dialReadFile(file);
+    document.head.appendChild(s);
+  } else { dialReadFile(file); }
+}
+
+function dialReadFile(file){
+  const reader=new FileReader();
+  reader.onload=function(e){
+    const wb=XLSX.read(e.target.result,{type:'array'});
+    const ws=wb.Sheets[wb.SheetNames[0]];
+    const rows=XLSX.utils.sheet_to_json(ws,{defval:''});
+    if(!rows.length){alert('No data found in this file.');return;}
+    const headers=Object.keys(rows[0]);
+    dialParsed={rows,headers};
+    const grid=document.getElementById('dialMapperGrid');
+    const mapper=document.getElementById('dialMapper');
+    grid.innerHTML='';
+    DIAL_FIELDS.forEach(fd=>{
+      const auto=headers.find(h=>h.toLowerCase().replace(/[^a-z]/g,'').includes(fd.key.replace(/[^a-z]/g,'')))||'';
+      grid.innerHTML+=`<div class="dial-map-item">
+        <label>${fd.label}</label>
+        <select id="dmap-${fd.key}" onchange="dialPreview()">
+          <option value="">— skip —</option>
+          ${headers.map(h=>`<option value="${h}"${h===auto?' selected':''}>${h}</option>`).join('')}
+        </select></div>`;
+    });
+    mapper.classList.add('open');
+    dialPreview();
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function dialPreview(){
+  if(!dialParsed)return;
+  const g=k=>document.getElementById('dmap-'+k).value;
+  const mapped=dialParsed.rows.map(r=>({
+    rep:r[g('rep')]||'',role:r[g('role')]||'',
+    dials:dialNum(r[g('dials')]),connects:dialNum(r[g('connects')]),
+    appts:dialNum(r[g('appts')]),talktime:g('talktime')?r[g('talktime')]:'',
+  })).filter(r=>r.rep);
+  dialParsed.mapped=mapped;
+  document.getElementById('dial-result-table').innerHTML=buildDialHtml(mapped);
+  document.getElementById('dialPublishBtn').disabled=false;
+  document.getElementById('dialClearBtn').style.display='inline-block';
+}
+
+function buildDialHtml(rows){
+  if(!rows||!rows.length)return'<div class="dial-no-data">No rows found — check column mapping above.</div>';
+  const hasTT=rows.some(r=>r.talktime);
+  let dr='',td=0,tc=0,ta=0;
+  rows.forEach(r=>{td+=r.dials||0;tc+=r.connects||0;ta+=r.appts||0;
+    dr+=`<tr><td>${r.rep}</td><td>${r.role}</td>
+      <td class="center">${r.dials??'—'}</td><td class="center">${r.connects??'—'}</td>
+      <td class="center ${dialRc(r.connects,r.dials)}">${dialPct(r.connects,r.dials)}</td>
+      <td class="center">${r.appts??'—'}</td>
+      <td class="center ${dialRc(r.appts,r.connects)}">${dialPct(r.appts,r.connects)}</td>
+      ${hasTT?`<td class="center">${r.talktime||'—'}</td>`:''}
+    </tr>`;
+  });
+  return`<table class="dial-tbl"><thead><tr>
+    <th>Rep</th><th>Role</th><th class="center">Dials</th><th class="center">Connects</th>
+    <th class="center">Connect %</th><th class="center">Appts Set</th><th class="center">Appt %</th>
+    ${hasTT?'<th class="center">Talk Time</th>':''}
+  </tr></thead><tbody>${dr}
+    <tr class="total-row"><td colspan="2">TEAM TOTAL</td>
+      <td class="center">${td||'—'}</td><td class="center">${tc||'—'}</td>
+      <td class="center ${dialRc(tc,td)}">${dialPct(tc,td)}</td>
+      <td class="center">${ta||'—'}</td>
+      <td class="center ${dialRc(ta,tc)}">${dialPct(ta,tc)}</td>
+      ${hasTT?'<td></td>':''}
+    </tr>
+  </tbody></table>`;
+}
+
+function dialClear(){
+  dialParsed=null;
+  document.getElementById('dialMapper').classList.remove('open');
+  document.getElementById('dial-result-table').innerHTML='<div class="dial-no-data">Drop your dialer Excel or CSV file below to get started.</div>';
+  document.getElementById('dialPublishBtn').disabled=true;
+  document.getElementById('dialClearBtn').style.display='none';
+  document.getElementById('dialPubStatus').className='dial-pub-status';
+}
+
+async function dialPublish(){
+  const token=localStorage.getItem('pc_gh_token');
+  if(!token){alert('Save your GitHub token in the field above first.');return;}
+  const mapped=dialParsed&&dialParsed.mapped;
+  if(!mapped||!mapped.length){alert('No data to publish.');return;}
+  const btn=document.getElementById('dialPublishBtn');
+  const status=document.getElementById('dialPubStatus');
+  btn.disabled=true;status.textContent='Publishing…';status.className='dial-pub-status loading';
+  try{
+    const res=await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`,
+      {headers:{Authorization:'token '+token,'Accept':'application/vnd.github.v3+json'}});
+    if(!res.ok)throw new Error('Could not read file (check token)');
+    const fd=await res.json();
+    let content=atob(fd.content.replace(/\n/g,''));
+    const newDialer=JSON.stringify(mapped);
+    const pat=new RegExp(`(id:'w\\d+'[\\s\\S]*?dialer:)\\[[\\s\\S]*?\\]`,'m');
+    if(!pat.test(content))throw new Error('Could not locate week data — contact admin');
+    content=content.replace(pat,`$1${newDialer}`);
+    const push=await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`,{
+      method:'PUT',
+      headers:{Authorization:'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+      body:JSON.stringify({message:'dialer update',content:btoa(unescape(encodeURIComponent(content))),sha:fd.sha})
+    });
+    if(!push.ok)throw new Error('Push failed — check token permissions');
+    status.textContent='✓ Published! Team sees it in ~60 seconds.';status.className='dial-pub-status ok';
+  }catch(err){
+    status.textContent='Error: '+err.message;status.className='dial-pub-status err';
+    btn.disabled=false;
+  }
 }
 
 buildNav();
