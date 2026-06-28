@@ -4,12 +4,29 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Pinecrest — Sales Team Tracker</title>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F0F3FA;color:#1A2550;min-height:100vh}
-.hdr{background:#2B3990;padding:20px 40px;display:flex;align-items:center}
+.hdr{background:#2B3990;padding:20px 40px;display:flex;align-items:center;justify-content:space-between}
+.hdr-left{display:flex;flex-direction:column}
 .hdr-logo{font-size:18px;font-weight:800;color:#fff;letter-spacing:1.5px}
 .hdr-sub{font-size:12px;color:#8FA3D8;margin-top:2px;letter-spacing:.3px}
+.admin-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:11px;font-weight:600;padding:6px 14px;border-radius:5px;cursor:pointer;letter-spacing:.3px}
+.admin-btn:hover{background:rgba(255,255,255,.2)}
+
+/* ADMIN PANEL */
+.admin-panel{background:#1e2d7a;border-bottom:2px solid #3a4fa8;padding:16px 40px;display:none;align-items:center;gap:16px;flex-wrap:wrap}
+.admin-panel.open{display:flex}
+.admin-panel label{font-size:11px;color:#8FA3D8;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.admin-panel input{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:12px;padding:7px 12px;border-radius:5px;width:340px;font-family:monospace}
+.admin-panel input::placeholder{color:rgba(255,255,255,.3)}
+.btn-save-token{background:#4CAF50;color:#fff;border:none;font-size:12px;font-weight:700;padding:7px 16px;border-radius:5px;cursor:pointer}
+.token-status{font-size:11px;font-weight:700;padding:5px 10px;border-radius:4px}
+.token-status.set{background:rgba(76,175,80,.2);color:#81C784}
+.token-status.unset{background:rgba(244,67,54,.2);color:#EF9A9A}
+
+/* TREND BAR */
 .trend-wrap{background:#fff;border-bottom:2px solid #DDE4F0;padding:0 40px;overflow-x:auto;scrollbar-width:none}
 .trend-wrap::-webkit-scrollbar{display:none}
 .trend-inner{display:flex;align-items:stretch;min-width:max-content}
@@ -20,8 +37,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .trend-pct.good{color:#1A8A4A}.trend-pct.mid{color:#E8932A}.trend-pct.bad{color:#D94040}
 .trend-label{font-size:10px;color:#8A9BBF}
 .trend-dials{font-size:11px;color:#7C4DCC;font-weight:700;margin-top:2px}
+
 .main{max-width:1120px;margin:0 auto;padding:32px 40px}
 .section-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8A9BBF;margin-bottom:16px}
+
+/* WEEK CARDS */
 .week-card{background:#fff;border:1px solid #DDE4F0;border-radius:10px;margin-bottom:16px;overflow:hidden;transition:box-shadow .15s}
 .week-card:hover{box-shadow:0 2px 14px rgba(43,57,144,.09)}
 .week-header{display:flex;align-items:stretch;cursor:pointer;user-select:none}
@@ -41,14 +61,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .week-card.open .arrow{transform:rotate(90deg)}
 .week-body{display:none;border-top:1px solid #EEF1F9}
 .week-card.open .week-body{display:block}
+
+/* TABS */
 .tab-bar{display:flex;border-bottom:1px solid #EEF1F9;padding:0 24px;background:#FAFBFF}
 .tab{padding:12px 20px;font-size:12px;font-weight:700;color:#8A9BBF;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;letter-spacing:.3px;transition:color .15s}
 .tab.active{color:#2B3990;border-bottom-color:#2B3990}
 .tab-panel{display:none;padding:24px}
 .tab-panel.active{display:block}
-.sub-section{margin-bottom:24px}
-.sub-section:last-child{margin-bottom:0}
+.sub-section{margin-bottom:24px}.sub-section:last-child{margin-bottom:0}
 .sub-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#8A9BBF;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #EEF1F9}
+
+/* TABLES */
 .tbl{width:100%;border-collapse:collapse;font-size:12px}
 .tbl th{background:#EEF1F9;text-align:left;padding:8px 10px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#4A5E8A}
 .tbl th.center,.tbl td.center{text-align:center}
@@ -66,9 +89,42 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .drg{color:#1A8A4A;font-weight:700}.drm{color:#E8932A;font-weight:700}.drb{color:#D94040;font-weight:700}
 .dial-total td{background:#EEF1F9;font-weight:700}
 .no-data{color:#8A9BBF;font-style:italic;font-size:12px;padding:12px 0}
+
+/* UPLOAD ZONE */
+.upload-zone{border:2px dashed #C8D4EC;border-radius:8px;padding:32px;text-align:center;cursor:pointer;transition:all .15s;margin-bottom:20px;position:relative}
+.upload-zone:hover,.upload-zone.drag-over{border-color:#2B3990;background:#F4F7FC}
+.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.upload-zone-icon{font-size:28px;margin-bottom:8px}
+.upload-zone-text{font-size:13px;font-weight:600;color:#4A5E8A}
+.upload-zone-sub{font-size:11px;color:#8A9BBF;margin-top:4px}
+
+/* COLUMN MAPPER */
+.col-mapper{background:#F4F7FC;border:1px solid #DDE4F0;border-radius:8px;padding:16px;margin-bottom:16px;display:none}
+.col-mapper.open{display:block}
+.col-mapper-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#4A5E8A;margin-bottom:12px}
+.col-mapper-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.col-map-item label{font-size:10px;font-weight:700;color:#8A9BBF;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px}
+.col-map-item select{width:100%;font-size:12px;padding:6px 8px;border:1px solid #C8D4EC;border-radius:4px;background:#fff;color:#1A2550}
+
+/* PUBLISH */
+.publish-bar{display:flex;align-items:center;gap:12px;margin-top:16px;flex-wrap:wrap}
+.btn-publish{background:#2B3990;color:#fff;border:none;font-size:13px;font-weight:700;padding:10px 24px;border-radius:6px;cursor:pointer;letter-spacing:.3px}
+.btn-publish:hover{background:#1e2d7a}
+.btn-publish:disabled{opacity:.5;cursor:not-allowed}
+.btn-clear{background:#fff;color:#D94040;border:1px solid #D94040;font-size:12px;font-weight:700;padding:9px 18px;border-radius:6px;cursor:pointer}
+.btn-clear:hover{background:#fef2f2}
+.publish-status{font-size:12px;font-weight:600;padding:8px 14px;border-radius:5px;display:none}
+.publish-status.ok{background:#ecfdf5;color:#15803d;display:block}
+.publish-status.err{background:#fef2f2;color:#b91c1c;display:block}
+.publish-status.loading{background:#EEF1F9;color:#4A5E8A;display:block}
+
+/* PREVIEW TABLE */
+.preview-wrap{overflow-x:auto;margin-bottom:16px;display:none}
+.preview-wrap.open{display:block}
+
 @media(max-width:800px){
   .hdr,.main{padding-left:16px;padding-right:16px}
-  .trend-wrap{padding:0 16px}
+  .trend-wrap,.admin-panel{padding-left:16px;padding-right:16px}
   .week-label-col{min-width:120px;padding:12px 16px}
   .week-stats{flex-wrap:wrap}
   .week-stat{flex:0 0 50%;min-width:0}
@@ -78,10 +134,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <body>
 
 <div class="hdr">
-  <div>
+  <div class="hdr-left">
     <div class="hdr-logo">PINECREST GROUP</div>
     <div class="hdr-sub">SALES TEAM — WEEKLY TRACKER</div>
   </div>
+  <button class="admin-btn" onclick="toggleAdmin()">&#9881; Admin</button>
+</div>
+
+<div class="admin-panel" id="adminPanel">
+  <div>
+    <label>GitHub Token (saved locally, never exposed)</label>
+    <div style="display:flex;gap:8px;margin-top:6px">
+      <input type="password" id="tokenInput" placeholder="ghp_... or gho_..." />
+      <button class="btn-save-token" onclick="saveToken()">Save</button>
+    </div>
+  </div>
+  <div id="tokenStatus" class="token-status unset">No token saved</div>
 </div>
 
 <div class="trend-wrap">
@@ -94,6 +162,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 </div>
 
 <script>
+// ─── CONFIG ──────────────────────────────────────────────────────────────────
+const GH_REPO = 'CaseyH713/pinecrest-weekly';
+const GH_FILE = 'index.html';
+
+// ─── WEEKS DATA ──────────────────────────────────────────────────────────────
 const WEEKS = [
   {
     id:'w0622', label:'Week 1', dates:'Jun 22 – 26, 2026',
@@ -117,39 +190,43 @@ const WEEKS = [
       {date:'Thu 25',md:'Ben Tabaria', sc:'Hannah Bernays', meeting:'White Peak Management — Group Health & Supplemental',  outcome:'n',notes:''},
       {date:'Fri 26',md:'Ben Tabaria', sc:'Ari Lowenstein', meeting:'SPP — Tax Strategy',                                   outcome:'h',notes:''}
     ],
-    dialer:[
-      {rep:'David Shafron',  role:'Sales Consultant', dials:null,connects:null,appts:null},
-      {rep:'Hannah Bernays', role:'Sales Consultant', dials:null,connects:null,appts:null},
-      {rep:'Ari Lowenstein', role:'Sales Consultant', dials:null,connects:null,appts:null}
-    ]
+    dialer:[]
   }
-  // ADD NEW WEEKS HERE — copy the block above, update all fields, paste above this comment
 ];
 
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
 const OL={h:'&#10003; Happened',n:'&#10007; No-Show',r:'&#8635; Rescheduled'};
 const DAYS=['mon','tue','wed','thu','fri'];
 const DL=['Mon','Tue','Wed','Thu','Fri'];
+function pct(n,d){return(d&&n!=null&&n!=='')?Math.round(n/d*100)+'%':'&#8212;';}
+function rc(n,d){if(!d||n==null||n==='')return'';const r=n/d;return r>=.5?'drg':r>=.3?'drm':'drb';}
+function dc(p){if(!p||!p.length)return'<span class="dim">&#8212;</span>';return'<span class="day-cell">'+p.map(x=>`<span class="pip ${x.t}">${x.t==='h'?'&#10003;':x.t==='n'?'&#10007;':'&#8635;'}</span>`).join('')+'</span>';}
+function ws(w){const p=[];if(w.h)p.push(`<span class="pip h">&#10003;${w.h}</span>`);if(w.n)p.push(`<span class="pip n">&#10007;${w.n}</span>`);if(w.r)p.push(`<span class="pip r">&#8635;${w.r}</span>`);return p.length?`<span class="wk-sum">${p.join('')}</span>`:'<span class="dim">&#8212;</span>';}
+function num(v){const n=parseFloat(v);return isNaN(n)?null:n;}
 
-function pct(n,d){return(d&&n!=null)?Math.round(n/d*100)+'%':'&#8212;';}
-function rc(n,d){if(!d||n==null)return'';const r=n/d;return r>=.5?'drg':r>=.3?'drm':'drb';}
-function dc(p){
-  if(!p||!p.length)return'<span class="dim">&#8212;</span>';
-  return'<span class="day-cell">'+p.map(x=>`<span class="pip ${x.t}">${x.t==='h'?'&#10003;':x.t==='n'?'&#10007;':'&#8635;'}</span>`).join('')+'</span>';
+// ─── ADMIN / TOKEN ────────────────────────────────────────────────────────────
+function toggleAdmin(){document.getElementById('adminPanel').classList.toggle('open');updateTokenStatus();}
+function saveToken(){
+  const t=document.getElementById('tokenInput').value.trim();
+  if(!t){alert('Paste your token first.');return;}
+  localStorage.setItem('pc_gh_token',t);
+  document.getElementById('tokenInput').value='';
+  updateTokenStatus();
 }
-function ws(w){
-  const p=[];
-  if(w.h)p.push(`<span class="pip h">&#10003;${w.h}</span>`);
-  if(w.n)p.push(`<span class="pip n">&#10007;${w.n}</span>`);
-  if(w.r)p.push(`<span class="pip r">&#8635;${w.r}</span>`);
-  return p.length?`<span class="wk-sum">${p.join('')}</span>`:'<span class="dim">&#8212;</span>';
+function updateTokenStatus(){
+  const el=document.getElementById('tokenStatus');
+  const t=localStorage.getItem('pc_gh_token');
+  if(t){el.textContent='Token saved';el.className='token-status set';}
+  else{el.textContent='No token saved';el.className='token-status unset';}
 }
+updateTokenStatus();
 
-// Trend bar
+// ─── TREND BAR ───────────────────────────────────────────────────────────────
 const tb=document.getElementById('trendBar');
 WEEKS.forEach(wk=>{
   const s=wk.stats,r=s.completed/s.total;
   const cls=r>=.6?'good':r>=.4?'mid':'bad';
-  const td=wk.dialer.reduce((a,x)=>a+(x.dials||0),0);
+  const td=wk.dialer.reduce((a,x)=>a+(num(x.dials)||0),0);
   tb.innerHTML+=`<div class="trend-item">
     <div class="trend-wk">${wk.dates}</div>
     <div class="trend-pct ${cls}">${pct(s.completed,s.total)}</div>
@@ -158,21 +235,21 @@ WEEKS.forEach(wk=>{
   </div>`;
 });
 
-// Week cards
+// ─── WEEK CARDS ──────────────────────────────────────────────────────────────
 const wl=document.getElementById('weekList');
+
 WEEKS.forEach(wk=>{
   const s=wk.stats;
-  const td=wk.dialer.reduce((a,x)=>a+(x.dials||0),0);
-  const tc=wk.dialer.reduce((a,x)=>a+(x.connects||0),0);
-  const hd=td>0;
+  const tdials=wk.dialer.reduce((a,x)=>a+(num(x.dials)||0),0);
+  const tconn=wk.dialer.reduce((a,x)=>a+(num(x.connects)||0),0);
+  const hd=tdials>0;
 
   const ptoHtml=wk.pto.length
     ?wk.pto.map(p=>`<tr><td>${p.name}</td><td>${p.level}</td><td>${p.days}</td><td>${p.hours}</td></tr>`).join('')
     :'<tr><td colspan="4" class="dim" style="font-style:italic">No PTO this week</td></tr>';
 
   const mdRows=wk.mds.map(m=>`<tr>
-    <td>${m.name}</td>
-    ${DAYS.map(d=>`<td class="center">${dc(m[d])}</td>`).join('')}
+    <td>${m.name}</td>${DAYS.map(d=>`<td class="center">${dc(m[d])}</td>`).join('')}
     <td class="center">${ws(m.week)}</td>
   </tr>`).join('');
 
@@ -182,33 +259,38 @@ WEEKS.forEach(wk=>{
     <td>${o.notes||''}</td>
   </tr>`).join('');
 
-  let dr='',dtd=0,dtc=0,dta=0,any=false;
-  wk.dialer.forEach(x=>{
-    if(x.dials!=null)any=true;
-    dtd+=x.dials||0;dtc+=x.connects||0;dta+=x.appts||0;
-    dr+=`<tr>
-      <td>${x.rep}</td><td>${x.role}</td>
-      <td class="center">${x.dials??'&#8212;'}</td>
-      <td class="center">${x.connects??'&#8212;'}</td>
-      <td class="center ${rc(x.connects,x.dials)}">${pct(x.connects,x.dials)}</td>
-      <td class="center">${x.appts??'&#8212;'}</td>
-      <td class="center ${rc(x.appts,x.connects)}">${pct(x.appts,x.connects)}</td>
-    </tr>`;
-  });
-  const dTot=any?`<tr class="dial-total">
-    <td colspan="2">TEAM TOTAL</td>
-    <td class="center">${dtd||'&#8212;'}</td><td class="center">${dtc||'&#8212;'}</td>
-    <td class="center ${rc(dtc,dtd)}">${pct(dtc,dtd)}</td>
-    <td class="center">${dta||'&#8212;'}</td>
-    <td class="center ${rc(dta,dtc)}">${pct(dta,dtc)}</td>
-  </tr>`:'';
-  const dialContent=any
-    ?`<table class="tbl"><thead><tr>
-        <th>Rep</th><th>Role</th>
-        <th class="center">Dials</th><th class="center">Connects</th><th class="center">Connect %</th>
-        <th class="center">Appts Set</th><th class="center">Appt %</th>
-      </tr></thead><tbody>${dr}${dTot}</tbody></table>`
-    :'<div class="no-data">Dialer data not yet entered for this week.</div>';
+  // Dialer table from saved data
+  function buildDialerTable(rows){
+    if(!rows||!rows.length) return '<div class="no-data">Drop your dialer Excel file below to upload data.</div>';
+    let dr='',dtd=0,dtc=0,dta=0;
+    rows.forEach(x=>{
+      dtd+=num(x.dials)||0;dtc+=num(x.connects)||0;dta+=num(x.appts)||0;
+      dr+=`<tr>
+        <td>${x.rep||''}</td><td>${x.role||''}</td>
+        <td class="center">${x.dials??'&#8212;'}</td>
+        <td class="center">${x.connects??'&#8212;'}</td>
+        <td class="center ${rc(num(x.connects),num(x.dials))}">${pct(num(x.connects),num(x.dials))}</td>
+        <td class="center">${x.appts??'&#8212;'}</td>
+        <td class="center ${rc(num(x.appts),num(x.connects))}">${pct(num(x.appts),num(x.connects))}</td>
+        ${x.talktime?`<td class="center">${x.talktime}</td>`:''}
+      </tr>`;
+    });
+    const extraCol=rows[0]&&rows[0].talktime?'<th class="center">Talk Time</th>':'';
+    return`<table class="tbl"><thead><tr>
+      <th>Rep</th><th>Role</th>
+      <th class="center">Dials</th><th class="center">Connects</th><th class="center">Connect %</th>
+      <th class="center">Appts Set</th><th class="center">Appt %</th>${extraCol}
+    </tr></thead><tbody>${dr}
+      <tr class="dial-total">
+        <td colspan="2">TEAM TOTAL</td>
+        <td class="center">${dtd||'&#8212;'}</td><td class="center">${dtc||'&#8212;'}</td>
+        <td class="center ${rc(dtc,dtd)}">${pct(dtc,dtd)}</td>
+        <td class="center">${dta||'&#8212;'}</td>
+        <td class="center ${rc(dta,dtc)}">${pct(dta,dtc)}</td>
+        ${rows[0]&&rows[0].talktime?'<td></td>':''}
+      </tr>
+    </tbody></table>`;
+  }
 
   wl.innerHTML+=`<div class="week-card" id="${wk.id}">
     <div class="week-header" onclick="tog('${wk.id}')">
@@ -221,7 +303,7 @@ WEEKS.forEach(wk=>{
         <div class="week-stat"><div class="ws-num c">${s.completed}</div><div class="ws-sub">Completed</div><div class="ws-pct c">${pct(s.completed,s.total)}</div></div>
         <div class="week-stat"><div class="ws-num n">${s.noshow}</div><div class="ws-sub">No-Shows</div><div class="ws-pct n">${pct(s.noshow,s.total)}</div></div>
         <div class="week-stat"><div class="ws-num r">${s.rescheduled}</div><div class="ws-sub">Rescheduled</div></div>
-        ${hd?`<div class="week-stat"><div class="ws-num d">${td}</div><div class="ws-sub">Dials</div><div class="ws-pct d">${pct(tc,td)} conn.</div></div>`:''}
+        ${hd?`<div class="week-stat"><div class="ws-num d">${tdials}</div><div class="ws-sub">Dials</div><div class="ws-pct d">${pct(tconn,tdials)} conn.</div></div>`:''}
       </div>
       <div class="week-toggle"><span class="arrow">&#9658;</span> Details</div>
     </div>
@@ -231,6 +313,7 @@ WEEKS.forEach(wk=>{
         <div class="tab" onclick="stab('${wk.id}','dialer',this)">Dialer</div>
         <div class="tab" onclick="stab('${wk.id}','pto',this)">PTO</div>
       </div>
+
       <div id="${wk.id}-meetings" class="tab-panel active">
         <div class="sub-section">
           <div class="sub-label">Managing Director Breakdown</div>
@@ -247,12 +330,37 @@ WEEKS.forEach(wk=>{
           </table>
         </div>
       </div>
+
       <div id="${wk.id}-dialer" class="tab-panel">
         <div class="sub-section">
           <div class="sub-label">Dialer Analytics</div>
-          ${dialContent}
+          <div id="${wk.id}-dialer-table">${buildDialerTable(wk.dialer)}</div>
+
+          <div class="upload-zone" id="${wk.id}-dropzone"
+            ondragover="dzOver(event,'${wk.id}')"
+            ondragleave="dzLeave('${wk.id}')"
+            ondrop="dzDrop(event,'${wk.id}')">
+            <input type="file" accept=".xlsx,.xls,.csv" onchange="fileChosen(event,'${wk.id}')">
+            <div class="upload-zone-icon">&#128196;</div>
+            <div class="upload-zone-text">Drop dialer Excel file here or click to browse</div>
+            <div class="upload-zone-sub">Accepts .xlsx, .xls, .csv</div>
+          </div>
+
+          <div class="col-mapper" id="${wk.id}-mapper">
+            <div class="col-mapper-title">Map your columns — select which column contains each field</div>
+            <div class="col-mapper-grid" id="${wk.id}-mapper-grid"></div>
+          </div>
+
+          <div class="preview-wrap" id="${wk.id}-preview"></div>
+
+          <div class="publish-bar">
+            <button class="btn-publish" id="${wk.id}-publish-btn" onclick="publish('${wk.id}')" disabled>&#8593; Publish to Team</button>
+            <button class="btn-clear" onclick="clearDialer('${wk.id}')" style="display:none" id="${wk.id}-clear-btn">Clear Upload</button>
+            <span class="publish-status" id="${wk.id}-publish-status"></span>
+          </div>
         </div>
       </div>
+
       <div id="${wk.id}-pto" class="tab-panel">
         <div class="sub-section">
           <div class="sub-label">PTO This Week</div>
@@ -266,6 +374,171 @@ WEEKS.forEach(wk=>{
   </div>`;
 });
 
+// ─── DRAG & DROP ──────────────────────────────────────────────────────────────
+function dzOver(e,id){e.preventDefault();document.getElementById(id+'-dropzone').classList.add('drag-over');}
+function dzLeave(id){document.getElementById(id+'-dropzone').classList.remove('drag-over');}
+function dzDrop(e,id){e.preventDefault();dzLeave(id);const f=e.dataTransfer.files[0];if(f)processFile(f,id);}
+function fileChosen(e,id){const f=e.target.files[0];if(f)processFile(f,id);}
+
+// ─── PARSE EXCEL ─────────────────────────────────────────────────────────────
+let parsedSheets = {};
+
+function processFile(file,wkId){
+  const reader=new FileReader();
+  reader.onload=function(e){
+    const wb=XLSX.read(e.target.result,{type:'array'});
+    const ws=wb.Sheets[wb.SheetNames[0]];
+    const rows=XLSX.utils.sheet_to_json(ws,{defval:''});
+    if(!rows.length){alert('No data found in this file.');return;}
+    parsedSheets[wkId]={rows, headers:Object.keys(rows[0])};
+    buildMapper(wkId, rows, Object.keys(rows[0]));
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+const FIELD_DEFS=[
+  {key:'rep',    label:'Rep Name'},
+  {key:'role',   label:'Role / Title'},
+  {key:'dials',  label:'Dials / Attempts'},
+  {key:'connects',label:'Connects'},
+  {key:'appts',  label:'Appointments Set'},
+  {key:'talktime',label:'Talk Time (optional)'},
+];
+
+function buildMapper(wkId, rows, headers){
+  const grid=document.getElementById(wkId+'-mapper-grid');
+  const mapper=document.getElementById(wkId+'-mapper');
+  grid.innerHTML='';
+  FIELD_DEFS.forEach(fd=>{
+    const autoMatch=headers.find(h=>h.toLowerCase().replace(/[^a-z]/g,'').includes(fd.key.toLowerCase().replace(/[^a-z]/g,'')))||'';
+    grid.innerHTML+=`<div class="col-map-item">
+      <label>${fd.label}</label>
+      <select id="${wkId}-map-${fd.key}" onchange="previewMapped('${wkId}')">
+        <option value="">— skip —</option>
+        ${headers.map(h=>`<option value="${h}" ${h===autoMatch?'selected':''}>${h}</option>`).join('')}
+      </select>
+    </div>`;
+  });
+  mapper.classList.add('open');
+  previewMapped(wkId);
+}
+
+function previewMapped(wkId){
+  const data=parsedSheets[wkId];
+  if(!data)return;
+  const getCol=key=>document.getElementById(wkId+'-map-'+key).value;
+  const mapped=data.rows.map(r=>({
+    rep:      r[getCol('rep')]||'',
+    role:     r[getCol('role')]||'',
+    dials:    num(r[getCol('dials')]),
+    connects: num(r[getCol('connects')]),
+    appts:    num(r[getCol('appts')]),
+    talktime: getCol('talktime')?r[getCol('talktime')]:'',
+  })).filter(r=>r.rep);
+
+  const wrap=document.getElementById(wkId+'-preview');
+  const tbl=document.getElementById(wkId+'-dialer-table');
+  tbl.innerHTML=buildDialerHTML(mapped);
+  wrap.classList.add('open');
+
+  document.getElementById(wkId+'-publish-btn').disabled=false;
+  document.getElementById(wkId+'-clear-btn').style.display='inline-block';
+
+  // stash for publish
+  parsedSheets[wkId].mapped=mapped;
+}
+
+function buildDialerHTML(rows){
+  if(!rows||!rows.length)return'<div class="no-data">No data to display.</div>';
+  let dr='',dtd=0,dtc=0,dta=0;
+  const hasTT=rows.some(r=>r.talktime);
+  rows.forEach(x=>{
+    dtd+=num(x.dials)||0;dtc+=num(x.connects)||0;dta+=num(x.appts)||0;
+    dr+=`<tr>
+      <td>${x.rep}</td><td>${x.role}</td>
+      <td class="center">${x.dials??'&#8212;'}</td>
+      <td class="center">${x.connects??'&#8212;'}</td>
+      <td class="center ${rc(num(x.connects),num(x.dials))}">${pct(num(x.connects),num(x.dials))}</td>
+      <td class="center">${x.appts??'&#8212;'}</td>
+      <td class="center ${rc(num(x.appts),num(x.connects))}">${pct(num(x.appts),num(x.connects))}</td>
+      ${hasTT?`<td class="center">${x.talktime||'&#8212;'}</td>`:''}
+    </tr>`;
+  });
+  return`<table class="tbl"><thead><tr>
+    <th>Rep</th><th>Role</th>
+    <th class="center">Dials</th><th class="center">Connects</th><th class="center">Connect %</th>
+    <th class="center">Appts Set</th><th class="center">Appt %</th>
+    ${hasTT?'<th class="center">Talk Time</th>':''}
+  </tr></thead><tbody>${dr}
+    <tr class="dial-total">
+      <td colspan="2">TEAM TOTAL</td>
+      <td class="center">${dtd||'&#8212;'}</td><td class="center">${dtc||'&#8212;'}</td>
+      <td class="center ${rc(dtc,dtd)}">${pct(dtc,dtd)}</td>
+      <td class="center">${dta||'&#8212;'}</td>
+      <td class="center ${rc(dta,dtc)}">${pct(dta,dtc)}</td>
+      ${hasTT?'<td></td>':''}
+    </tr>
+  </tbody></table>`;
+}
+
+function clearDialer(wkId){
+  delete parsedSheets[wkId];
+  document.getElementById(wkId+'-mapper').classList.remove('open');
+  document.getElementById(wkId+'-preview').classList.remove('open');
+  document.getElementById(wkId+'-publish-btn').disabled=true;
+  document.getElementById(wkId+'-clear-btn').style.display='none';
+  document.getElementById(wkId+'-publish-status').className='publish-status';
+  // restore original
+  const wk=WEEKS.find(w=>w.id===wkId);
+  document.getElementById(wkId+'-dialer-table').innerHTML=wk&&wk.dialer.length?buildDialerHTML(wk.dialer):'<div class="no-data">Drop your dialer Excel file below to upload data.</div>';
+}
+
+// ─── PUBLISH ──────────────────────────────────────────────────────────────────
+async function publish(wkId){
+  const token=localStorage.getItem('pc_gh_token');
+  if(!token){
+    alert('No GitHub token saved. Click Admin (top right) and save your token first.');return;
+  }
+  const mapped=parsedSheets[wkId]&&parsedSheets[wkId].mapped;
+  if(!mapped||!mapped.length){alert('No data to publish.');return;}
+
+  const btn=document.getElementById(wkId+'-publish-btn');
+  const status=document.getElementById(wkId+'-publish-status');
+  btn.disabled=true;
+  status.textContent='Publishing...';status.className='publish-status loading';
+
+  try{
+    // 1. Get current file SHA + content
+    const fileRes=await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`,{
+      headers:{Authorization:'token '+token,'Accept':'application/vnd.github.v3+json'}
+    });
+    if(!fileRes.ok)throw new Error('Could not read file from GitHub (check token)');
+    const fileData=await fileRes.json();
+    const sha=fileData.sha;
+    let content=atob(fileData.content.replace(/\n/g,''));
+
+    // 2. Replace the dialer array for this week
+    const newDialer=JSON.stringify(mapped);
+    const pattern=new RegExp(`(id:'${wkId}'[\\s\\S]*?dialer:)\\[[\\s\\S]*?\\]`,'m');
+    if(!pattern.test(content))throw new Error('Could not locate week data in file — contact your admin.');
+    content=content.replace(pattern,`$1${newDialer}`);
+
+    // 3. Push updated file
+    const pushRes=await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`,{
+      method:'PUT',
+      headers:{Authorization:'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+      body:JSON.stringify({message:`dialer update: ${wkId}`,content:btoa(unescape(encodeURIComponent(content))),sha})
+    });
+    if(!pushRes.ok)throw new Error('Push failed — check token permissions');
+
+    status.textContent='Published! Team will see update in ~60 seconds.';status.className='publish-status ok';
+  }catch(err){
+    status.textContent='Error: '+err.message;status.className='publish-status err';
+    btn.disabled=false;
+  }
+}
+
+// ─── UI HELPERS ───────────────────────────────────────────────────────────────
 function tog(id){document.getElementById(id).classList.toggle('open');}
 function stab(wid,tab,el){
   event.stopPropagation();
