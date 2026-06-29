@@ -1,4 +1,4 @@
-﻿<title>Sales Team Weekly Breakdown Analysis — Jun 22–26, 2026</title>
+﻿<title>Sales Team Weekly Breakdown Analysis</title>
 <style>
 :root {
   --bg:          #FFFFFF;
@@ -475,6 +475,22 @@ body {
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #C8D4EC; border-radius: 3px; }
+/* ── Week switcher ── */
+.week-nav {
+  background: #E8EEF8; border-bottom: 1px solid var(--border);
+  padding: 5px 20px; display: flex; align-items: center; gap: 8px;
+  font-size: 11px; color: var(--text-2);
+}
+.week-nav-label {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: var(--text-3); margin-right: 2px;
+}
+.wk-btn {
+  background: none; border: 1px solid var(--border); border-radius: 4px;
+  padding: 3px 10px; font-size: 11px; font-weight: 600; color: var(--text-2); cursor: pointer;
+}
+.wk-btn:hover { background: var(--surface); }
+.wk-btn.active { background: var(--navy); border-color: var(--navy); color: #fff; }
 </style>
 
 <div class="header">
@@ -485,7 +501,7 @@ body {
   <div class="hdiv"></div>
   <div>
     <div class="header-title">Sales Team Weekly Breakdown Analysis</div>
-    <div class="header-meta">Jun 22 – 26, 2026</div>
+    <div class="header-meta" id="headerMeta">Jun 29 – Jul 3, 2026</div>
   </div>
   <div class="header-right">
     <div id="headerStats" style="display:contents"></div>
@@ -494,10 +510,15 @@ body {
 </div>
 
 <div class="tab-nav" id="tabNav"></div>
+<div class="week-nav" id="weekNav">
+  <span class="week-nav-label">Week</span>
+  <button class="wk-btn" data-wk="w22" onclick="switchWeek('w22')">Jun 22–26</button>
+  <button class="wk-btn active" data-wk="w29" onclick="switchWeek('w29')">Jun 29–Jul 3</button>
+</div>
 
 <div id="export-overlay">
   <div class="eo-toolbar">
-    <span class="eo-toolbar-left">Weekly Report — Jun 22–26, 2026</span>
+    <span class="eo-toolbar-left" id="eoToolbarLeft">Weekly Report — Jun 29–Jul 3, 2026</span>
     <div class="eo-toolbar-right">
       <button class="btn-copy-link" onclick="copyShareLink()" id="copyLinkBtn">⇗ Copy Share Link</button>
       <button class="btn-print" onclick="window.print()">Print / Save as PDF</button>
@@ -523,15 +544,22 @@ body {
 </div>
 
 <script>
-const TODAY = '2026-06-26';
+const TODAY = '2026-06-29';
 const STORE_KEY = 'pc_spp_tracker_v1';
 
-const DAYS = [
+const _DAYS_W22 = [
   { key: '2026-06-22', id: 'mon', label: 'Mon', date: 'Jun 22' },
   { key: '2026-06-23', id: 'tue', label: 'Tue', date: 'Jun 23' },
   { key: '2026-06-24', id: 'wed', label: 'Wed', date: 'Jun 24' },
   { key: '2026-06-25', id: 'thu', label: 'Thu', date: 'Jun 25' },
   { key: '2026-06-26', id: 'fri', label: 'Fri', date: 'Jun 26' },
+];
+const _DAYS_W29 = [
+  { key: '2026-06-29', id: 'mon', label: 'Mon', date: 'Jun 29' },
+  { key: '2026-06-30', id: 'tue', label: 'Tue', date: 'Jun 30' },
+  { key: '2026-07-01', id: 'wed', label: 'Wed', date: 'Jul 1' },
+  { key: '2026-07-02', id: 'thu', label: 'Thu', date: 'Jul 2' },
+  { key: '2026-07-03', id: 'fri', label: 'Fri', date: 'Jul 3' },
 ];
 
 const REPS = [
@@ -549,10 +577,10 @@ const SALES_TEAM = [
   { name: 'Diana Hakakian',    level: 'SBC' },
   { name: 'Sarah Ringelheim',  level: 'SBC' },
   { name: 'David Shafron',     level: 'SBC' },
-  { name: 'Yakov Shimonov',    level: 'SBC' },
-  { name: 'Jana Tabaria',      level: 'SBC' },
-  { name: 'Gregory Yavner',    level: 'SBC' },
-  { name: 'Shmuel Gallor',     level: 'SBC' },
+  { name: 'Jack Shminov',      level: 'SBC' },
+  { name: 'Orly Tabaria',      level: 'SBC' },
+  { name: 'Greg Yavner',       level: 'SBC' },
+  { name: 'Sam Gallor',        level: 'SBC' },
   { name: 'Abraham Benguigui', level: 'BC'  },
   { name: 'Hannah Bernays',    level: 'BC'  },
   { name: 'James Johnson',     level: 'BC'  },
@@ -560,20 +588,17 @@ const SALES_TEAM = [
   { name: 'Mallory Maxwell',   level: 'BC'  },
 ];
 
-// PTO data from Gusto — keyed by name, hours per day (0 = in)
-const PTO_DATA = {
-  'Mallory Maxwell': {
-    '2026-06-22': 0,
-    '2026-06-23': 0,
-    '2026-06-24': 0,
-    '2026-06-25': 8,
-    '2026-06-26': 8,
-  },
+// PTO data — per-week, keyed by name, hours per day
+const _PTO_W22 = {
+  'Mallory Maxwell': { '2026-06-22':0, '2026-06-23':0, '2026-06-24':0, '2026-06-25':8, '2026-06-26':8 },
+};
+const _PTO_W29 = {
+  'Mallory Maxwell': { '2026-06-29': 8 },
 };
 
 const LEVEL_LABELS = { MD: 'Managing Director', SBC: 'Sr. Business Consultant', BC: 'Business Consultant' };
 
-const MEETINGS = {
+const _MEETINGS_W22 = {
   judah: {
     '2026-06-22': [
       { id:'j-0622-1', ts:'1:00 PM', te:'1:30 PM', dur:'30 min',
@@ -670,15 +695,22 @@ const MEETINGS = {
   },
 };
 
-// ── State ───────────────────────────────────────────────────────────────────
-const SEED_STATE = {"j-0625-1":{"status":"happened","notes":""},"j-0625-2":{"status":"noshow","notes":""},"b-0625-2":{"status":"noshow","notes":""},"j-0623-1":{"status":"rescheduled","notes":""},"b-0625-1":{"status":null,"notes":"","excluded":true},"b-0625-3":{"status":null,"notes":"","excluded":true},"j-0622-1":{"status":"noshow","notes":"","excluded":false},"j-0622-2":{"status":"happened","notes":"","excluded":false},"j-0623-2":{"status":null,"notes":"","excluded":true},"b-0623-1":{"status":null,"notes":"","excluded":true},"b-0623-2":{"status":null,"notes":"","excluded":true},"j-0625-3":{"status":"happened","notes":"","excluded":false},"j-0625-4":{"status":null,"notes":"","excluded":true},"j-0625-5":{"status":null,"notes":"","excluded":true},"b-0626-3":{"status":null,"notes":"","excluded":true},"b-0626-2":{"status":null,"notes":"","excluded":true},"b-0626-4":{"status":null,"notes":"","excluded":true},"b-0625-5":{"status":"noshow","notes":"","excluded":false},"b-0625-4":{"status":null,"notes":"","excluded":true},"b-0625-6":{"status":null,"notes":"","excluded":true},"b-0626-1":{"status":"happened","notes":"","excluded":false}};
+// ── Week data store ─────────────────────────────────────────────────────────
+const _SEED_W22 = {"j-0625-1":{"status":"happened","notes":""},"j-0625-2":{"status":"noshow","notes":""},"b-0625-2":{"status":"noshow","notes":""},"j-0623-1":{"status":"rescheduled","notes":""},"b-0625-1":{"status":null,"notes":"","excluded":true},"b-0625-3":{"status":null,"notes":"","excluded":true},"j-0622-1":{"status":"noshow","notes":"","excluded":false},"j-0622-2":{"status":"happened","notes":"","excluded":false},"j-0623-2":{"status":null,"notes":"","excluded":true},"b-0623-1":{"status":null,"notes":"","excluded":true},"b-0623-2":{"status":null,"notes":"","excluded":true},"j-0625-3":{"status":"happened","notes":"","excluded":false},"j-0625-4":{"status":null,"notes":"","excluded":true},"j-0625-5":{"status":null,"notes":"","excluded":true},"b-0626-3":{"status":null,"notes":"","excluded":true},"b-0626-2":{"status":null,"notes":"","excluded":true},"b-0626-4":{"status":null,"notes":"","excluded":true},"b-0625-5":{"status":"noshow","notes":"","excluded":false},"b-0625-4":{"status":null,"notes":"","excluded":true},"b-0625-6":{"status":null,"notes":"","excluded":true},"b-0626-1":{"status":"happened","notes":"","excluded":false}};
+const _MEETINGS_W29 = {
+  judah: {'2026-06-29':[],'2026-06-30':[],'2026-07-01':[],'2026-07-02':[],'2026-07-03':[]},
+  matt:  {'2026-06-29':[],'2026-06-30':[],'2026-07-01':[],'2026-07-02':[],'2026-07-03':[]},
+  ben:   {'2026-06-29':[],'2026-06-30':[],'2026-07-01':[],'2026-07-02':[],'2026-07-03':[]},
+};
+const WEEK_STORE = {
+  w22: { label:'Jun 22–26', range:'Jun 22 – 26, 2026', days:_DAYS_W22, meetings:_MEETINGS_W22, pto:_PTO_W22, seed:_SEED_W22 },
+  w29: { label:'Jun 29–Jul 3', range:'Jun 29 – Jul 3, 2026', days:_DAYS_W29, meetings:_MEETINGS_W29, pto:_PTO_W29, seed:{} },
+};
+let DAYS, MEETINGS, PTO_DATA;
+let _storeKey = STORE_KEY;
+let ACTIVE_WEEK = 'w29';
 let state = {};
-try {
-  const stored = localStorage.getItem(STORE_KEY);
-  state = stored ? JSON.parse(stored) : JSON.parse(JSON.stringify(SEED_STATE));
-  if (!stored) localStorage.setItem(STORE_KEY, JSON.stringify(state));
-} catch(e) { state = JSON.parse(JSON.stringify(SEED_STATE)); }
-function save() { localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
+function save() { localStorage.setItem(_storeKey, JSON.stringify(state)); }
 function getOutcome(id) { return state[id] || { status: null, notes: '', excluded: false }; }
 
 function setStatus(id, status) {
@@ -1288,6 +1320,38 @@ function exportDay(dayKey) {
   document.getElementById('export-overlay').classList.add('open');
 }
 
+// ── Week switching ───────────────────────────────────────────────────────────
+function switchWeek(wk) {
+  ACTIVE_WEEK = wk;
+  const w = WEEK_STORE[wk];
+  DAYS = w.days;
+  MEETINGS = w.meetings;
+  PTO_DATA = w.pto;
+  _storeKey = wk === 'w22' ? STORE_KEY : STORE_KEY + '_' + wk;
+  try {
+    const stored = localStorage.getItem(_storeKey);
+    state = stored ? JSON.parse(stored) : JSON.parse(JSON.stringify(w.seed));
+    if (!stored) localStorage.setItem(_storeKey, JSON.stringify(state));
+  } catch(e) { state = JSON.parse(JSON.stringify(w.seed)); }
+  // Update header / export label
+  const hm = document.getElementById('headerMeta');
+  if (hm) hm.textContent = w.range;
+  const etl = document.getElementById('eoToolbarLeft');
+  if (etl) etl.textContent = 'Weekly Report — ' + w.label;
+  // Update week selector
+  document.querySelectorAll('.wk-btn').forEach(b => b.classList.toggle('active', b.dataset.wk === wk));
+  // Rebuild nav and views
+  buildNav();
+  for (const d of DAYS) renderDay(d.key);
+  renderSummary();
+  renderPTO();
+  renderPTOSidebar();
+  renderHeaderStats();
+  // Default: go to today's day if in this week, otherwise first day
+  const todayD = DAYS.find(d => d.key === TODAY);
+  switchTo(todayD ? todayD.id : DAYS[0].id);
+}
+
 // ── Nav ─────────────────────────────────────────────────────────────────────
 function buildNav() {
   let html = '';
@@ -1311,6 +1375,12 @@ function buildNav() {
       <span class="tlabel">List</span><span class="tdate">Analytics</span><span class="tcount">↑</span>
     </button>`;
   document.getElementById('tabNav').innerHTML = html;
+  // Admin button
+  const adminEl = document.createElement('button');
+  adminEl.onclick = adminToggle;
+  adminEl.textContent = isAdmin() ? '● Admin' : 'Admin';
+  adminEl.style.cssText = 'margin-left:auto;background:none;border:none;font-size:10px;color:rgba(255,255,255,0.28);cursor:pointer;letter-spacing:.05em;padding:0 14px;flex-shrink:0;';
+  document.getElementById('tabNav').appendChild(adminEl);
 }
 
 function switchTo(id) {
@@ -1782,19 +1852,5 @@ async function listPublish(){
   }
 }
 
-buildNav();
-for (const d of DAYS) renderDay(d.key);
-renderSummary();
-renderPTO();
-renderPTOSidebar();
-renderHeaderStats();
-switchTo('fri');
-// admin toggle — appended to tab nav
-(function(){
-  const el=document.createElement('button');
-  el.onclick=adminToggle;
-  el.textContent=isAdmin()?'● Admin':'Admin';
-  el.style.cssText='margin-left:auto;background:none;border:none;font-size:10px;color:rgba(255,255,255,0.28);cursor:pointer;letter-spacing:.05em;padding:0 14px;flex-shrink:0;';
-  document.getElementById('tabNav').appendChild(el);
-})();
+switchWeek('w29');
 </script>
