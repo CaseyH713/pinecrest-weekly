@@ -1327,17 +1327,11 @@ function switchTo(id) {
 // ── Dialer Tab ────────────────────────────────────────────────────────────────
 const GH_REPO = 'CaseyH713/pinecrest-weekly';
 const GH_FILE = 'index.html';
-const ADMIN_PIN='pinecrest2026';
 function isAdmin(){return localStorage.getItem('pc_admin')==='1';}
 function adminToggle(){
-  if(isAdmin()){
-    if(confirm('Exit admin mode?')){localStorage.removeItem('pc_admin');location.reload();}
-    return;
-  }
-  const pin=prompt('Admin PIN:');
-  if(pin===null)return;
-  if(pin===ADMIN_PIN){localStorage.setItem('pc_admin','1');location.reload();}
-  else alert('Incorrect PIN.');
+  if(isAdmin()){localStorage.removeItem('pc_admin');}
+  else{localStorage.setItem('pc_admin','1');}
+  location.reload();
 }
 
 let dialParsedMap={mid:null,eow:null};
