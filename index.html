@@ -1696,7 +1696,7 @@ function renderDialer(){
       }
     }catch(e){} return;}
     const el=document.getElementById('dial-result-table-'+p);
-    fetch('https://caseyh713.github.io/pinecrest-weekly/dialer-'+p+'.json')
+    fetch('https://caseyh713.github.io/pinecrest-weekly/dialer-'+p+'-'+ACTIVE_WEEK+'.json')
       .then(r=>r.ok?r.json():null)
       .then(mapped=>{
         el.innerHTML=mapped&&mapped.length?buildDialHtml(mapped):'<div class="dial-no-data">No data published yet.</div>';
@@ -1935,7 +1935,7 @@ function renderListTab(){
     }
   }catch(e){} return;}
   const listEl=document.getElementById('list-result-table');
-  fetch('https://caseyh713.github.io/pinecrest-weekly/list-analytics.json')
+  fetch('https://caseyh713.github.io/pinecrest-weekly/list-analytics-'+ACTIVE_WEEK+'.json')
     .then(r=>r.ok?r.json():null)
     .then(mapped=>{
       listEl.innerHTML=mapped&&mapped.length?buildListHtml(mapped):'<div class="dial-no-data">No data published yet.</div>';
