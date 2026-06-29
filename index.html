@@ -548,7 +548,7 @@ body {
     <div class="header-title">Sales Team Weekly Breakdown Analysis</div>
     <div class="header-meta" id="headerMeta">Weekly Dashboard</div>
   </div>
-  <div class="header-right">
+  <div class="header-right" id="headerRight" style="display:none">
     <div id="headerStats" style="display:contents"></div>
     <button class="btn-export" onclick="exportSnapshot()">↓ Export Week</button>
   </div>
@@ -1410,6 +1410,7 @@ function showHome() {
   document.getElementById('backNav').style.display = 'none';
   document.getElementById('tabNav').style.display = 'none';
   document.getElementById('pageWrap').style.display = 'none';
+  document.getElementById('headerRight').style.display = 'none';
   document.getElementById('headerMeta').textContent = 'Weekly Dashboard';
   renderHome();
 }
@@ -1418,6 +1419,7 @@ function enterWeek(wk) {
   document.getElementById('backNav').style.display = 'flex';
   document.getElementById('tabNav').style.display = '';
   document.getElementById('pageWrap').style.display = '';
+  document.getElementById('headerRight').style.display = '';
   document.getElementById('backNavLabel').textContent = WEEK_STORE[wk].range;
   switchWeek(wk);
 }
