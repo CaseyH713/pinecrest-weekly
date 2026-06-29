@@ -1790,11 +1790,12 @@ renderPTO();
 renderPTOSidebar();
 renderHeaderStats();
 switchTo('fri');
-// admin toggle link
+// admin toggle — appended to tab nav
 (function(){
-  const el=document.createElement('div');
-  el.style.cssText='text-align:center;padding:12px 0 24px;';
-  el.innerHTML='<button onclick="adminToggle()" style="background:none;border:none;font-size:10px;color:var(--text-3);cursor:pointer;letter-spacing:.04em;opacity:.45">'+(isAdmin()?'● Admin Mode':'Admin')+'</button>';
-  document.body.appendChild(el);
+  const el=document.createElement('button');
+  el.onclick=adminToggle;
+  el.textContent=isAdmin()?'● Admin':'Admin';
+  el.style.cssText='margin-left:auto;background:none;border:none;font-size:10px;color:var(--text-3);cursor:pointer;letter-spacing:.04em;opacity:.4;padding:0 12px;flex-shrink:0;';
+  document.getElementById('tabNav').appendChild(el);
 })();
 </script>
