@@ -3,7 +3,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <script>(function(){
-  var BUILD='20260629g';
+  var BUILD='20260629h';
   if(sessionStorage.getItem('_b')===BUILD)return;
   sessionStorage.setItem('_b',BUILD);
   fetch(location.pathname+'?_chk='+BUILD,{cache:'no-cache'})
@@ -635,7 +635,6 @@ body {
     <div class="pto-view" id="view-pto"></div>
     <div class="dial-view" id="view-dial"></div>
     <div class="list-view" id="view-list"></div>
-    <div class="call-view" id="view-call"></div>
   </div>
   <aside class="pto-sidebar" id="ptoSidebar"></aside>
 </div>
@@ -1642,9 +1641,7 @@ function buildNav() {
     <button class="day-tab list-tab" data-id="list" onclick="switchTo('list')">
       <span class="tlabel">List</span><span class="tdate">Analytics</span><span class="tcount">↑</span>
     </button>
-    <button class="day-tab call-tab" data-id="call" onclick="switchTo('call')">
-      <span class="tlabel">Call</span><span class="tdate">Analyzer</span><span class="tcount">AI</span>
-    </button>`;
+`;
   document.getElementById('tabNav').innerHTML = html;
   // Admin button
   const adminEl = document.createElement('button');
@@ -1655,14 +1652,13 @@ function buildNav() {
 }
 
 function switchTo(id) {
-  document.querySelectorAll('.day-view,.sum-view,.pto-view,.dial-view,.list-view,.call-view').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.day-view,.sum-view,.pto-view,.dial-view,.list-view').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.day-tab').forEach(b => b.classList.remove('active'));
   document.querySelector(`[data-id="${id}"]`).classList.add('active');
   if (id === 'sum') { document.getElementById('view-sum').classList.add('active'); renderSummary(); }
   else if (id === 'pto') { document.getElementById('view-pto').classList.add('active'); renderPTO(); }
   else if (id === 'dial') { document.getElementById('view-dial').classList.add('active'); renderDialer(); }
   else if (id === 'list') { document.getElementById('view-list').classList.add('active'); renderListTab(); }
-  else if (id === 'call') { document.getElementById('view-call').classList.add('active'); renderCallAnalyzer(); }
   else document.getElementById('view-' + id).classList.add('active');
 }
 

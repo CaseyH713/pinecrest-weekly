@@ -1,0 +1,355 @@
+<title>Call Analyzer — Pinecrest</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --navy:    #1A2550;
+  --accent:  #2B3990;
+  --ground:  #F4F6FB;
+  --surface: #EDF1FA;
+  --border:  #D8E0F0;
+  --text-1:  #1A2550;
+  --text-2:  #556080;
+  --text-3:  #8A9BBF;
+  --green:   #1A7A46;
+  --green-bg:#EAF5EE;
+  --green-bd:#B8DFC8;
+  --amber:   #9A6700;
+  --amber-bg:#FFF8E6;
+  --amber-bd:#F0D080;
+  --red:     #B91C1C;
+  --red-bg:  #FEF0F0;
+  --red-bd:  #F5C2C2;
+}
+body { background: var(--ground); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; color: var(--text-1); min-height: 100vh; }
+
+/* Header */
+.header { background: var(--navy); padding: 0 28px; height: 52px; display: flex; align-items: center; gap: 16px; }
+.header-logo { display: flex; align-items: center; gap: 10px; }
+.header-logo-mark { width: 28px; height: 28px; background: rgba(255,255,255,.12); border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+.header-logo-mark svg { display: block; }
+.header-brand { font-size: 12px; font-weight: 700; color: #fff; letter-spacing: .08em; text-transform: uppercase; }
+.header-divider { width: 1px; height: 20px; background: rgba(255,255,255,.15); }
+.header-title { font-size: 13px; color: rgba(255,255,255,.7); font-weight: 500; }
+.header-back { margin-left: auto; font-size: 11px; color: rgba(255,255,255,.45); text-decoration: none; letter-spacing: .04em; }
+.header-back:hover { color: rgba(255,255,255,.75); }
+
+/* Layout */
+.main { max-width: 1100px; margin: 0 auto; padding: 28px 24px 60px; display: grid; grid-template-columns: 420px 1fr; gap: 24px; align-items: start; }
+
+/* Form panel */
+.panel { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 22px; display: flex; flex-direction: column; gap: 16px; }
+.panel-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--text-3); padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field label { font-size: 11px; font-weight: 600; color: var(--text-2); letter-spacing: .04em; }
+.field input, .field select, .field textarea {
+  border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px;
+  font-size: 13px; font-family: inherit; color: var(--text-1); background: #fff;
+  transition: border-color .15s;
+}
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--navy); }
+.field textarea { resize: vertical; min-height: 260px; line-height: 1.65; }
+
+.key-bar { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; }
+.key-bar label { font-size: 11px; font-weight: 600; color: var(--text-2); white-space: nowrap; }
+.key-bar input { flex: 1; border: 1px solid var(--border); border-radius: 4px; padding: 5px 8px; font-size: 12px; font-family: inherit; }
+.key-bar input:focus { outline: none; border-color: var(--navy); }
+.key-save { background: var(--navy); color: #fff; border: none; border-radius: 4px; padding: 5px 10px; font-size: 11px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+.key-save:hover { background: var(--accent); }
+.key-status { font-size: 11px; white-space: nowrap; }
+.key-status.ok { color: var(--green); }
+.key-status.no { color: var(--text-3); }
+
+.analyze-btn { background: var(--navy); color: #fff; border: none; border-radius: 6px; padding: 12px; font-size: 13px; font-weight: 600; cursor: pointer; letter-spacing: .03em; transition: background .15s; }
+.analyze-btn:hover:not(:disabled) { background: var(--accent); }
+.analyze-btn:disabled { opacity: .45; cursor: default; }
+
+/* Result panel */
+.result-panel { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 22px; min-height: 240px; display: flex; flex-direction: column; gap: 18px; }
+.result-empty { display: flex; align-items: center; justify-content: center; flex: 1; color: var(--text-3); font-size: 13px; min-height: 200px; text-align: center; line-height: 1.7; }
+
+.verdict { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 6px; font-size: 13px; font-weight: 700; letter-spacing: .03em; align-self: flex-start; }
+.verdict.correct   { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-bd); }
+.verdict.partial   { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-bd); }
+.verdict.incorrect { background: var(--red-bg);   color: var(--red);   border: 1px solid var(--red-bd); }
+
+.explanation { font-size: 13px; color: var(--text-2); line-height: 1.7; }
+
+.section-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--text-3); margin-bottom: 8px; }
+
+.dispo-row { display: flex; gap: 12px; align-items: stretch; }
+.dispo-box { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 11px 13px; }
+.dispo-box.was-wrong { border-color: var(--red-bd); background: var(--red-bg); }
+.dispo-box.is-right  { border-color: var(--green-bd); background: var(--green-bg); }
+.dispo-eyebrow { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--text-3); margin-bottom: 4px; }
+.dispo-name { font-size: 13px; font-weight: 700; color: var(--text-1); }
+.dispo-reason { font-size: 11px; color: var(--text-2); margin-top: 3px; }
+.dispo-arrow { color: var(--text-3); font-size: 20px; display: flex; align-items: center; padding: 0 4px; }
+
+.evidence-list { display: flex; flex-direction: column; gap: 8px; }
+.quote { background: var(--surface); border-left: 3px solid var(--navy); padding: 9px 12px; font-size: 12.5px; color: var(--text-1); border-radius: 0 5px 5px 0; font-style: italic; line-height: 1.65; }
+
+.coaching-box { background: var(--amber-bg); border: 1px solid var(--amber-bd); border-radius: 6px; padding: 13px 15px; font-size: 13px; color: #5C3D00; line-height: 1.75; }
+.copy-btn { background: none; border: 1px solid var(--border); border-radius: 4px; padding: 5px 12px; font-size: 11px; color: var(--text-2); cursor: pointer; align-self: flex-end; transition: all .15s; }
+.copy-btn:hover { border-color: var(--navy); color: var(--navy); }
+
+.loading { display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--text-2); font-size: 13px; min-height: 200px; }
+.spinner { width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--navy); border-radius: 50%; animation: spin .7s linear infinite; flex-shrink: 0; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.error { color: var(--red); font-size: 13px; padding: 20px 0; }
+
+@media (max-width: 800px) {
+  .main { grid-template-columns: 1fr; }
+}
+</style>
+
+<div class="header">
+  <div class="header-logo">
+    <div class="header-logo-mark">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <rect x="1" y="1" width="5" height="5" rx="1" fill="white" opacity=".9"/>
+        <rect x="8" y="1" width="5" height="5" rx="1" fill="white" opacity=".6"/>
+        <rect x="1" y="8" width="5" height="5" rx="1" fill="white" opacity=".6"/>
+        <rect x="8" y="8" width="5" height="5" rx="1" fill="white" opacity=".3"/>
+      </svg>
+    </div>
+    <div class="header-brand">Pinecrest</div>
+  </div>
+  <div class="header-divider"></div>
+  <div class="header-title">Call Analyzer</div>
+  <a class="header-back" href="/pinecrest-weekly/">← Weekly Breakdown</a>
+</div>
+
+<div class="main">
+  <div class="panel">
+    <div class="panel-title">Call Details</div>
+
+    <div class="key-bar">
+      <label>API Key</label>
+      <input type="password" id="keyInput" placeholder="sk-ant-…">
+      <button class="key-save" onclick="saveKey()">Save</button>
+      <span class="key-status" id="keyStatus"></span>
+    </div>
+
+    <div class="field">
+      <label>Rep Name (optional)</label>
+      <input type="text" id="repName" placeholder="e.g. Jack Shimonov">
+    </div>
+
+    <div class="field">
+      <label>Disposition Rep Selected</label>
+      <select id="dispoSel" onchange="updateReasons()">
+        <option value="">— Select disposition —</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Reason Rep Selected</label>
+      <select id="reasonSel">
+        <option value="">— Select reason —</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Call Transcript</label>
+      <textarea id="transcript" placeholder="Paste the full call transcript here…"></textarea>
+    </div>
+
+    <button class="analyze-btn" id="analyzeBtn" onclick="analyze()">Analyze Call</button>
+  </div>
+
+  <div class="result-panel" id="resultPanel">
+    <div class="result-empty">Paste a transcript and select the disposition the rep logged.<br>The AI will verify whether it was correct.</div>
+  </div>
+</div>
+
+<script>
+const DISPOSITIONS = [
+  { key:'meeting_booked', label:'Working in Monday',
+    def:'Real meeting scheduled or handoff created.',
+    reasons:['Meeting scheduled','Other - type note'] },
+  { key:'tier1', label:'Tier 1',
+    def:'Closest-to-money non-meeting call: real progress, decision-maker engaged, proposal/review, or clear commercial next step.',
+    reasons:['Decision-maker engaged','Great Call','Other - type note'] },
+  { key:'positive_blocker', label:'Positive Call - Blocker',
+    def:'Engaged/useful call where the blocker is exactly why it is valuable to call again.',
+    reasons:["Broker / CPA uncomfortable","Current carrier / current solution","Compliance / program skepticism","Doesn't Understand / Employees Don't Want","Other - type note"] },
+  { key:'follow_up', label:'Follow Up',
+    def:'Receptive or actionable call-again, but shallow/no real progress and no substantive blocker.',
+    reasons:['Requested information','Asked to call later / bad time','Specific callback date','Other - type note'] },
+  { key:'no_connect', label:'No Connect',
+    def:'No real business context: hung up during pitch, transfer then no answer, bad connection.',
+    reasons:['Hung up during pitch','No answer after transfer','Bad connection / dead air','Other - type note'] },
+  { key:'disqualified', label:'Disqualified / DNC',
+    def:'Disqualified, no eligible fit, or explicit removal/do-not-call request.',
+    reasons:['Explicit DNC / remove request','Too small / no employees','No eligible W2 population','Other - type note'] },
+  { key:'data_correction', label:'Data Correction Needed',
+    def:'Record is not ready for normal calling because data is wrong/incomplete.',
+    reasons:['Wrong contact / need decision-maker','Contact no longer at company','Wrong company / corporate owns benefits','Need replacement phone','Other - type note'] },
+];
+
+const DISPO_MODEL = DISPOSITIONS.map(d =>
+  `${d.label}: ${d.def}\n  Reasons: ${d.reasons.join(', ')}`
+).join('\n\n');
+
+// Init dropdowns
+const dispoSel = document.getElementById('dispoSel');
+DISPOSITIONS.forEach(d => {
+  const o = document.createElement('option');
+  o.value = d.key; o.textContent = d.label;
+  dispoSel.appendChild(o);
+});
+
+// Init key status
+(function(){
+  const k = localStorage.getItem('pc_claude_key');
+  const s = document.getElementById('keyStatus');
+  if (k) { s.textContent = '✓ Saved'; s.className = 'key-status ok'; }
+  else { s.textContent = 'No key saved'; s.className = 'key-status no'; }
+})();
+
+function saveKey() {
+  const k = document.getElementById('keyInput').value.trim();
+  if (!k) { alert('Paste your API key first.'); return; }
+  localStorage.setItem('pc_claude_key', k);
+  document.getElementById('keyInput').value = '';
+  const s = document.getElementById('keyStatus');
+  s.textContent = '✓ Saved'; s.className = 'key-status ok';
+}
+
+function updateReasons() {
+  const d = DISPOSITIONS.find(x => x.key === dispoSel.value);
+  const sel = document.getElementById('reasonSel');
+  sel.innerHTML = '<option value="">— Select reason —</option>';
+  if (d) d.reasons.forEach(r => {
+    const o = document.createElement('option');
+    o.value = r; o.textContent = r; sel.appendChild(o);
+  });
+}
+
+async function analyze() {
+  const key = localStorage.getItem('pc_claude_key');
+  if (!key) { alert('Save your Anthropic API key first.'); return; }
+  const tx = document.getElementById('transcript').value.trim();
+  if (!tx) { alert('Paste a call transcript first.'); return; }
+  const dk = document.getElementById('dispoSel').value;
+  const dispo = DISPOSITIONS.find(d => d.key === dk);
+  if (!dispo) { alert('Select the disposition the rep logged.'); return; }
+  const reason = document.getElementById('reasonSel').value || '(none selected)';
+  const rep = document.getElementById('repName').value.trim() || 'The rep';
+
+  const panel = document.getElementById('resultPanel');
+  panel.innerHTML = '<div class="loading"><div class="spinner"></div>Analyzing…</div>';
+  document.getElementById('analyzeBtn').disabled = true;
+
+  const prompt = `You are a call quality analyst for Pinecrest Group, a professional services firm selling Section 125 / Supplemental Prevention Plans (SPP) to Amazon Delivery Service Partners (DSPs).
+
+You have been given a sales call transcript and the disposition + reason the rep logged in the CRM. Verify whether the correct disposition was used.
+
+DISPOSITION MODEL:
+${DISPO_MODEL}
+
+TRANSCRIPT:
+${tx}
+
+REP LOGGED:
+Disposition: ${dispo.label}
+Reason: ${reason}
+
+Determine: (1) the correct disposition, (2) the correct reason, (3) whether the rep was correct/partially correct/incorrect, (4) 2-3 direct quotes from the transcript supporting your verdict, (5) a short coaching note for the manager if the disposition was wrong or partially wrong (empty string if correct).
+
+Respond ONLY with valid JSON:
+{
+  "verdict": "correct" | "partially_correct" | "incorrect",
+  "correct_disposition": "exact label",
+  "correct_reason": "exact reason label",
+  "explanation": "1-2 sentences",
+  "evidence": ["quote 1", "quote 2", "quote 3"],
+  "coaching_note": "coaching text or empty string"
+}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json',
+        'anthropic-dangerous-allow-browser': 'true',
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1024,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error?.message || 'API error ' + res.status);
+    }
+    const data = await res.json();
+    const text = data.content[0].text;
+    const json = JSON.parse(text.match(/\{[\s\S]*\}/)[0]);
+    renderResult(json, dispo.label, reason, rep);
+  } catch(e) {
+    panel.innerHTML = `<div class="error">Error: ${e.message}</div>`;
+  } finally {
+    document.getElementById('analyzeBtn').disabled = false;
+  }
+}
+
+function renderResult(r, selectedDispo, selectedReason, rep) {
+  const vClass = r.verdict === 'correct' ? 'correct' : r.verdict === 'partially_correct' ? 'partial' : 'incorrect';
+  const vLabel = r.verdict === 'correct' ? '✓ Correct Disposition' : r.verdict === 'partially_correct' ? '⚠ Partially Correct' : '✗ Incorrect Disposition';
+  const changed = r.correct_disposition !== selectedDispo;
+
+  const dispoHtml = `
+    <div>
+      <div class="section-label">Disposition Review</div>
+      <div class="dispo-row">
+        <div class="dispo-box${changed ? ' was-wrong' : ''}">
+          <div class="dispo-eyebrow">${rep} logged</div>
+          <div class="dispo-name">${selectedDispo}</div>
+          <div class="dispo-reason">${selectedReason}</div>
+        </div>
+        ${changed ? `<div class="dispo-arrow">→</div>
+        <div class="dispo-box is-right">
+          <div class="dispo-eyebrow">Should be</div>
+          <div class="dispo-name">${r.correct_disposition}</div>
+          <div class="dispo-reason">${r.correct_reason}</div>
+        </div>` : ''}
+      </div>
+    </div>`;
+
+  const evidenceHtml = r.evidence && r.evidence.length ? `
+    <div>
+      <div class="section-label">Evidence from Call</div>
+      <div class="evidence-list">${r.evidence.map(q => `<div class="quote">"${q}"</div>`).join('')}</div>
+    </div>` : '';
+
+  const coachingHtml = r.coaching_note ? `
+    <div>
+      <div class="section-label">Coaching Note</div>
+      <div class="coaching-box">${r.coaching_note}</div>
+      <button class="copy-btn" onclick="copyNote(${JSON.stringify(r.coaching_note)}, this)">Copy Note</button>
+    </div>` : '';
+
+  document.getElementById('resultPanel').innerHTML = `
+    <div class="verdict ${vClass}">${vLabel}</div>
+    <div class="explanation">${r.explanation}</div>
+    ${dispoHtml}
+    ${evidenceHtml}
+    ${coachingHtml}`;
+}
+
+function copyNote(text, btn) {
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✓ Copied';
+    setTimeout(() => { btn.textContent = 'Copy Note'; }, 1500);
+  });
+}
+</script>
