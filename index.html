@@ -1378,9 +1378,9 @@ function renderDialer() {
         <span class="dial-pub-status" id="dialPubStatus"></span>
       </div>
     </div>`;
-  const saved=localStorage.getItem('pc_dial_mapped');
-  if(saved){try{
-    const mapped=JSON.parse(saved);
+  const dialSaved=localStorage.getItem('pc_dial_mapped');
+  if(dialSaved){try{
+    const mapped=JSON.parse(dialSaved);
     document.getElementById('dial-result-table').innerHTML=buildDialHtml(mapped);
     document.getElementById('dialPublishBtn').disabled=false;
     document.getElementById('dialClearBtn').style.display='inline-block';
