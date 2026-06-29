@@ -1394,17 +1394,27 @@ function dialDzLeave(){document.getElementById('dialDropZone').classList.remove(
 function dialDzDrop(e){e.preventDefault();dialDzLeave();const f=e.dataTransfer.files[0];if(f)dialProcessFile(f);}
 function dialFileChosen(e){const f=e.target.files[0];if(f)dialProcessFile(f);}
 
-const DIAL_ROSTER={
-  'managing director':['judah azose','matt levy','ben tabaria','judah','matt','ben'],
-  'senior business consultant':['chaya adelman','diana hakakian','sarah ringelheim','david shafron','yakov shimonov','jana tabaria','gregory yavner','shmuel gallor'],
-  'business consultant':['abraham benguigui','hannah bernays','james johnson','shlomo lowenstein','mallory maxwell','ari lowenstein'],
-};
-function dialGetRole(name){
+const DIAL_CANONICAL=[
+  {display:'Judah Azose',      role:'managing director',         aliases:['judah azose','judah']},
+  {display:'Matt Levy',        role:'managing director',         aliases:['matt levy','matt']},
+  {display:'Ben Tabaria',      role:'managing director',         aliases:['ben tabaria','ben']},
+  {display:'Chaya Adelman',    role:'senior business consultant',aliases:['chaya adelman','chaya']},
+  {display:'Diana Hakakian',   role:'senior business consultant',aliases:['diana hakakian','diana']},
+  {display:'Sarah Ringelheim', role:'senior business consultant',aliases:['sarah ringelheim','sarah']},
+  {display:'David Shafron',    role:'senior business consultant',aliases:['david shafron','david']},
+  {display:'Yakov Shimonov',   role:'senior business consultant',aliases:['yakov shimonov','yakov']},
+  {display:'Jana Tabaria',     role:'senior business consultant',aliases:['jana tabaria','jana']},
+  {display:'Gregory Yavner',   role:'senior business consultant',aliases:['gregory yavner','gregory']},
+  {display:'Shmuel Gallor',    role:'senior business consultant',aliases:['shmuel gallor','shmuel']},
+  {display:'Abraham Benguigui',role:'business consultant',       aliases:['abraham benguigui','abraham']},
+  {display:'Hannah Bernays',   role:'business consultant',       aliases:['hannah bernays','hannah']},
+  {display:'James Johnson',    role:'business consultant',       aliases:['james johnson','james']},
+  {display:'Shlomo Lowenstein',role:'business consultant',       aliases:['shlomo lowenstein','shlomo']},
+  {display:'Mallory Maxwell',  role:'business consultant',       aliases:['mallory maxwell','mallory']},
+];
+function dialGetEntry(name){
   const n=name.toLowerCase().trim();
-  for(const [role,names] of Object.entries(DIAL_ROSTER)){
-    if(names.some(rn=>n.includes(rn)||rn.includes(n)))return role;
-  }
-  return null;
+  return DIAL_CANONICAL.find(e=>e.aliases.some(a=>n.includes(a)||a.includes(n)))||null;
 }
 const DIAL_FIELDS=[
   {key:'rep',      label:'Team Member Name'},
@@ -1451,17 +1461,25 @@ function dialReadFile(file){
 function dialPreview(){
   if(!dialParsed)return;
   const g=k=>document.getElementById('dmap-'+k).value;
-  const mapped=dialParsed.rows.map(r=>{
-    const rep=r[g('rep')]||'';
-    if(!rep)return null;
-    const dialtime=dialParseTime(r[g('dialtime')]);
-    const talktime=dialParseTime(r[g('talktime')]);
-    const combined=(dialtime||0)+(talktime||0)||null;
-    const role=dialGetRole(rep);
-    if(!role)return null; // not on the team roster — skip
-    if(!dialtime&&!talktime)return null; // all zeros — skip
-    return {rep,role,dialtime,talktime,combined};
-  }).filter(Boolean).sort(dialRoleSort);
+  const found=new Map();
+  dialParsed.rows.forEach(r=>{
+    const rep=(r[g('rep')]||'').toString().trim();
+    if(!rep)return;
+    const entry=dialGetEntry(rep);
+    if(!entry)return;
+    const dialtime=dialParseTime(r[g('dialtime')])||0;
+    const talktime=dialParseTime(r[g('talktime')])||0;
+    const combined=dialtime+talktime;
+    const existing=found.get(entry.display);
+    if(!existing||combined>(existing.combined||0)){
+      found.set(entry.display,{rep:entry.display,role:entry.role,dialtime,talktime,combined});
+    }
+  });
+  // fill in roster members absent from the upload
+  DIAL_CANONICAL.forEach(e=>{
+    if(!found.has(e.display))found.set(e.display,{rep:e.display,role:e.role,dialtime:0,talktime:0,combined:0});
+  });
+  const mapped=[...found.values()].sort(dialRoleSort);
   dialParsed.mapped=mapped;
   document.getElementById('dial-result-table').innerHTML=buildDialHtml(mapped);
   document.getElementById('dialPublishBtn').disabled=false;
