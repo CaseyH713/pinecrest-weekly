@@ -198,6 +198,10 @@ body {
 .dial-tab.active .tcount { background: var(--cyan-dim); border-color: var(--cyan-border); color: var(--cyan); }
 .dial-view { display: none; padding: 24px 28px; }
 .dial-view.active { display: block; }
+.list-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+.list-tab.active .tcount { background: var(--blue-dim); border-color: var(--blue-border); color: var(--blue); }
+.list-view { display: none; padding: 24px 28px; }
+.list-view.active { display: block; }
 .dial-drop-zone { border: 2px dashed var(--border); border-radius: 8px; padding: 36px; text-align: center; cursor: pointer; transition: all .15s; position: relative; margin-bottom: 20px; }
 .dial-drop-zone:hover, .dial-drop-zone.drag-over { border-color: var(--navy); background: var(--surface); }
 .dial-drop-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
@@ -510,6 +514,7 @@ body {
     <div class="sum-view" id="view-sum"></div>
     <div class="pto-view" id="view-pto"></div>
     <div class="dial-view" id="view-dial"></div>
+    <div class="list-view" id="view-list"></div>
   </div>
   <aside class="pto-sidebar" id="ptoSidebar"></aside>
 </div>
@@ -1298,17 +1303,21 @@ function buildNav() {
     </button>
     <button class="day-tab dial-tab" data-id="dial" onclick="switchTo('dial')">
       <span class="tlabel">Dialer</span><span class="tdate">Analytics</span><span class="tcount">↑</span>
+    </button>
+    <button class="day-tab list-tab" data-id="list" onclick="switchTo('list')">
+      <span class="tlabel">Lists</span><span class="tdate">Breakdown</span><span class="tcount">↑</span>
     </button>`;
   document.getElementById('tabNav').innerHTML = html;
 }
 
 function switchTo(id) {
-  document.querySelectorAll('.day-view,.sum-view,.pto-view,.dial-view').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.day-view,.sum-view,.pto-view,.dial-view,.list-view').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.day-tab').forEach(b => b.classList.remove('active'));
   document.querySelector(`[data-id="${id}"]`).classList.add('active');
   if (id === 'sum') { document.getElementById('view-sum').classList.add('active'); renderSummary(); }
   else if (id === 'pto') { document.getElementById('view-pto').classList.add('active'); renderPTO(); }
   else if (id === 'dial') { document.getElementById('view-dial').classList.add('active'); renderDialer(); }
+  else if (id === 'list') { document.getElementById('view-list').classList.add('active'); renderListTab(); }
   else document.getElementById('view-' + id).classList.add('active');
 }
 
@@ -1515,6 +1524,175 @@ async function dialPublish(){
       method:'PUT',
       headers:{Authorization:'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
       body:JSON.stringify({message:'dialer update',content:btoa(unescape(encodeURIComponent(content))),sha:fd.sha})
+    });
+    if(!push.ok)throw new Error('Push failed — check token permissions');
+    status.textContent='✓ Published! Team sees it in ~60 seconds.';status.className='dial-pub-status ok';
+  }catch(err){
+    status.textContent='Error: '+err.message;status.className='dial-pub-status err';
+    btn.disabled=false;
+  }
+}
+
+// ── List Breakdown Tab ────────────────────────────────────────────────────────
+let listParsed = null;
+
+const LIST_FIELDS = [
+  {key:'listname', label:'List Name'},
+  {key:'dials',    label:'Dials'},
+  {key:'meetings', label:'Meetings'},
+];
+
+function renderListTab() {
+  const saved = localStorage.getItem('pc_gh_token');
+  document.getElementById('view-list').innerHTML = `
+    <div style="max-width:900px">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-bottom:16px;padding-bottom:6px;border-bottom:1px solid var(--surface-2)">List Breakdown — Upload</div>
+      <div class="dial-token-bar">
+        <label>GitHub Token</label>
+        <input type="password" id="listToken" placeholder="ghp_... (saved locally)" value="">
+        <button class="btn-save-token" onclick="saveListToken()">Save</button>
+        <span id="listTokenStatus" class="${saved?'token-ok':'token-no'}">${saved?'✓ Token saved':'No token — save one to publish'}</span>
+      </div>
+      <div id="list-result-table"><div class="dial-no-data">Drop your list Excel or CSV file below to get started.</div></div>
+      <div class="dial-drop-zone" id="listDropZone"
+        ondragover="listDzOver(event)" ondragleave="listDzLeave()" ondrop="listDzDrop(event)">
+        <input type="file" accept=".xlsx,.xls,.csv" onchange="listFileChosen(event)">
+        <div class="dial-drop-zone-icon">📋</div>
+        <div class="dial-drop-zone-text">Drop list Excel / CSV here or click to browse</div>
+        <div class="dial-drop-zone-sub">Accepts .xlsx, .xls, .csv</div>
+      </div>
+      <div class="dial-mapper" id="listMapper">
+        <div class="dial-mapper-title">Map your columns</div>
+        <div class="dial-mapper-grid" id="listMapperGrid"></div>
+      </div>
+      <div class="dial-publish-bar">
+        <button class="btn-dial-publish" id="listPublishBtn" onclick="listPublish()" disabled>↑ Publish to Team</button>
+        <button class="btn-dial-clear" id="listClearBtn" onclick="listClear()">Clear</button>
+        <span class="dial-pub-status" id="listPubStatus"></span>
+      </div>
+    </div>`;
+}
+
+function saveListToken(){
+  const t=document.getElementById('listToken').value.trim();
+  if(!t){alert('Paste your token first.');return;}
+  localStorage.setItem('pc_gh_token',t);
+  document.getElementById('listToken').value='';
+  document.getElementById('listTokenStatus').textContent='✓ Token saved';
+  document.getElementById('listTokenStatus').className='token-ok';
+}
+
+function listDzOver(e){e.preventDefault();document.getElementById('listDropZone').classList.add('drag-over');}
+function listDzLeave(){document.getElementById('listDropZone').classList.remove('drag-over');}
+function listDzDrop(e){e.preventDefault();listDzLeave();const f=e.dataTransfer.files[0];if(f)listProcessFile(f);}
+function listFileChosen(e){const f=e.target.files[0];if(f)listProcessFile(f);}
+
+function listProcessFile(file){
+  if(typeof XLSX==='undefined'){
+    const s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
+    s.onload=()=>listReadFile(file);
+    document.head.appendChild(s);
+  } else { listReadFile(file); }
+}
+
+function listReadFile(file){
+  const reader=new FileReader();
+  reader.onload=function(e){
+    const wb=XLSX.read(e.target.result,{type:'array'});
+    const ws=wb.Sheets[wb.SheetNames[0]];
+    const rows=XLSX.utils.sheet_to_json(ws,{defval:''});
+    if(!rows.length){alert('No data found.');return;}
+    const headers=Object.keys(rows[0]);
+    listParsed={rows,headers};
+    const grid=document.getElementById('listMapperGrid');
+    grid.innerHTML='';
+    LIST_FIELDS.forEach(fd=>{
+      const auto=headers.find(h=>h.toLowerCase().replace(/[^a-z]/g,'').includes(fd.key.replace(/[^a-z]/g,'')))||'';
+      grid.innerHTML+=`<div class="dial-map-item">
+        <label>${fd.label}</label>
+        <select id="lmap-${fd.key}" onchange="listPreview()">
+          <option value="">— skip —</option>
+          ${headers.map(h=>`<option value="${h}"${h===auto?' selected':''}>${h}</option>`).join('')}
+        </select></div>`;
+    });
+    document.getElementById('listMapper').classList.add('open');
+    listPreview();
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function listPreview(){
+  if(!listParsed)return;
+  const g=k=>document.getElementById('lmap-'+k).value;
+  const mapped=listParsed.rows.map(r=>({
+    listname: r[g('listname')]||'',
+    dials:    parseFloat(r[g('dials')])||0,
+    meetings: parseFloat(r[g('meetings')])||0,
+  })).filter(r=>r.listname).sort((a,b)=>b.dials-a.dials);
+  listParsed.mapped=mapped;
+  document.getElementById('list-result-table').innerHTML=buildListHtml(mapped);
+  document.getElementById('listPublishBtn').disabled=false;
+  document.getElementById('listClearBtn').style.display='inline-block';
+}
+
+function buildListHtml(rows){
+  if(!rows||!rows.length)return'<div class="dial-no-data">No rows found — check column mapping above.</div>';
+  let dr='',td=0,tm=0;
+  rows.forEach(r=>{
+    td+=r.dials;tm+=r.meetings;
+    const rate=r.dials?Math.round(r.meetings/r.dials*100)+'%':'—';
+    dr+=`<tr>
+      <td><strong>${r.listname}</strong></td>
+      <td class="center">${r.dials}</td>
+      <td class="center">${r.meetings}</td>
+      <td class="center">${rate}</td>
+    </tr>`;
+  });
+  const totRate=td?Math.round(tm/td*100)+'%':'—';
+  return`<table class="dial-tbl"><thead><tr>
+    <th>List Name</th><th class="center">Dials</th><th class="center">Meetings</th><th class="center">Meeting Rate</th>
+  </tr></thead><tbody>${dr}
+    <tr class="total-row">
+      <td>TOTAL</td>
+      <td class="center">${td}</td>
+      <td class="center">${tm}</td>
+      <td class="center">${totRate}</td>
+    </tr>
+  </tbody></table>`;
+}
+
+function listClear(){
+  listParsed=null;
+  document.getElementById('listMapper').classList.remove('open');
+  document.getElementById('list-result-table').innerHTML='<div class="dial-no-data">Drop your list Excel or CSV file below to get started.</div>';
+  document.getElementById('listPublishBtn').disabled=true;
+  document.getElementById('listClearBtn').style.display='none';
+  document.getElementById('listPubStatus').className='dial-pub-status';
+}
+
+async function listPublish(){
+  const token=localStorage.getItem('pc_gh_token');
+  if(!token){alert('Save your GitHub token first.');return;}
+  const mapped=listParsed&&listParsed.mapped;
+  if(!mapped||!mapped.length){alert('No data to publish.');return;}
+  const btn=document.getElementById('listPublishBtn');
+  const status=document.getElementById('listPubStatus');
+  btn.disabled=true;status.textContent='Publishing…';status.className='dial-pub-status loading';
+  try{
+    const res=await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`,
+      {headers:{Authorization:'token '+token,'Accept':'application/vnd.github.v3+json'}});
+    if(!res.ok)throw new Error('Could not read file (check token)');
+    const fd=await res.json();
+    let content=atob(fd.content.replace(/\n/g,''));
+    const newList=JSON.stringify(mapped);
+    const pat=new RegExp(`(id:'w\\d+'[\\s\\S]*?lists:)\\[[\\s\\S]*?\\]`,'m');
+    if(!pat.test(content))throw new Error('Could not locate list data — contact admin');
+    content=content.replace(pat,`$1${newList}`);
+    const push=await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`,{
+      method:'PUT',
+      headers:{Authorization:'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+      body:JSON.stringify({message:'list update',content:btoa(unescape(encodeURIComponent(content))),sha:fd.sha})
     });
     if(!push.ok)throw new Error('Push failed — check token permissions');
     status.textContent='✓ Published! Team sees it in ~60 seconds.';status.className='dial-pub-status ok';
