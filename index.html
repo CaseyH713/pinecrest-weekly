@@ -2,7 +2,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<script>(function(){var v='20260629c';if(location.search.indexOf('_v='+v)===-1){location.replace(location.pathname+'?_v='+v);}}());</script>
+<script>(function(){var v='20260629d';if(location.search.indexOf('_v='+v)===-1){location.replace(location.pathname+'?_v='+v);}}());</script>
 <style>
 :root {
   --bg:          #FFFFFF;
@@ -864,6 +864,11 @@ let _storeKey = STORE_KEY;
 let ACTIVE_WEEK = 'w29';
 let state = {};
 function save() { localStorage.setItem(_storeKey, JSON.stringify(state)); }
+// Per-week storage key helpers — w22 uses legacy (pre-week-specific) filenames
+function dialKey(p){ return ACTIVE_WEEK==='w22'?'pc_dial_mapped_'+p:'pc_dial_mapped_'+p+'_'+ACTIVE_WEEK; }
+function listKey(){ return ACTIVE_WEEK==='w22'?'pc_list_mapped':'pc_list_mapped_'+ACTIVE_WEEK; }
+function dialJsonFile(p){ return ACTIVE_WEEK==='w22'?'dialer-'+p+'.json':'dialer-'+p+'-'+ACTIVE_WEEK+'.json'; }
+function listJsonFile(){ return ACTIVE_WEEK==='w22'?'list-analytics.json':'list-analytics-'+ACTIVE_WEEK+'.json'; }
 function getOutcome(id) { return state[id] || { status: null, notes: '', excluded: false }; }
 
 function setStatus(id, status) {
@@ -1483,7 +1488,7 @@ function weekMeetingCount(wk) {
   for (const rep of REPS)
     for (const day of w.days)
       for (const mtg of (w.meetings[rep.key][day.key] || []))
-        if (!saved[mtg.id]?.excluded) n++;
+        if (!saved[mtg.id]?.excluded && saved[mtg.id]?.status !== 'reschedule') n++;
   return n;
 }
 function weekPtoCount(wk) {
@@ -1694,7 +1699,7 @@ function renderDialer(){
       ${panelHtml('eow')}
     </div>`;
   ['mid','eow'].forEach(p=>{
-    const sv=localStorage.getItem('pc_dial_mapped_'+p+'_'+ACTIVE_WEEK);
+    const sv=localStorage.getItem(dialKey(p));
     if(sv){try{
       const mapped=JSON.parse(sv);
       document.getElementById('dial-result-table-'+p).innerHTML=buildDialHtml(mapped);
@@ -1704,7 +1709,7 @@ function renderDialer(){
       }
     }catch(e){} return;}
     const el=document.getElementById('dial-result-table-'+p);
-    fetch('https://caseyh713.github.io/pinecrest-weekly/dialer-'+p+'-'+ACTIVE_WEEK+'.json')
+    fetch('https://caseyh713.github.io/pinecrest-weekly/'+dialJsonFile(p))
       .then(r=>r.ok?r.json():null)
       .then(mapped=>{
         el.innerHTML=mapped&&mapped.length?buildDialHtml(mapped):'<div class="dial-no-data">No data published yet.</div>';
@@ -1816,7 +1821,7 @@ function dialPreview(p){
   });
   const mapped=[...found.values()].sort(dialRoleSort);
   dialParsedMap[p].mapped=mapped;
-  localStorage.setItem('pc_dial_mapped_'+p+'_'+ACTIVE_WEEK,JSON.stringify(mapped));
+  localStorage.setItem(dialKey(p),JSON.stringify(mapped));
   document.getElementById('dial-result-table-'+p).innerHTML=buildDialHtml(mapped);
   document.getElementById('dialPublishBtn-'+p).disabled=false;
   document.getElementById('dialClearBtn-'+p).style.display='inline-block';
@@ -1856,7 +1861,7 @@ function buildDialHtml(rows){
 
 function dialClear(p){
   dialParsedMap[p]=null;
-  localStorage.removeItem('pc_dial_mapped_'+p+'_'+ACTIVE_WEEK);
+  localStorage.removeItem(dialKey(p));
   document.getElementById('dialMapper-'+p).classList.remove('open');
   document.getElementById('dial-result-table-'+p).innerHTML='<div class="dial-no-data">Drop your dialer Excel or CSV file below to get started.</div>';
   document.getElementById('dialPublishBtn-'+p).disabled=true;
@@ -1880,13 +1885,13 @@ async function ghWriteJson(token,fileName,data){
 async function dialPublish(p){
   const token=localStorage.getItem('pc_gh_token');
   if(!token){alert('Save your GitHub token in the field above first.');return;}
-  const sv=localStorage.getItem('pc_dial_mapped_'+p+'_'+ACTIVE_WEEK);
+  const sv=localStorage.getItem(dialKey(p));
   if(!sv){alert('No data to publish.');return;}
   const btn=document.getElementById('dialPublishBtn-'+p);
   const status=document.getElementById('dialPubStatus-'+p);
   btn.disabled=true;status.textContent='Publishing…';status.className='dial-pub-status loading';
   try{
-    await ghWriteJson(token,'dialer-'+p+'-'+ACTIVE_WEEK+'.json',JSON.parse(sv));
+    await ghWriteJson(token,dialJsonFile(p),JSON.parse(sv));
     status.textContent='✓ Published! Team sees it in ~60 seconds.';status.className='dial-pub-status ok';
   }catch(err){
     status.textContent='Error: '+err.message;status.className='dial-pub-status err';
@@ -1933,7 +1938,7 @@ function renderListTab(){
         <span class="dial-pub-status" id="listPubStatus"></span>
       </div>`:''}
     </div>`;
-  const savedList=localStorage.getItem('pc_list_mapped_'+ACTIVE_WEEK);
+  const savedList=localStorage.getItem(listKey());
   if(savedList){try{
     const mapped=JSON.parse(savedList);
     document.getElementById('list-result-table').innerHTML=buildListHtml(mapped);
@@ -1943,7 +1948,7 @@ function renderListTab(){
     }
   }catch(e){} return;}
   const listEl=document.getElementById('list-result-table');
-  fetch('https://caseyh713.github.io/pinecrest-weekly/list-analytics-'+ACTIVE_WEEK+'.json')
+  fetch('https://caseyh713.github.io/pinecrest-weekly/'+listJsonFile())
     .then(r=>r.ok?r.json():null)
     .then(mapped=>{
       listEl.innerHTML=mapped&&mapped.length?buildListHtml(mapped):'<div class="dial-no-data">No data published yet.</div>';
@@ -2009,7 +2014,7 @@ function listPreview(){
     meetings: parseNum(r[g('meetings')]),
   })).filter(r=>r.listname).sort((a,b)=>b.dials-a.dials);
   listParsed.mapped=mapped;
-  localStorage.setItem('pc_list_mapped_'+ACTIVE_WEEK,JSON.stringify(mapped));
+  localStorage.setItem(listKey(),JSON.stringify(mapped));
   document.getElementById('list-result-table').innerHTML=buildListHtml(mapped);
   document.getElementById('listPublishBtn').disabled=false;
   document.getElementById('listClearBtn').style.display='inline-block';
@@ -2043,7 +2048,7 @@ function buildListHtml(rows){
 
 function listClear(){
   listParsed=null;
-  localStorage.removeItem('pc_list_mapped_'+ACTIVE_WEEK);
+  localStorage.removeItem(listKey());
   document.getElementById('listMapper').classList.remove('open');
   document.getElementById('list-result-table').innerHTML='<div class="dial-no-data">Drop your list Excel or CSV file below to get started.</div>';
   document.getElementById('listPublishBtn').disabled=true;
@@ -2054,13 +2059,13 @@ function listClear(){
 async function listPublish(){
   const token=localStorage.getItem('pc_gh_token');
   if(!token){alert('Save your GitHub token first.');return;}
-  const sv=localStorage.getItem('pc_list_mapped_'+ACTIVE_WEEK);
+  const sv=localStorage.getItem(listKey());
   if(!sv){alert('No data to publish.');return;}
   const btn=document.getElementById('listPublishBtn');
   const status=document.getElementById('listPubStatus');
   btn.disabled=true;status.textContent='Publishing…';status.className='dial-pub-status loading';
   try{
-    await ghWriteJson(token,'list-analytics-'+ACTIVE_WEEK+'.json',JSON.parse(sv));
+    await ghWriteJson(token,listJsonFile(),JSON.parse(sv));
     status.textContent='✓ Published! Team sees it in ~60 seconds.';status.className='dial-pub-status ok';
   }catch(err){
     status.textContent='Error: '+err.message;status.className='dial-pub-status err';
@@ -2068,7 +2073,5 @@ async function listPublish(){
   }
 }
 
-// One-time migration: clear pre-week-specific dialer/list keys so old data never bleeds into a new week
-['pc_dial_mapped_mid','pc_dial_mapped_eow','pc_list_mapped'].forEach(k => localStorage.removeItem(k));
 showHome();
 </script>
