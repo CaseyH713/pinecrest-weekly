@@ -2,7 +2,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<script>(function(){var v='20260629d';if(location.search.indexOf('_v='+v)===-1){location.replace(location.pathname+'?_v='+v);}}());</script>
+<script>(function(){var v='20260629e';if(location.search.indexOf('_v='+v)===-1){location.replace(location.pathname+'?_v='+v);}}());</script>
 <style>
 :root {
   --bg:          #FFFFFF;
@@ -1488,7 +1488,7 @@ function weekMeetingCount(wk) {
   for (const rep of REPS)
     for (const day of w.days)
       for (const mtg of (w.meetings[rep.key][day.key] || []))
-        if (!saved[mtg.id]?.excluded && saved[mtg.id]?.status !== 'reschedule') n++;
+        if (!saved[mtg.id]?.excluded && saved[mtg.id]?.status !== 'rescheduled') n++;
   return n;
 }
 function weekPtoCount(wk) {
