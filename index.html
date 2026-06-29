@@ -1317,9 +1317,28 @@ const GH_REPO = 'CaseyH713/pinecrest-weekly';
 const GH_FILE = 'index.html';
 let dialParsed = null;
 
-function dialPct(n,d){ return (d&&n!=null)?Math.round(n/d*100)+'%':'—'; }
-function dialRc(n,d){ if(!d||n==null)return''; const r=n/d; return r>=.5?'drg':r>=.3?'drm':'drb'; }
-function dialNum(v){ const n=parseFloat(v); return isNaN(n)?null:n; }
+// Parse time strings like "1:23:45", "83:12", "45 min", or plain numbers → seconds
+function dialParseTime(v){
+  if(v==null||v==='')return null;
+  const s=String(v).trim();
+  const hms=s.match(/^(\d+):(\d{2}):(\d{2})$/);if(hms)return+hms[1]*3600+(+hms[2])*60+(+hms[3]);
+  const ms=s.match(/^(\d+):(\d{2})$/);if(ms)return+ms[1]*60+(+ms[2]);
+  const mn=s.match(/^([\d.]+)\s*min/i);if(mn)return Math.round(+mn[1]*60);
+  const n=parseFloat(s);return isNaN(n)?null:n;
+}
+function dialFmtTime(secs){
+  if(secs==null||secs===0)return'—';
+  const h=Math.floor(secs/3600),m=Math.floor((secs%3600)/60),s=secs%60;
+  if(h>0)return`${h}h ${m}m`;
+  if(m>0)return`${m}m ${s}s`;
+  return`${s}s`;
+}
+const ROLE_ORDER={'managing director':0,'senior business consultant':1,'business consultant':2};
+function dialRoleSort(a,b){
+  const ra=ROLE_ORDER[a.role.toLowerCase()]??9,rb=ROLE_ORDER[b.role.toLowerCase()]??9;
+  if(ra!==rb)return ra-rb;
+  return(b.combined||0)-(a.combined||0);
+}
 
 function renderDialer() {
   const saved = localStorage.getItem('pc_gh_token');
@@ -1367,12 +1386,10 @@ function dialDzDrop(e){e.preventDefault();dialDzLeave();const f=e.dataTransfer.f
 function dialFileChosen(e){const f=e.target.files[0];if(f)dialProcessFile(f);}
 
 const DIAL_FIELDS=[
-  {key:'rep',     label:'Rep Name'},
-  {key:'role',    label:'Role / Title'},
-  {key:'dials',   label:'Dials / Attempts'},
-  {key:'connects',label:'Connects'},
-  {key:'appts',   label:'Appointments Set'},
-  {key:'talktime',label:'Talk Time (optional)'},
+  {key:'rep',      label:'Team Member Name'},
+  {key:'role',     label:'Role (MD / SBC / BC)'},
+  {key:'dialtime', label:'Dial Time'},
+  {key:'talktime', label:'Talk Time'},
 ];
 
 function dialProcessFile(file){
@@ -1414,11 +1431,12 @@ function dialReadFile(file){
 function dialPreview(){
   if(!dialParsed)return;
   const g=k=>document.getElementById('dmap-'+k).value;
-  const mapped=dialParsed.rows.map(r=>({
-    rep:r[g('rep')]||'',role:r[g('role')]||'',
-    dials:dialNum(r[g('dials')]),connects:dialNum(r[g('connects')]),
-    appts:dialNum(r[g('appts')]),talktime:g('talktime')?r[g('talktime')]:'',
-  })).filter(r=>r.rep);
+  const mapped=dialParsed.rows.map(r=>{
+    const dialtime=dialParseTime(r[g('dialtime')]);
+    const talktime=dialParseTime(r[g('talktime')]);
+    const combined=(dialtime||0)+(talktime||0)||null;
+    return {rep:r[g('rep')]||'',role:r[g('role')]||'',dialtime,talktime,combined};
+  }).filter(r=>r.rep).sort(dialRoleSort);
   dialParsed.mapped=mapped;
   document.getElementById('dial-result-table').innerHTML=buildDialHtml(mapped);
   document.getElementById('dialPublishBtn').disabled=false;
@@ -1427,30 +1445,43 @@ function dialPreview(){
 
 function buildDialHtml(rows){
   if(!rows||!rows.length)return'<div class="dial-no-data">No rows found — check column mapping above.</div>';
-  const hasTT=rows.some(r=>r.talktime);
-  let dr='',td=0,tc=0,ta=0;
-  rows.forEach(r=>{td+=r.dials||0;tc+=r.connects||0;ta+=r.appts||0;
-    dr+=`<tr><td>${r.rep}</td><td>${r.role}</td>
-      <td class="center">${r.dials??'—'}</td><td class="center">${r.connects??'—'}</td>
-      <td class="center ${dialRc(r.connects,r.dials)}">${dialPct(r.connects,r.dials)}</td>
-      <td class="center">${r.appts??'—'}</td>
-      <td class="center ${dialRc(r.appts,r.connects)}">${dialPct(r.appts,r.connects)}</td>
-      ${hasTT?`<td class="center">${r.talktime||'—'}</td>`:''}
+  // Group by role order
+  const groups=[
+    {label:'Managing Director',       match:['managing director','md']},
+    {label:'Senior Business Consultant', match:['senior business consultant','sbc']},
+    {label:'Business Consultant',     match:['business consultant','bc']},
+  ];
+  let html='<table class="dial-tbl"><thead><tr><th>Team Member</th><th>Role</th><th class="center">Dial Time</th><th class="center">Talk Time</th><th class="center">Combined Time</th></tr></thead><tbody>';
+  const used=new Set();
+  groups.forEach(grp=>{
+    const members=rows.filter(r=>grp.match.some(m=>r.role.toLowerCase().includes(m))&&!used.has(r.rep))
+      .sort((a,b)=>(b.combined||0)-(a.combined||0));
+    members.forEach(r=>{
+      used.add(r.rep);
+      html+=`<tr><td><strong>${r.rep}</strong></td><td>${r.role}</td>
+        <td class="center">${dialFmtTime(r.dialtime)}</td>
+        <td class="center">${dialFmtTime(r.talktime)}</td>
+        <td class="center"><strong>${dialFmtTime(r.combined)}</strong></td>
+      </tr>`;
+    });
+  });
+  // Any unmatched roles
+  rows.filter(r=>!used.has(r.rep)).sort((a,b)=>(b.combined||0)-(a.combined||0)).forEach(r=>{
+    html+=`<tr><td><strong>${r.rep}</strong></td><td>${r.role}</td>
+      <td class="center">${dialFmtTime(r.dialtime)}</td>
+      <td class="center">${dialFmtTime(r.talktime)}</td>
+      <td class="center"><strong>${dialFmtTime(r.combined)}</strong></td>
     </tr>`;
   });
-  return`<table class="dial-tbl"><thead><tr>
-    <th>Rep</th><th>Role</th><th class="center">Dials</th><th class="center">Connects</th>
-    <th class="center">Connect %</th><th class="center">Appts Set</th><th class="center">Appt %</th>
-    ${hasTT?'<th class="center">Talk Time</th>':''}
-  </tr></thead><tbody>${dr}
-    <tr class="total-row"><td colspan="2">TEAM TOTAL</td>
-      <td class="center">${td||'—'}</td><td class="center">${tc||'—'}</td>
-      <td class="center ${dialRc(tc,td)}">${dialPct(tc,td)}</td>
-      <td class="center">${ta||'—'}</td>
-      <td class="center ${dialRc(ta,tc)}">${dialPct(ta,tc)}</td>
-      ${hasTT?'<td></td>':''}
-    </tr>
-  </tbody></table>`;
+  // Team total
+  const totDial=rows.reduce((a,r)=>a+(r.dialtime||0),0);
+  const totTalk=rows.reduce((a,r)=>a+(r.talktime||0),0);
+  html+=`<tr class="total-row"><td colspan="2">TEAM TOTAL</td>
+    <td class="center">${dialFmtTime(totDial)}</td>
+    <td class="center">${dialFmtTime(totTalk)}</td>
+    <td class="center"><strong>${dialFmtTime(totDial+totTalk)}</strong></td>
+  </tr>`;
+  return html+'</tbody></table>';
 }
 
 function dialClear(){
