@@ -1394,9 +1394,20 @@ function dialDzLeave(){document.getElementById('dialDropZone').classList.remove(
 function dialDzDrop(e){e.preventDefault();dialDzLeave();const f=e.dataTransfer.files[0];if(f)dialProcessFile(f);}
 function dialFileChosen(e){const f=e.target.files[0];if(f)dialProcessFile(f);}
 
+const DIAL_ROSTER={
+  'managing director':['judah azose','matt levy','ben tabaria','judah','matt','ben'],
+  'senior business consultant':['chaya adelman','diana hakakian','sarah ringelheim','david shafron','yakov shimonov','jana tabaria','gregory yavner','shmuel gallor'],
+  'business consultant':['abraham benguigui','hannah bernays','james johnson','shlomo lowenstein','mallory maxwell','ari lowenstein'],
+};
+function dialGetRole(name){
+  const n=name.toLowerCase().trim();
+  for(const [role,names] of Object.entries(DIAL_ROSTER)){
+    if(names.some(rn=>n.includes(rn)||rn.includes(n)))return role;
+  }
+  return null;
+}
 const DIAL_FIELDS=[
   {key:'rep',      label:'Team Member Name'},
-  {key:'role',     label:'Role (MD / SBC / BC)'},
   {key:'dialtime', label:'Dial Time'},
   {key:'talktime', label:'Talk Time'},
 ];
@@ -1441,51 +1452,47 @@ function dialPreview(){
   if(!dialParsed)return;
   const g=k=>document.getElementById('dmap-'+k).value;
   const mapped=dialParsed.rows.map(r=>{
+    const rep=r[g('rep')]||'';
+    if(!rep)return null;
     const dialtime=dialParseTime(r[g('dialtime')]);
     const talktime=dialParseTime(r[g('talktime')]);
     const combined=(dialtime||0)+(talktime||0)||null;
-    return {rep:r[g('rep')]||'',role:r[g('role')]||'',dialtime,talktime,combined};
-  }).filter(r=>r.rep).sort(dialRoleSort);
+    const role=dialGetRole(rep);
+    if(!role)return null; // not on the team roster — skip
+    if(!dialtime&&!talktime)return null; // all zeros — skip
+    return {rep,role,dialtime,talktime,combined};
+  }).filter(Boolean).sort(dialRoleSort);
   dialParsed.mapped=mapped;
   document.getElementById('dial-result-table').innerHTML=buildDialHtml(mapped);
   document.getElementById('dialPublishBtn').disabled=false;
   document.getElementById('dialClearBtn').style.display='inline-block';
 }
 
+const DIAL_GROUPS=[
+  {key:'managing director',        label:'Managing Directors'},
+  {key:'senior business consultant',label:'Senior Business Consultants'},
+  {key:'business consultant',      label:'Business Consultants'},
+];
+
 function buildDialHtml(rows){
-  if(!rows||!rows.length)return'<div class="dial-no-data">No rows found — check column mapping above.</div>';
-  // Group by role order
-  const groups=[
-    {label:'Managing Director',       match:['managing director','md']},
-    {label:'Senior Business Consultant', match:['senior business consultant','sbc']},
-    {label:'Business Consultant',     match:['business consultant','bc']},
-  ];
-  let html='<table class="dial-tbl"><thead><tr><th>Team Member</th><th>Role</th><th class="center">Dial Time</th><th class="center">Talk Time</th><th class="center">Combined Time</th></tr></thead><tbody>';
-  const used=new Set();
-  groups.forEach(grp=>{
-    const members=rows.filter(r=>grp.match.some(m=>r.role.toLowerCase().includes(m))&&!used.has(r.rep))
-      .sort((a,b)=>(b.combined||0)-(a.combined||0));
+  if(!rows||!rows.length)return'<div class="dial-no-data">No matching team members with activity found.</div>';
+  let html='<table class="dial-tbl"><thead><tr><th>Team Member</th><th class="center">Dial Time</th><th class="center">Talk Time</th><th class="center">Combined Time</th></tr></thead><tbody>';
+  let totDial=0,totTalk=0;
+  DIAL_GROUPS.forEach(grp=>{
+    const members=rows.filter(r=>r.role===grp.key).sort((a,b)=>(b.combined||0)-(a.combined||0));
+    if(!members.length)return;
+    html+=`<tr style="background:var(--surface-2)"><td colspan="4" style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-2);padding:8px 10px">${grp.label}</td></tr>`;
     members.forEach(r=>{
-      used.add(r.rep);
-      html+=`<tr><td><strong>${r.rep}</strong></td><td>${r.role}</td>
+      totDial+=r.dialtime||0;totTalk+=r.talktime||0;
+      html+=`<tr>
+        <td><strong>${r.rep}</strong></td>
         <td class="center">${dialFmtTime(r.dialtime)}</td>
         <td class="center">${dialFmtTime(r.talktime)}</td>
         <td class="center"><strong>${dialFmtTime(r.combined)}</strong></td>
       </tr>`;
     });
   });
-  // Any unmatched roles
-  rows.filter(r=>!used.has(r.rep)).sort((a,b)=>(b.combined||0)-(a.combined||0)).forEach(r=>{
-    html+=`<tr><td><strong>${r.rep}</strong></td><td>${r.role}</td>
-      <td class="center">${dialFmtTime(r.dialtime)}</td>
-      <td class="center">${dialFmtTime(r.talktime)}</td>
-      <td class="center"><strong>${dialFmtTime(r.combined)}</strong></td>
-    </tr>`;
-  });
-  // Team total
-  const totDial=rows.reduce((a,r)=>a+(r.dialtime||0),0);
-  const totTalk=rows.reduce((a,r)=>a+(r.talktime||0),0);
-  html+=`<tr class="total-row"><td colspan="2">TEAM TOTAL</td>
+  html+=`<tr class="total-row"><td>TEAM TOTAL</td>
     <td class="center">${dialFmtTime(totDial)}</td>
     <td class="center">${dialFmtTime(totTalk)}</td>
     <td class="center"><strong>${dialFmtTime(totDial+totTalk)}</strong></td>
