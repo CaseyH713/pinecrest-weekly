@@ -2,7 +2,15 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<script>(function(){var v='20260629e';if(location.search.indexOf('_v='+v)===-1){location.replace(location.pathname+'?_v='+v);}}());</script>
+<script>(function(){
+  var BUILD='20260629f';
+  if(sessionStorage.getItem('_b')===BUILD)return;
+  sessionStorage.setItem('_b',BUILD);
+  fetch(location.pathname+'?_chk='+BUILD,{cache:'no-cache'})
+    .then(function(r){return r.text();})
+    .then(function(h){if(h.indexOf(BUILD)===-1)location.replace(location.pathname+'?_t='+Date.now());})
+    .catch(function(){});
+}());</script>
 <style>
 :root {
   --bg:          #FFFFFF;
