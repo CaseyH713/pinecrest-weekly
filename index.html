@@ -898,9 +898,9 @@ function renderSummary() {
   <div class="scard sc-n"><div class="scard-label">No-Shows</div><div class="scard-num">${n}</div><div class="scard-sub">${total?Math.round(n/total*100):0}% of meetings</div></div>
   <div class="scard sc-r"><div class="scard-label">Rescheduled</div><div class="scard-num">${r}</div><div class="scard-sub">${allCountable?Math.round(r/allCountable*100):0}% of all scheduled</div></div>
 </div>
-<p class="sec-head">Rep Breakdown</p>
+<p class="sec-head">Managing Director Breakdown</p>
 <div class="tbl-wrap"><table class="sum-tbl">
-  <thead><tr><th>Rep</th><th>Mon 22</th><th>Tue 23</th><th>Wed 24</th><th>Thu 25</th><th>Fri 26</th><th>Week Total</th></tr></thead>
+  <thead><tr><th>MD</th><th>Mon 22</th><th>Tue 23</th><th>Wed 24</th><th>Thu 25</th><th>Fri 26</th><th>Week Total</th></tr></thead>
   <tbody>${rows}</tbody>
 </table></div>
 <p class="sec-head">Tracked Outcomes</p>
@@ -1196,8 +1196,8 @@ function exportSnapshot() {
       <tbody>${ptoPart}</tbody></table>
     </div>
     <div class="rpt-section">
-      <h2>Rep Breakdown</h2>
-      <table class="rpt-table"><thead><tr><th>Rep</th><th>Mon 22</th><th>Tue 23</th><th>Wed 24</th><th>Thu 25</th><th>Fri 26</th><th>Week Total</th></tr></thead>
+      <h2>Managing Director Breakdown</h2>
+      <table class="rpt-table"><thead><tr><th>MD</th><th>Mon 22</th><th>Tue 23</th><th>Wed 24</th><th>Thu 25</th><th>Fri 26</th><th>Week Total</th></tr></thead>
       <tbody>${repRows}</tbody></table>
     </div>
     <div class="rpt-section">
