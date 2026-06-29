@@ -1404,7 +1404,15 @@ function renderDialer(){
       document.getElementById('dial-result-table-'+p).innerHTML=buildDialHtml(mapped);
       document.getElementById('dialPublishBtn-'+p).disabled=false;
       document.getElementById('dialClearBtn-'+p).style.display='inline-block';
-    }catch(e){}}
+    }catch(e){} return;}
+    // no local data — try fetching the published JSON for team members
+    const el=document.getElementById('dial-result-table-'+p);
+    el.innerHTML='<div class="dial-no-data">Loading…</div>';
+    fetch('https://caseyh713.github.io/pinecrest-weekly/dialer-'+p+'.json')
+      .then(r=>r.ok?r.json():null)
+      .then(mapped=>{
+        el.innerHTML=mapped&&mapped.length?buildDialHtml(mapped):'<div class="dial-no-data">No data published yet — drop a file below to upload.</div>';
+      }).catch(()=>{el.innerHTML='<div class="dial-no-data">Drop your dialer Excel or CSV file below to get started.</div>';});
   });
 }
 
@@ -1561,31 +1569,29 @@ function dialClear(p){
   document.getElementById('dialPubStatus-'+p).className='dial-pub-status';
 }
 
+async function ghWriteJson(token,fileName,data){
+  const api=`https://api.github.com/repos/${GH_REPO}/contents/${fileName}`;
+  const headers={Authorization:'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'};
+  let sha=null;
+  const check=await fetch(api,{headers});
+  if(check.ok){const f=await check.json();sha=f.sha;}
+  else if(check.status!==404)throw new Error('Could not check file (token may be wrong)');
+  const body={message:fileName+' update',content:btoa(unescape(encodeURIComponent(JSON.stringify(data))))};
+  if(sha)body.sha=sha;
+  const push=await fetch(api,{method:'PUT',headers,body:JSON.stringify(body)});
+  if(!push.ok)throw new Error('Push failed — check token has repo write access');
+}
+
 async function dialPublish(p){
   const token=localStorage.getItem('pc_gh_token');
   if(!token){alert('Save your GitHub token in the field above first.');return;}
   const sv=localStorage.getItem('pc_dial_mapped_'+p);
   if(!sv){alert('No data to publish.');return;}
-  const mapped=JSON.parse(sv);
   const btn=document.getElementById('dialPublishBtn-'+p);
   const status=document.getElementById('dialPubStatus-'+p);
   btn.disabled=true;status.textContent='Publishing…';status.className='dial-pub-status loading';
   try{
-    const res=await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`,
-      {headers:{Authorization:'token '+token,'Accept':'application/vnd.github.v3+json'}});
-    if(!res.ok)throw new Error('Could not read file (check token)');
-    const fd=await res.json();
-    let content=atob(fd.content.replace(/\n/g,''));
-    const newDialer=JSON.stringify(mapped);
-    const pat=new RegExp(`(id:'w\\d+'[\\s\\S]*?dialer:)\\[[\\s\\S]*?\\]`,'m');
-    if(!pat.test(content))throw new Error('Could not locate week data — contact admin');
-    content=content.replace(pat,`$1${newDialer}`);
-    const push=await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`,{
-      method:'PUT',
-      headers:{Authorization:'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
-      body:JSON.stringify({message:'dialer update',content:btoa(unescape(encodeURIComponent(content))),sha:fd.sha})
-    });
-    if(!push.ok)throw new Error('Push failed — check token permissions');
+    await ghWriteJson(token,'dialer-'+p+'.json',JSON.parse(sv));
     status.textContent='✓ Published! Team sees it in ~60 seconds.';status.className='dial-pub-status ok';
   }catch(err){
     status.textContent='Error: '+err.message;status.className='dial-pub-status err';
@@ -1637,7 +1643,15 @@ function renderListTab() {
     document.getElementById('list-result-table').innerHTML=buildListHtml(mapped);
     document.getElementById('listPublishBtn').disabled=false;
     document.getElementById('listClearBtn').style.display='inline-block';
-  }catch(e){}}
+  }catch(e){} return;}
+  // no local data — fetch published JSON for team members
+  const listEl=document.getElementById('list-result-table');
+  listEl.innerHTML='<div class="dial-no-data">Loading…</div>';
+  fetch('https://caseyh713.github.io/pinecrest-weekly/list-analytics.json')
+    .then(r=>r.ok?r.json():null)
+    .then(mapped=>{
+      listEl.innerHTML=mapped&&mapped.length?buildListHtml(mapped):'<div class="dial-no-data">No data published yet — drop a file below to upload.</div>';
+    }).catch(()=>{listEl.innerHTML='<div class="dial-no-data">Drop your list Excel or CSV file below to get started.</div>';});
 }
 
 function saveListToken(){
@@ -1744,27 +1758,13 @@ function listClear(){
 async function listPublish(){
   const token=localStorage.getItem('pc_gh_token');
   if(!token){alert('Save your GitHub token first.');return;}
-  const mapped=listParsed&&listParsed.mapped;
-  if(!mapped||!mapped.length){alert('No data to publish.');return;}
+  const sv=localStorage.getItem('pc_list_mapped');
+  if(!sv){alert('No data to publish.');return;}
   const btn=document.getElementById('listPublishBtn');
   const status=document.getElementById('listPubStatus');
   btn.disabled=true;status.textContent='Publishing…';status.className='dial-pub-status loading';
   try{
-    const res=await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`,
-      {headers:{Authorization:'token '+token,'Accept':'application/vnd.github.v3+json'}});
-    if(!res.ok)throw new Error('Could not read file (check token)');
-    const fd=await res.json();
-    let content=atob(fd.content.replace(/\n/g,''));
-    const newList=JSON.stringify(mapped);
-    const pat=new RegExp(`(id:'w\\d+'[\\s\\S]*?lists:)\\[[\\s\\S]*?\\]`,'m');
-    if(!pat.test(content))throw new Error('Could not locate list data — contact admin');
-    content=content.replace(pat,`$1${newList}`);
-    const push=await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`,{
-      method:'PUT',
-      headers:{Authorization:'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
-      body:JSON.stringify({message:'list update',content:btoa(unescape(encodeURIComponent(content))),sha:fd.sha})
-    });
-    if(!push.ok)throw new Error('Push failed — check token permissions');
+    await ghWriteJson(token,'list-analytics.json',JSON.parse(sv));
     status.textContent='✓ Published! Team sees it in ~60 seconds.';status.className='dial-pub-status ok';
   }catch(err){
     status.textContent='Error: '+err.message;status.className='dial-pub-status err';
