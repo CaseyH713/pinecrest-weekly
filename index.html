@@ -1472,10 +1472,14 @@ function exportDay(dayKey) {
 // ── Home screen ──────────────────────────────────────────────────────────────
 function weekMeetingCount(wk) {
   const w = WEEK_STORE[wk];
+  const sk = wk === 'w22' ? STORE_KEY : STORE_KEY + '_' + wk;
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(sk) || '{}'); } catch(e) {}
   let n = 0;
   for (const rep of REPS)
     for (const day of w.days)
-      n += (w.meetings[rep.key][day.key] || []).length;
+      for (const mtg of (w.meetings[rep.key][day.key] || []))
+        if (!saved[mtg.id]?.excluded) n++;
   return n;
 }
 function weekPtoCount(wk) {
