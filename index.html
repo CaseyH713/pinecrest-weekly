@@ -1655,10 +1655,11 @@ function listReadFile(file){
 function listPreview(){
   if(!listParsed)return;
   const g=k=>document.getElementById('lmap-'+k).value;
+  const parseNum=v=>parseFloat(String(v==null?'':v).replace(/,/g,''))||0;
   const mapped=listParsed.rows.map(r=>({
     listname: r[g('listname')]||'',
-    dials:    parseFloat(r[g('dials')])||0,
-    meetings: parseFloat(r[g('meetings')])||0,
+    dials:    parseNum(r[g('dials')]),
+    meetings: parseNum(r[g('meetings')]),
   })).filter(r=>r.listname).sort((a,b)=>b.dials-a.dials);
   listParsed.mapped=mapped;
   document.getElementById('list-result-table').innerHTML=buildListHtml(mapped);
