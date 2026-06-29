@@ -1305,7 +1305,7 @@ function buildNav() {
       <span class="tlabel">Dialer</span><span class="tdate">Analytics</span><span class="tcount">↑</span>
     </button>
     <button class="day-tab list-tab" data-id="list" onclick="switchTo('list')">
-      <span class="tlabel">Lists</span><span class="tdate">Breakdown</span><span class="tcount">↑</span>
+      <span class="tlabel">List</span><span class="tdate">Analytics</span><span class="tcount">↑</span>
     </button>`;
   document.getElementById('tabNav').innerHTML = html;
 }
@@ -1361,7 +1361,7 @@ function renderDialer() {
         <span id="dialTokenStatus" class="${saved?'token-ok':'token-no'}">${saved?'✓ Token saved':'No token — save one to publish'}</span>
       </div>
       <div id="dial-result-table"><div class="dial-no-data">Drop your dialer Excel or CSV file below to get started.</div></div>
-      <div class="dial-drop-zone" id="dialDropZone"
+      <div class="dial-drop-zone" id="dialDropZone" style="margin-top:12px"
         ondragover="dialDzOver(event)" ondragleave="dialDzLeave()" ondrop="dialDzDrop(event)">
         <input type="file" accept=".xlsx,.xls,.csv" onchange="dialFileChosen(event)">
         <div class="dial-drop-zone-icon">📊</div>
@@ -1374,10 +1374,17 @@ function renderDialer() {
       </div>
       <div class="dial-publish-bar">
         <button class="btn-dial-publish" id="dialPublishBtn" onclick="dialPublish()" disabled>↑ Publish to Team</button>
-        <button class="btn-dial-clear" id="dialClearBtn" onclick="dialClear()">Clear</button>
+        <button class="btn-dial-clear" id="dialClearBtn" onclick="dialClear()" style="display:none">Clear</button>
         <span class="dial-pub-status" id="dialPubStatus"></span>
       </div>
     </div>`;
+  const saved=localStorage.getItem('pc_dial_mapped');
+  if(saved){try{
+    const mapped=JSON.parse(saved);
+    document.getElementById('dial-result-table').innerHTML=buildDialHtml(mapped);
+    document.getElementById('dialPublishBtn').disabled=false;
+    document.getElementById('dialClearBtn').style.display='inline-block';
+  }catch(e){}}
 }
 
 function saveDialToken(){
@@ -1486,6 +1493,7 @@ function dialPreview(){
   });
   const mapped=[...found.values()].sort(dialRoleSort);
   dialParsed.mapped=mapped;
+  localStorage.setItem('pc_dial_mapped',JSON.stringify(mapped));
   document.getElementById('dial-result-table').innerHTML=buildDialHtml(mapped);
   document.getElementById('dialPublishBtn').disabled=false;
   document.getElementById('dialClearBtn').style.display='inline-block';
@@ -1525,6 +1533,7 @@ function buildDialHtml(rows){
 
 function dialClear(){
   dialParsed=null;
+  localStorage.removeItem('pc_dial_mapped');
   document.getElementById('dialMapper').classList.remove('open');
   document.getElementById('dial-result-table').innerHTML='<div class="dial-no-data">Drop your dialer Excel or CSV file below to get started.</div>';
   document.getElementById('dialPublishBtn').disabled=true;
@@ -1576,7 +1585,7 @@ function renderListTab() {
   const saved = localStorage.getItem('pc_gh_token');
   document.getElementById('view-list').innerHTML = `
     <div style="max-width:900px">
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-bottom:16px;padding-bottom:6px;border-bottom:1px solid var(--surface-2)">List Breakdown — Upload</div>
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-bottom:16px;padding-bottom:6px;border-bottom:1px solid var(--surface-2)">List Analytics — Upload</div>
       <div class="dial-token-bar">
         <label>GitHub Token</label>
         <input type="password" id="listToken" placeholder="ghp_... (saved locally)" value="">
@@ -1597,10 +1606,17 @@ function renderListTab() {
       </div>
       <div class="dial-publish-bar">
         <button class="btn-dial-publish" id="listPublishBtn" onclick="listPublish()" disabled>↑ Publish to Team</button>
-        <button class="btn-dial-clear" id="listClearBtn" onclick="listClear()">Clear</button>
+        <button class="btn-dial-clear" id="listClearBtn" onclick="listClear()" style="display:none">Clear</button>
         <span class="dial-pub-status" id="listPubStatus"></span>
       </div>
     </div>`;
+  const savedList=localStorage.getItem('pc_list_mapped');
+  if(savedList){try{
+    const mapped=JSON.parse(savedList);
+    document.getElementById('list-result-table').innerHTML=buildListHtml(mapped);
+    document.getElementById('listPublishBtn').disabled=false;
+    document.getElementById('listClearBtn').style.display='inline-block';
+  }catch(e){}}
 }
 
 function saveListToken(){
@@ -1662,6 +1678,7 @@ function listPreview(){
     meetings: parseNum(r[g('meetings')]),
   })).filter(r=>r.listname).sort((a,b)=>b.dials-a.dials);
   listParsed.mapped=mapped;
+  localStorage.setItem('pc_list_mapped',JSON.stringify(mapped));
   document.getElementById('list-result-table').innerHTML=buildListHtml(mapped);
   document.getElementById('listPublishBtn').disabled=false;
   document.getElementById('listClearBtn').style.display='inline-block';
@@ -1695,6 +1712,7 @@ function buildListHtml(rows){
 
 function listClear(){
   listParsed=null;
+  localStorage.removeItem('pc_list_mapped');
   document.getElementById('listMapper').classList.remove('open');
   document.getElementById('list-result-table').innerHTML='<div class="dial-no-data">Drop your list Excel or CSV file below to get started.</div>';
   document.getElementById('listPublishBtn').disabled=true;
