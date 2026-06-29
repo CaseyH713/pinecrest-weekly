@@ -1327,6 +1327,19 @@ function switchTo(id) {
 // ── Dialer Tab ────────────────────────────────────────────────────────────────
 const GH_REPO = 'CaseyH713/pinecrest-weekly';
 const GH_FILE = 'index.html';
+const ADMIN_PIN='pinecrest2026';
+function isAdmin(){return localStorage.getItem('pc_admin')==='1';}
+function adminToggle(){
+  if(isAdmin()){
+    if(confirm('Exit admin mode?')){localStorage.removeItem('pc_admin');location.reload();}
+    return;
+  }
+  const pin=prompt('Admin PIN:');
+  if(pin===null)return;
+  if(pin===ADMIN_PIN){localStorage.setItem('pc_admin','1');location.reload();}
+  else alert('Incorrect PIN.');
+}
+
 let dialParsedMap={mid:null,eow:null};
 
 function switchDialPeriod(p){
@@ -1361,35 +1374,38 @@ function dialRoleSort(a,b){
 
 function renderDialer(){
   const tokenSaved=localStorage.getItem('pc_gh_token');
+  const admin=isAdmin();
+  const adminUpload=p=>admin?`
+    <div class="dial-drop-zone" id="dialDropZone-${p}" style="margin-top:12px"
+      ondragover="dialDzOver(event,'${p}')" ondragleave="dialDzLeave('${p}')" ondrop="dialDzDrop(event,'${p}')">
+      <input type="file" accept=".xlsx,.xls,.csv" onchange="dialFileChosen(event,'${p}')">
+      <div class="dial-drop-zone-icon">📊</div>
+      <div class="dial-drop-zone-text">Drop dialer Excel / CSV here or click to browse</div>
+      <div class="dial-drop-zone-sub">${p==='mid'?'Wednesday midweek update':'Friday end-of-week update'}</div>
+    </div>
+    <div class="dial-mapper" id="dialMapper-${p}">
+      <div class="dial-mapper-title">Map your columns — match each field to the right column from your file</div>
+      <div class="dial-mapper-grid" id="dialMapperGrid-${p}"></div>
+    </div>
+    <div class="dial-publish-bar">
+      <button class="btn-dial-publish" id="dialPublishBtn-${p}" onclick="dialPublish('${p}')" disabled>↑ Publish to Team</button>
+      <button class="btn-dial-clear" id="dialClearBtn-${p}" onclick="dialClear('${p}')" style="display:none">Clear</button>
+      <span class="dial-pub-status" id="dialPubStatus-${p}"></span>
+    </div>`:'';
   const panelHtml=p=>`
     <div id="dial-panel-${p}" style="display:${p==='mid'?'block':'none'}">
-      <div id="dial-result-table-${p}"><div class="dial-no-data">Drop your dialer Excel or CSV file below to get started.</div></div>
-      <div class="dial-drop-zone" id="dialDropZone-${p}" style="margin-top:12px"
-        ondragover="dialDzOver(event,'${p}')" ondragleave="dialDzLeave('${p}')" ondrop="dialDzDrop(event,'${p}')">
-        <input type="file" accept=".xlsx,.xls,.csv" onchange="dialFileChosen(event,'${p}')">
-        <div class="dial-drop-zone-icon">📊</div>
-        <div class="dial-drop-zone-text">Drop dialer Excel / CSV here or click to browse</div>
-        <div class="dial-drop-zone-sub">${p==='mid'?'Wednesday midweek update':'Friday end-of-week update'}</div>
-      </div>
-      <div class="dial-mapper" id="dialMapper-${p}">
-        <div class="dial-mapper-title">Map your columns — match each field to the right column from your file</div>
-        <div class="dial-mapper-grid" id="dialMapperGrid-${p}"></div>
-      </div>
-      <div class="dial-publish-bar">
-        <button class="btn-dial-publish" id="dialPublishBtn-${p}" onclick="dialPublish('${p}')" disabled>↑ Publish to Team</button>
-        <button class="btn-dial-clear" id="dialClearBtn-${p}" onclick="dialClear('${p}')" style="display:none">Clear</button>
-        <span class="dial-pub-status" id="dialPubStatus-${p}"></span>
-      </div>
+      <div id="dial-result-table-${p}"><div class="dial-no-data">Loading…</div></div>
+      ${adminUpload(p)}
     </div>`;
   document.getElementById('view-dial').innerHTML=`
     <div style="max-width:900px">
       <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-bottom:16px;padding-bottom:6px;border-bottom:1px solid var(--surface-2)">Dialer Analytics</div>
-      <div class="dial-token-bar">
+      ${admin?`<div class="dial-token-bar">
         <label>GitHub Token</label>
         <input type="password" id="dialToken" placeholder="ghp_... (saved locally)" value="">
         <button class="btn-save-token" onclick="saveDialToken()">Save</button>
         <span id="dialTokenStatus" class="${tokenSaved?'token-ok':'token-no'}">${tokenSaved?'✓ Token saved':'No token — save one to publish'}</span>
-      </div>
+      </div>`:''}
       <div style="display:flex;margin-bottom:16px;border-bottom:2px solid var(--surface-2)">
         <button class="dial-period-tab active" id="dptab-mid" onclick="switchDialPeriod('mid')">Midweek (Wed)</button>
         <button class="dial-period-tab" id="dptab-eow" onclick="switchDialPeriod('eow')">End of Week (Fri)</button>
@@ -1402,17 +1418,17 @@ function renderDialer(){
     if(sv){try{
       const mapped=JSON.parse(sv);
       document.getElementById('dial-result-table-'+p).innerHTML=buildDialHtml(mapped);
-      document.getElementById('dialPublishBtn-'+p).disabled=false;
-      document.getElementById('dialClearBtn-'+p).style.display='inline-block';
+      if(admin){
+        document.getElementById('dialPublishBtn-'+p).disabled=false;
+        document.getElementById('dialClearBtn-'+p).style.display='inline-block';
+      }
     }catch(e){} return;}
-    // no local data — try fetching the published JSON for team members
     const el=document.getElementById('dial-result-table-'+p);
-    el.innerHTML='<div class="dial-no-data">Loading…</div>';
     fetch('https://caseyh713.github.io/pinecrest-weekly/dialer-'+p+'.json')
       .then(r=>r.ok?r.json():null)
       .then(mapped=>{
-        el.innerHTML=mapped&&mapped.length?buildDialHtml(mapped):'<div class="dial-no-data">No data published yet — drop a file below to upload.</div>';
-      }).catch(()=>{el.innerHTML='<div class="dial-no-data">Drop your dialer Excel or CSV file below to get started.</div>';});
+        el.innerHTML=mapped&&mapped.length?buildDialHtml(mapped):'<div class="dial-no-data">No data published yet.</div>';
+      }).catch(()=>{el.innerHTML='<div class="dial-no-data">No data published yet.</div>';});
   });
 }
 
@@ -1608,19 +1624,20 @@ const LIST_FIELDS = [
   {key:'meetings', label:'Meetings'},
 ];
 
-function renderListTab() {
-  const saved = localStorage.getItem('pc_gh_token');
-  document.getElementById('view-list').innerHTML = `
+function renderListTab(){
+  const tokenSaved=localStorage.getItem('pc_gh_token');
+  const admin=isAdmin();
+  document.getElementById('view-list').innerHTML=`
     <div style="max-width:900px">
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-bottom:16px;padding-bottom:6px;border-bottom:1px solid var(--surface-2)">List Analytics — Upload</div>
-      <div class="dial-token-bar">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-bottom:16px;padding-bottom:6px;border-bottom:1px solid var(--surface-2)">List Analytics</div>
+      ${admin?`<div class="dial-token-bar">
         <label>GitHub Token</label>
         <input type="password" id="listToken" placeholder="ghp_... (saved locally)" value="">
         <button class="btn-save-token" onclick="saveListToken()">Save</button>
-        <span id="listTokenStatus" class="${saved?'token-ok':'token-no'}">${saved?'✓ Token saved':'No token — save one to publish'}</span>
-      </div>
-      <div id="list-result-table"><div class="dial-no-data">Drop your list Excel or CSV file below to get started.</div></div>
-      <div class="dial-drop-zone" id="listDropZone"
+        <span id="listTokenStatus" class="${tokenSaved?'token-ok':'token-no'}">${tokenSaved?'✓ Token saved':'No token — save one to publish'}</span>
+      </div>`:''}
+      <div id="list-result-table"><div class="dial-no-data">Loading…</div></div>
+      ${admin?`<div class="dial-drop-zone" id="listDropZone" style="margin-top:12px"
         ondragover="listDzOver(event)" ondragleave="listDzLeave()" ondrop="listDzDrop(event)">
         <input type="file" accept=".xlsx,.xls,.csv" onchange="listFileChosen(event)">
         <div class="dial-drop-zone-icon">📋</div>
@@ -1635,23 +1652,23 @@ function renderListTab() {
         <button class="btn-dial-publish" id="listPublishBtn" onclick="listPublish()" disabled>↑ Publish to Team</button>
         <button class="btn-dial-clear" id="listClearBtn" onclick="listClear()" style="display:none">Clear</button>
         <span class="dial-pub-status" id="listPubStatus"></span>
-      </div>
+      </div>`:''}
     </div>`;
   const savedList=localStorage.getItem('pc_list_mapped');
   if(savedList){try{
     const mapped=JSON.parse(savedList);
     document.getElementById('list-result-table').innerHTML=buildListHtml(mapped);
-    document.getElementById('listPublishBtn').disabled=false;
-    document.getElementById('listClearBtn').style.display='inline-block';
+    if(admin){
+      document.getElementById('listPublishBtn').disabled=false;
+      document.getElementById('listClearBtn').style.display='inline-block';
+    }
   }catch(e){} return;}
-  // no local data — fetch published JSON for team members
   const listEl=document.getElementById('list-result-table');
-  listEl.innerHTML='<div class="dial-no-data">Loading…</div>';
   fetch('https://caseyh713.github.io/pinecrest-weekly/list-analytics.json')
     .then(r=>r.ok?r.json():null)
     .then(mapped=>{
-      listEl.innerHTML=mapped&&mapped.length?buildListHtml(mapped):'<div class="dial-no-data">No data published yet — drop a file below to upload.</div>';
-    }).catch(()=>{listEl.innerHTML='<div class="dial-no-data">Drop your list Excel or CSV file below to get started.</div>';});
+      listEl.innerHTML=mapped&&mapped.length?buildListHtml(mapped):'<div class="dial-no-data">No data published yet.</div>';
+    }).catch(()=>{listEl.innerHTML='<div class="dial-no-data">No data published yet.</div>';});
 }
 
 function saveListToken(){
@@ -1779,4 +1796,11 @@ renderPTO();
 renderPTOSidebar();
 renderHeaderStats();
 switchTo('fri');
+// admin toggle link
+(function(){
+  const el=document.createElement('div');
+  el.style.cssText='text-align:center;padding:12px 0 24px;';
+  el.innerHTML='<button onclick="adminToggle()" style="background:none;border:none;font-size:10px;color:var(--text-3);cursor:pointer;letter-spacing:.04em;opacity:.45">'+(isAdmin()?'● Admin Mode':'Admin')+'</button>';
+  document.body.appendChild(el);
+})();
 </script>
