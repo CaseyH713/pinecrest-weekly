@@ -1957,5 +1957,7 @@ async function listPublish(){
   }
 }
 
+// One-time migration: clear pre-week-specific dialer/list keys so old data never bleeds into a new week
+['pc_dial_mapped_mid','pc_dial_mapped_eow','pc_list_mapped'].forEach(k => localStorage.removeItem(k));
 showHome();
 </script>
