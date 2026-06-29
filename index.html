@@ -476,21 +476,66 @@ body {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #C8D4EC; border-radius: 3px; }
 /* ── Week switcher ── */
-.week-nav {
+/* ── Back nav (shown when inside a week) ── */
+.back-nav {
   background: #E8EEF8; border-bottom: 1px solid var(--border);
-  padding: 5px 20px; display: flex; align-items: center; gap: 8px;
-  font-size: 11px; color: var(--text-2);
+  padding: 7px 20px; display: flex; align-items: center; gap: 10px;
+  font-size: 11px; color: var(--text-2); flex-shrink: 0;
 }
-.week-nav-label {
-  font-size: 10px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: .06em; color: var(--text-3); margin-right: 2px;
+.back-nav-btn {
+  background: none; border: none; font-size: 11px; font-weight: 700;
+  color: var(--navy); cursor: pointer; padding: 0; letter-spacing: .01em;
 }
-.wk-btn {
-  background: none; border: 1px solid var(--border); border-radius: 4px;
-  padding: 3px 10px; font-size: 11px; font-weight: 600; color: var(--text-2); cursor: pointer;
+.back-nav-btn:hover { text-decoration: underline; }
+.back-nav-sep { color: var(--border); }
+.back-nav-label { color: var(--text-2); font-weight: 600; }
+/* ── Home view ── */
+#home-view {
+  flex: 1; overflow-y: auto; background: var(--surface);
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 48px 24px 80px;
 }
-.wk-btn:hover { background: var(--surface); }
-.wk-btn.active { background: var(--navy); border-color: var(--navy); color: #fff; }
+.home-inner { width: 100%; max-width: 720px; }
+.home-heading {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .1em; color: var(--text-3); margin-bottom: 18px;
+}
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+.week-card {
+  background: #fff; border: 1px solid var(--border); border-radius: 8px;
+  padding: 22px 24px; cursor: pointer; position: relative;
+  transition: box-shadow .15s, transform .15s;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.week-card:hover { box-shadow: 0 4px 20px rgba(43,57,144,.12); transform: translateY(-2px); }
+.week-card.current { border-color: var(--navy); border-width: 2px; }
+.wc-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--navy); color: #fff; border-radius: 20px;
+  font-size: 9px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .07em; padding: 3px 9px; margin-bottom: 4px;
+  width: fit-content;
+}
+.wc-badge::before { content: '●'; font-size: 6px; }
+.wc-range {
+  font-size: 20px; font-weight: 700; color: var(--navy); line-height: 1.2;
+}
+.wc-year { font-size: 12px; color: var(--text-3); margin-top: -2px; }
+.wc-stats {
+  font-size: 12px; color: var(--text-2); margin-top: 8px;
+  display: flex; gap: 6px; align-items: center; flex-wrap: wrap;
+}
+.wc-dot { color: var(--border); }
+.wc-action {
+  margin-top: 14px; font-size: 11px; font-weight: 700;
+  color: var(--navy); letter-spacing: .02em;
+}
+.week-card.current .wc-action { color: var(--navy); }
+@media (max-width: 520px) { .week-grid { grid-template-columns: 1fr; } }
 </style>
 
 <div class="header">
@@ -501,7 +546,7 @@ body {
   <div class="hdiv"></div>
   <div>
     <div class="header-title">Sales Team Weekly Breakdown Analysis</div>
-    <div class="header-meta" id="headerMeta">Jun 29 – Jul 3, 2026</div>
+    <div class="header-meta" id="headerMeta">Weekly Dashboard</div>
   </div>
   <div class="header-right">
     <div id="headerStats" style="display:contents"></div>
@@ -509,12 +554,13 @@ body {
   </div>
 </div>
 
-<div class="tab-nav" id="tabNav"></div>
-<div class="week-nav" id="weekNav">
-  <span class="week-nav-label">Week</span>
-  <button class="wk-btn" data-wk="w22" onclick="switchWeek('w22')">Jun 22–26</button>
-  <button class="wk-btn active" data-wk="w29" onclick="switchWeek('w29')">Jun 29–Jul 3</button>
+<div id="home-view"></div>
+<div class="back-nav" id="backNav" style="display:none">
+  <button class="back-nav-btn" onclick="showHome()">← All Weeks</button>
+  <span class="back-nav-sep">·</span>
+  <span class="back-nav-label" id="backNavLabel"></span>
 </div>
+<div class="tab-nav" id="tabNav" style="display:none"></div>
 
 <div id="export-overlay">
   <div class="eo-toolbar">
@@ -528,7 +574,7 @@ body {
   <div class="eo-content" id="exportContent"></div>
 </div>
 
-<div class="page-wrap">
+<div class="page-wrap" id="pageWrap" style="display:none">
   <div class="page" id="mainPage">
     <div class="day-view" id="view-mon" data-day="2026-06-22"></div>
     <div class="day-view" id="view-tue" data-day="2026-06-23"></div>
@@ -1320,6 +1366,62 @@ function exportDay(dayKey) {
   document.getElementById('export-overlay').classList.add('open');
 }
 
+// ── Home screen ──────────────────────────────────────────────────────────────
+function weekMeetingCount(wk) {
+  const w = WEEK_STORE[wk];
+  let n = 0;
+  for (const rep of REPS)
+    for (const day of w.days)
+      n += (w.meetings[rep.key][day.key] || []).length;
+  return n;
+}
+function weekPtoCount(wk) {
+  const w = WEEK_STORE[wk];
+  return SALES_TEAM.filter(p => {
+    const d = w.pto[p.name];
+    return d && Object.values(d).some(h => h > 0);
+  }).length;
+}
+function renderHome() {
+  const order = ['w29','w22']; // newest first
+  const cards = order.map(wk => {
+    const w = WEEK_STORE[wk];
+    const isCurrent = w.days.some(d => d.key === TODAY);
+    const m = weekMeetingCount(wk);
+    const p = weekPtoCount(wk);
+    return `
+      <div class="week-card${isCurrent?' current':''}" onclick="enterWeek('${wk}')">
+        ${isCurrent?'<div class="wc-badge">Current Week</div>':''}
+        <div class="wc-range">${w.label}</div>
+        <div class="wc-year">2026</div>
+        <div class="wc-stats">
+          <span>${m} meeting${m!==1?'s':''}</span>
+          <span class="wc-dot">·</span>
+          <span>${p} out on PTO</span>
+        </div>
+        <div class="wc-action">${isCurrent?'Enter Week →':'View Week →'}</div>
+      </div>`;
+  }).join('');
+  document.getElementById('home-view').innerHTML =
+    `<div class="home-inner"><div class="home-heading">Select a Week</div><div class="week-grid">${cards}</div></div>`;
+}
+function showHome() {
+  document.getElementById('home-view').style.display = 'flex';
+  document.getElementById('backNav').style.display = 'none';
+  document.getElementById('tabNav').style.display = 'none';
+  document.getElementById('pageWrap').style.display = 'none';
+  document.getElementById('headerMeta').textContent = 'Weekly Dashboard';
+  renderHome();
+}
+function enterWeek(wk) {
+  document.getElementById('home-view').style.display = 'none';
+  document.getElementById('backNav').style.display = 'flex';
+  document.getElementById('tabNav').style.display = '';
+  document.getElementById('pageWrap').style.display = '';
+  document.getElementById('backNavLabel').textContent = WEEK_STORE[wk].range;
+  switchWeek(wk);
+}
+
 // ── Week switching ───────────────────────────────────────────────────────────
 function switchWeek(wk) {
   ACTIVE_WEEK = wk;
@@ -1338,8 +1440,6 @@ function switchWeek(wk) {
   if (hm) hm.textContent = w.range;
   const etl = document.getElementById('eoToolbarLeft');
   if (etl) etl.textContent = 'Weekly Report — ' + w.label;
-  // Update week selector
-  document.querySelectorAll('.wk-btn').forEach(b => b.classList.toggle('active', b.dataset.wk === wk));
   // Rebuild nav and views
   buildNav();
   for (const d of DAYS) renderDay(d.key);
@@ -1852,5 +1952,5 @@ async function listPublish(){
   }
 }
 
-switchWeek('w29');
+showHome();
 </script>
