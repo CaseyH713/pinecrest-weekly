@@ -3,7 +3,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <script>(function(){
-  var BUILD='20260629f';
+  var BUILD='20260629g';
   if(sessionStorage.getItem('_b')===BUILD)return;
   sessionStorage.setItem('_b',BUILD);
   fetch(location.pathname+'?_chk='+BUILD,{cache:'no-cache'})
@@ -217,6 +217,44 @@ body {
 .list-tab.active .tcount { background: var(--blue-dim); border-color: var(--blue-border); color: var(--blue); }
 .list-view { display: none; padding: 24px 28px; }
 .list-view.active { display: block; }
+.call-tab.active { color: var(--navy); border-bottom-color: var(--navy); }
+.call-tab.active .tcount { background: var(--surface); border-color: var(--border); color: var(--navy); }
+.call-view { display: none; padding: 24px 28px; }
+.call-view.active { display: block; }
+.ca-wrap { max-width: 960px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+.ca-form { display: flex; flex-direction: column; gap: 14px; }
+.ca-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--text-3); margin-bottom: 4px; }
+.ca-input, .ca-select, .ca-textarea { width: 100%; border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; font-size: 13px; font-family: inherit; color: var(--text-1); background: #fff; }
+.ca-input:focus, .ca-select:focus, .ca-textarea:focus { outline: none; border-color: var(--navy); }
+.ca-textarea { resize: vertical; min-height: 280px; line-height: 1.6; }
+.ca-token-bar { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; }
+.ca-token-bar label { font-size: 11px; font-weight: 600; color: var(--text-2); white-space: nowrap; }
+.ca-token-bar input { flex: 1; border: 1px solid var(--border); border-radius: 4px; padding: 5px 8px; font-size: 12px; }
+.ca-analyze-btn { background: var(--navy); color: #fff; border: none; border-radius: 6px; padding: 11px 0; font-size: 13px; font-weight: 600; cursor: pointer; letter-spacing: .03em; transition: background .15s; }
+.ca-analyze-btn:hover:not(:disabled) { background: var(--accent); }
+.ca-analyze-btn:disabled { opacity: .5; cursor: default; }
+.ca-result { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+.ca-result-empty { color: var(--text-3); font-size: 13px; text-align: center; padding: 48px 0; }
+.ca-verdict { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 6px; font-size: 13px; font-weight: 700; letter-spacing: .03em; }
+.ca-verdict.correct { background: #EAF5EE; color: #1A7A46; border: 1px solid #B8DFC8; }
+.ca-verdict.partial { background: #FFF8E6; color: #9A6700; border: 1px solid #F0D080; }
+.ca-verdict.incorrect { background: #FEF0F0; color: #B91C1C; border: 1px solid #F5C2C2; }
+.ca-section-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--text-3); margin-bottom: 6px; }
+.ca-dispo-row { display: flex; gap: 12px; align-items: flex-start; }
+.ca-dispo-box { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; }
+.ca-dispo-box.wrong { border-color: #F5C2C2; background: #FEF0F0; }
+.ca-dispo-box.right { border-color: #B8DFC8; background: #EAF5EE; }
+.ca-dispo-name { font-size: 12px; font-weight: 700; color: var(--text-1); }
+.ca-dispo-reason { font-size: 11px; color: var(--text-2); margin-top: 2px; }
+.ca-arrow { color: var(--text-3); font-size: 18px; padding-top: 14px; }
+.ca-evidence { display: flex; flex-direction: column; gap: 8px; }
+.ca-quote { background: var(--surface); border-left: 3px solid var(--navy); padding: 8px 12px; font-size: 12.5px; color: var(--text-1); border-radius: 0 4px 4px 0; font-style: italic; line-height: 1.6; }
+.ca-coaching { background: #FFF8E6; border: 1px solid #F0D080; border-radius: 6px; padding: 12px 14px; font-size: 13px; color: #5C3D00; line-height: 1.7; }
+.ca-copy-btn { background: none; border: 1px solid var(--border); border-radius: 4px; padding: 5px 10px; font-size: 11px; color: var(--text-2); cursor: pointer; align-self: flex-end; }
+.ca-copy-btn:hover { border-color: var(--navy); color: var(--navy); }
+.ca-loading { text-align: center; padding: 48px 0; color: var(--text-2); font-size: 13px; }
+.ca-spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--navy); border-radius: 50%; animation: spin .7s linear infinite; vertical-align: middle; margin-right: 8px; }
+@keyframes spin { to { transform: rotate(360deg); } }
 .dial-drop-zone { border: 2px dashed var(--border); border-radius: 8px; padding: 36px; text-align: center; cursor: pointer; transition: all .15s; position: relative; margin-bottom: 20px; }
 .dial-drop-zone:hover, .dial-drop-zone.drag-over { border-color: var(--navy); background: var(--surface); }
 .dial-drop-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
@@ -597,6 +635,7 @@ body {
     <div class="pto-view" id="view-pto"></div>
     <div class="dial-view" id="view-dial"></div>
     <div class="list-view" id="view-list"></div>
+    <div class="call-view" id="view-call"></div>
   </div>
   <aside class="pto-sidebar" id="ptoSidebar"></aside>
 </div>
@@ -1602,6 +1641,9 @@ function buildNav() {
     </button>
     <button class="day-tab list-tab" data-id="list" onclick="switchTo('list')">
       <span class="tlabel">List</span><span class="tdate">Analytics</span><span class="tcount">↑</span>
+    </button>
+    <button class="day-tab call-tab" data-id="call" onclick="switchTo('call')">
+      <span class="tlabel">Call</span><span class="tdate">Analyzer</span><span class="tcount">AI</span>
     </button>`;
   document.getElementById('tabNav').innerHTML = html;
   // Admin button
@@ -1613,13 +1655,14 @@ function buildNav() {
 }
 
 function switchTo(id) {
-  document.querySelectorAll('.day-view,.sum-view,.pto-view,.dial-view,.list-view').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.day-view,.sum-view,.pto-view,.dial-view,.list-view,.call-view').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.day-tab').forEach(b => b.classList.remove('active'));
   document.querySelector(`[data-id="${id}"]`).classList.add('active');
   if (id === 'sum') { document.getElementById('view-sum').classList.add('active'); renderSummary(); }
   else if (id === 'pto') { document.getElementById('view-pto').classList.add('active'); renderPTO(); }
   else if (id === 'dial') { document.getElementById('view-dial').classList.add('active'); renderDialer(); }
   else if (id === 'list') { document.getElementById('view-list').classList.add('active'); renderListTab(); }
+  else if (id === 'call') { document.getElementById('view-call').classList.add('active'); renderCallAnalyzer(); }
   else document.getElementById('view-' + id).classList.add('active');
 }
 
@@ -2079,6 +2122,216 @@ async function listPublish(){
     status.textContent='Error: '+err.message;status.className='dial-pub-status err';
     btn.disabled=false;
   }
+}
+
+// ── Call Analyzer ─────────────────────────────────────────────────────────────
+const CA_DISPOSITIONS = [
+  { key:'meeting_booked', label:'Working in Monday',
+    def:'Real meeting scheduled or handoff created.',
+    reasons:['Meeting scheduled','Other - type note'] },
+  { key:'tier1', label:'Tier 1',
+    def:'Closest-to-money non-meeting call: real progress, decision-maker engaged, proposal/review, or clear commercial next step.',
+    reasons:['Decision-maker engaged','Great Call','Other - type note'] },
+  { key:'positive_blocker', label:'Positive Call - Blocker',
+    def:'Engaged/useful call where the blocker is exactly why it is valuable to call again.',
+    reasons:['Broker / CPA uncomfortable','Current carrier / current solution','Compliance / program skepticism','Doesn\'t Understand / Employees Don\'t Want','Other - type note'] },
+  { key:'follow_up', label:'Follow Up',
+    def:'Receptive or actionable call-again, but shallow/no real progress and no substantive blocker.',
+    reasons:['Requested information','Asked to call later / bad time','Specific callback date','Other - type note'] },
+  { key:'no_connect', label:'No Connect',
+    def:'No real business context: hung up during pitch, transfer then no answer, bad connection.',
+    reasons:['Hung up during pitch','No answer after transfer','Bad connection / dead air','Other - type note'] },
+  { key:'disqualified', label:'Disqualified / DNC',
+    def:'Disqualified, no eligible fit, or explicit removal/do-not-call request.',
+    reasons:['Explicit DNC / remove request','Too small / no employees','No eligible W2 population','Other - type note'] },
+  { key:'data_correction', label:'Data Correction Needed',
+    def:'Record is not ready for normal calling because data is wrong/incomplete.',
+    reasons:['Wrong contact / need decision-maker','Contact no longer at company','Wrong company / corporate owns benefits','Need replacement phone','Other - type note'] },
+];
+
+const CA_DISPO_MODEL = CA_DISPOSITIONS.map(d =>
+  `${d.label}: ${d.def}\n  Reasons: ${d.reasons.join(', ')}`
+).join('\n\n');
+
+function renderCallAnalyzer() {
+  const saved = localStorage.getItem('pc_claude_key');
+  const dispoOpts = CA_DISPOSITIONS.map(d =>
+    `<option value="${d.key}">${d.label}</option>`
+  ).join('');
+  document.getElementById('view-call').innerHTML = `
+  <div style="max-width:960px">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-bottom:16px;padding-bottom:6px;border-bottom:1px solid var(--surface-2)">Call Analyzer</div>
+    <div class="ca-token-bar" style="margin-bottom:18px">
+      <label>Anthropic API Key</label>
+      <input type="password" id="caKeyInput" placeholder="sk-ant-... (saved locally)" value="">
+      <button class="btn-save-token" onclick="caSaveKey()">Save</button>
+      <span id="caKeyStatus" class="${saved?'token-ok':'token-no'}">${saved?'✓ Key saved':'No key — save one to use analyzer'}</span>
+    </div>
+    <div class="ca-wrap">
+      <div class="ca-form">
+        <div>
+          <div class="ca-label">Rep Name (optional)</div>
+          <input class="ca-input" id="caRep" placeholder="e.g. Jack Shimonov">
+        </div>
+        <div>
+          <div class="ca-label">Disposition Rep Selected</div>
+          <select class="ca-select" id="caDispo" onchange="caUpdateReasons()">
+            <option value="">— Select disposition —</option>
+            ${dispoOpts}
+          </select>
+        </div>
+        <div>
+          <div class="ca-label">Reason Rep Selected</div>
+          <select class="ca-select" id="caReason">
+            <option value="">— Select reason —</option>
+          </select>
+        </div>
+        <div>
+          <div class="ca-label">Call Transcript</div>
+          <textarea class="ca-textarea" id="caTranscript" placeholder="Paste the full call transcript here…"></textarea>
+        </div>
+        <button class="ca-analyze-btn" onclick="caAnalyze()">Analyze Call</button>
+      </div>
+      <div class="ca-result" id="caResult">
+        <div class="ca-result-empty">Paste a transcript and select a disposition to analyze.</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function caSaveKey() {
+  const k = document.getElementById('caKeyInput').value.trim();
+  if (!k) { alert('Paste your Anthropic API key first.'); return; }
+  localStorage.setItem('pc_claude_key', k);
+  document.getElementById('caKeyInput').value = '';
+  document.getElementById('caKeyStatus').textContent = '✓ Key saved';
+  document.getElementById('caKeyStatus').className = 'token-ok';
+}
+
+function caUpdateReasons() {
+  const key = document.getElementById('caDispo').value;
+  const d = CA_DISPOSITIONS.find(x => x.key === key);
+  const sel = document.getElementById('caReason');
+  sel.innerHTML = '<option value="">— Select reason —</option>';
+  if (d) d.reasons.forEach(r => {
+    const o = document.createElement('option');
+    o.value = r; o.textContent = r;
+    sel.appendChild(o);
+  });
+}
+
+async function caAnalyze() {
+  const key = localStorage.getItem('pc_claude_key');
+  if (!key) { alert('Save your Anthropic API key first.'); return; }
+  const transcript = document.getElementById('caTranscript').value.trim();
+  if (!transcript) { alert('Paste a call transcript first.'); return; }
+  const dispoKey = document.getElementById('caDispo').value;
+  const dispo = CA_DISPOSITIONS.find(d => d.key === dispoKey);
+  if (!dispo) { alert('Select the disposition the rep picked.'); return; }
+  const reason = document.getElementById('caReason').value || '(none selected)';
+  const rep = document.getElementById('caRep').value.trim() || 'The rep';
+
+  const result = document.getElementById('caResult');
+  result.innerHTML = '<div class="ca-loading"><span class="ca-spinner"></span>Analyzing…</div>';
+
+  const prompt = `You are a call quality analyst for Pinecrest Group, a professional services firm that sells Section 125 / Supplemental Prevention Plans (SPP) to Amazon Delivery Service Partners (DSPs).
+
+You have been given a sales call transcript and the disposition + reason the rep selected in the CRM. Your job is to verify whether the correct disposition was used.
+
+DISPOSITION MODEL:
+${CA_DISPO_MODEL}
+
+TRANSCRIPT:
+${transcript}
+
+REP SELECTED:
+Disposition: ${dispo.label}
+Reason: ${reason}
+
+Analyze the transcript carefully. Determine:
+1. What the CORRECT disposition should be
+2. What the CORRECT reason should be
+3. Whether the rep's selection was correct, partially correct, or incorrect
+4. 2-3 specific quotes from the transcript that support your verdict
+5. A short coaching note for the manager to share with the rep (only if disposition was wrong or partially wrong — skip if correct)
+
+Respond ONLY with valid JSON in this exact format:
+{
+  "verdict": "correct" | "partially_correct" | "incorrect",
+  "correct_disposition": "exact label from the model",
+  "correct_reason": "exact reason label",
+  "explanation": "1-2 sentences explaining your verdict",
+  "evidence": ["quote 1", "quote 2", "quote 3"],
+  "coaching_note": "coaching note text, or empty string if correct"
+}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json',
+        'anthropic-dangerous-allow-browser': 'true',
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1024,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error?.message || 'API error ' + res.status);
+    }
+    const data = await res.json();
+    const text = data.content[0].text;
+    const json = JSON.parse(text.match(/\{[\s\S]*\}/)[0]);
+    caRenderResult(json, dispo.label, reason, rep);
+  } catch(e) {
+    result.innerHTML = `<div class="ca-result-empty" style="color:#B91C1C">Error: ${e.message}</div>`;
+  }
+}
+
+function caRenderResult(r, selectedDispo, selectedReason, rep) {
+  const vClass = r.verdict === 'correct' ? 'correct' : r.verdict === 'partially_correct' ? 'partial' : 'incorrect';
+  const vLabel = r.verdict === 'correct' ? '✓ Correct Disposition' : r.verdict === 'partially_correct' ? '⚠ Partially Correct' : '✗ Incorrect Disposition';
+
+  const dispoChanged = r.correct_disposition !== selectedDispo;
+  const reasonChanged = r.correct_reason !== selectedReason && selectedReason !== '(none selected)';
+
+  const dispoComp = `
+    <div>
+      <div class="ca-section-title">Disposition Review</div>
+      <div class="ca-dispo-row">
+        <div class="ca-dispo-box${dispoChanged?' wrong':''}">
+          <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);margin-bottom:4px">${rep} Selected</div>
+          <div class="ca-dispo-name">${selectedDispo}</div>
+          <div class="ca-dispo-reason">${selectedReason}</div>
+        </div>
+        ${dispoChanged ? '<div class="ca-arrow">→</div><div class="ca-dispo-box right"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);margin-bottom:4px">Should Be</div><div class="ca-dispo-name">' + r.correct_disposition + '</div><div class="ca-dispo-reason">' + r.correct_reason + '</div></div>' : ''}
+      </div>
+    </div>`;
+
+  const evidence = r.evidence && r.evidence.length ? `
+    <div>
+      <div class="ca-section-title">Evidence from Call</div>
+      <div class="ca-evidence">${r.evidence.map(q => `<div class="ca-quote">"${q}"</div>`).join('')}</div>
+    </div>` : '';
+
+  const coaching = r.coaching_note ? `
+    <div>
+      <div class="ca-section-title">Coaching Note</div>
+      <div class="ca-coaching">${r.coaching_note}</div>
+      <button class="ca-copy-btn" onclick="navigator.clipboard.writeText(${JSON.stringify(r.coaching_note)}).then(()=>{this.textContent='✓ Copied';setTimeout(()=>{this.textContent='Copy Note'},1500)})">Copy Note</button>
+    </div>` : '';
+
+  document.getElementById('caResult').innerHTML = `
+    <div class="ca-verdict ${vClass}">${vLabel}</div>
+    <div style="font-size:13px;color:var(--text-2);line-height:1.6">${r.explanation}</div>
+    ${dispoComp}
+    ${evidence}
+    ${coaching}`;
 }
 
 showHome();
