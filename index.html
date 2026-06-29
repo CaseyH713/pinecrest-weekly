@@ -3,7 +3,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <script>(function(){
-  var BUILD='20260629h';
+  var BUILD='20260629i';
   if(sessionStorage.getItem('_b')===BUILD)return;
   sessionStorage.setItem('_b',BUILD);
   fetch(location.pathname+'?_chk='+BUILD,{cache:'no-cache'})
@@ -217,6 +217,45 @@ body {
 .list-tab.active .tcount { background: var(--blue-dim); border-color: var(--blue-border); color: var(--blue); }
 .list-view { display: none; padding: 24px 28px; }
 .list-view.active { display: block; }
+/* Call Analyzer */
+#call-analyzer-view { padding: 24px 28px; max-width: 1100px; }
+.ca-wrap { display: grid; grid-template-columns: 400px 1fr; gap: 24px; align-items: start; }
+.ca-panel { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+.ca-panel-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--text-3); padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.ca-field { display: flex; flex-direction: column; gap: 5px; }
+.ca-field label { font-size: 11px; font-weight: 600; color: var(--text-2); }
+.ca-field input, .ca-field select, .ca-field textarea { border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; font-size: 13px; font-family: inherit; color: var(--text-1); background: #fff; }
+.ca-field input:focus, .ca-field select:focus, .ca-field textarea:focus { outline: none; border-color: var(--navy); }
+.ca-field textarea { resize: vertical; min-height: 260px; line-height: 1.65; }
+.ca-key-bar { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; }
+.ca-key-bar label { font-size: 11px; font-weight: 600; color: var(--text-2); white-space: nowrap; }
+.ca-key-bar input { flex: 1; border: 1px solid var(--border); border-radius: 4px; padding: 5px 8px; font-size: 12px; font-family: inherit; }
+.ca-key-bar input:focus { outline: none; border-color: var(--navy); }
+.ca-analyze-btn { background: var(--navy); color: #fff; border: none; border-radius: 6px; padding: 11px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background .15s; }
+.ca-analyze-btn:hover:not(:disabled) { background: var(--accent); }
+.ca-analyze-btn:disabled { opacity: .45; cursor: default; }
+.ca-result { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 20px; min-height: 220px; display: flex; flex-direction: column; gap: 16px; }
+.ca-result-empty { color: var(--text-3); font-size: 13px; text-align: center; padding: 40px 0; line-height: 1.7; margin: auto; }
+.ca-verdict { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 6px; font-size: 13px; font-weight: 700; letter-spacing: .03em; align-self: flex-start; }
+.ca-verdict.correct   { background: #EAF5EE; color: #1A7A46; border: 1px solid #B8DFC8; }
+.ca-verdict.partial   { background: #FFF8E6; color: #9A6700; border: 1px solid #F0D080; }
+.ca-verdict.incorrect { background: #FEF0F0; color: #B91C1C; border: 1px solid #F5C2C2; }
+.ca-sec-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--text-3); margin-bottom: 7px; }
+.ca-dispo-row { display: flex; gap: 12px; align-items: stretch; }
+.ca-dispo-box { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 11px 13px; }
+.ca-dispo-box.wrong { border-color: #F5C2C2; background: #FEF0F0; }
+.ca-dispo-box.right { border-color: #B8DFC8; background: #EAF5EE; }
+.ca-dispo-eyebrow { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--text-3); margin-bottom: 4px; }
+.ca-dispo-name { font-size: 13px; font-weight: 700; color: var(--text-1); }
+.ca-dispo-reason { font-size: 11px; color: var(--text-2); margin-top: 3px; }
+.ca-dispo-arrow { color: var(--text-3); font-size: 20px; display: flex; align-items: center; padding: 0 4px; }
+.ca-evidence { display: flex; flex-direction: column; gap: 8px; }
+.ca-quote { background: var(--surface); border-left: 3px solid var(--navy); padding: 9px 12px; font-size: 12.5px; color: var(--text-1); border-radius: 0 5px 5px 0; font-style: italic; line-height: 1.65; }
+.ca-coaching { background: #FFF8E6; border: 1px solid #F0D080; border-radius: 6px; padding: 12px 14px; font-size: 13px; color: #5C3D00; line-height: 1.75; }
+.ca-copy-btn { background: none; border: 1px solid var(--border); border-radius: 4px; padding: 5px 12px; font-size: 11px; color: var(--text-2); cursor: pointer; align-self: flex-end; }
+.ca-copy-btn:hover { border-color: var(--navy); color: var(--navy); }
+.ca-loading { display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--text-2); font-size: 13px; padding: 40px 0; margin: auto; }
+.ca-spinner { width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--navy); border-radius: 50%; animation: spin .7s linear infinite; flex-shrink: 0; }
 .call-tab.active { color: var(--navy); border-bottom-color: var(--navy); }
 .call-tab.active .tcount { background: var(--surface); border-color: var(--border); color: var(--navy); }
 .call-view { display: none; padding: 24px 28px; }
@@ -605,8 +644,9 @@ body {
 </div>
 
 <div id="home-view"></div>
+<div id="call-analyzer-view" style="display:none"></div>
 <div class="back-nav" id="backNav" style="display:none">
-  <button class="back-nav-btn" onclick="showHome()">← All Weeks</button>
+  <button class="back-nav-btn" id="backNavBtn" onclick="_backFn()">← Home</button>
   <span class="back-nav-sep">·</span>
   <span class="back-nav-label" id="backNavLabel"></span>
 </div>
@@ -1544,8 +1584,42 @@ function weekPtoCount(wk) {
     return d && Object.values(d).some(h => h > 0);
   }).length;
 }
-function renderHome() {
-  const order = ['w29','w22']; // newest first
+let _backFn = showHome;
+
+// Level 0 — Tool picker
+function showHome() {
+  document.getElementById('home-view').style.display = 'flex';
+  document.getElementById('call-analyzer-view').style.display = 'none';
+  document.getElementById('backNav').style.display = 'none';
+  document.getElementById('tabNav').style.display = 'none';
+  document.getElementById('pageWrap').style.display = 'none';
+  document.getElementById('headerRight').style.display = 'none';
+  document.getElementById('headerMeta').textContent = 'Pinecrest Hub';
+  document.getElementById('home-view').innerHTML = `
+    <div class="home-inner">
+      <div class="home-heading">Select a Tool</div>
+      <div class="week-grid">
+        <div class="week-card current" onclick="showWeekSelector()" style="cursor:pointer">
+          <div class="wc-badge">Active</div>
+          <div class="wc-range">Weekly Breakdown</div>
+          <div class="wc-year">Meeting outcomes · Dialer · Lists</div>
+          <div class="wc-stats"><span>${Object.keys(WEEK_STORE).length} weeks available</span></div>
+          <div class="wc-action">Open →</div>
+        </div>
+        <div class="week-card" onclick="enterCallAnalyzer()" style="cursor:pointer">
+          <div class="wc-range">Call Analyzer</div>
+          <div class="wc-year">AI-powered disposition QA</div>
+          <div class="wc-stats"><span>Paste transcript · Verify disposition</span></div>
+          <div class="wc-action">Open →</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+// Level 1a — Week selector
+function showWeekSelector() {
+  _backFn = showHome;
+  const order = ['w29','w22'];
   const cards = order.map(wk => {
     const w = WEEK_STORE[wk];
     const isCurrent = w.days.some(d => d.key === TODAY);
@@ -1564,24 +1638,44 @@ function renderHome() {
         <div class="wc-action">${isCurrent?'Enter Week →':'View Week →'}</div>
       </div>`;
   }).join('');
-  document.getElementById('home-view').innerHTML =
-    `<div class="home-inner"><div class="home-heading">Select a Week</div><div class="week-grid">${cards}</div></div>`;
-}
-function showHome() {
   document.getElementById('home-view').style.display = 'flex';
-  document.getElementById('backNav').style.display = 'none';
+  document.getElementById('call-analyzer-view').style.display = 'none';
+  document.getElementById('backNav').style.display = 'flex';
   document.getElementById('tabNav').style.display = 'none';
   document.getElementById('pageWrap').style.display = 'none';
   document.getElementById('headerRight').style.display = 'none';
-  document.getElementById('headerMeta').textContent = 'Weekly Dashboard';
-  renderHome();
+  document.getElementById('headerMeta').textContent = 'Weekly Breakdown';
+  document.getElementById('backNavBtn').textContent = '← Home';
+  document.getElementById('backNavLabel').textContent = 'Select a Week';
+  document.getElementById('home-view').innerHTML =
+    `<div class="home-inner"><div class="home-heading">Select a Week</div><div class="week-grid">${cards}</div></div>`;
 }
-function enterWeek(wk) {
+
+// Level 1b — Call Analyzer
+function enterCallAnalyzer() {
+  _backFn = showHome;
   document.getElementById('home-view').style.display = 'none';
+  document.getElementById('call-analyzer-view').style.display = 'block';
+  document.getElementById('backNav').style.display = 'flex';
+  document.getElementById('tabNav').style.display = 'none';
+  document.getElementById('pageWrap').style.display = 'none';
+  document.getElementById('headerRight').style.display = 'none';
+  document.getElementById('headerMeta').textContent = 'Call Analyzer';
+  document.getElementById('backNavBtn').textContent = '← Home';
+  document.getElementById('backNavLabel').textContent = 'Disposition QA';
+  renderCallAnalyzer();
+}
+
+// Level 2 — Inside a week
+function enterWeek(wk) {
+  _backFn = showWeekSelector;
+  document.getElementById('home-view').style.display = 'none';
+  document.getElementById('call-analyzer-view').style.display = 'none';
   document.getElementById('backNav').style.display = 'flex';
   document.getElementById('tabNav').style.display = '';
   document.getElementById('pageWrap').style.display = '';
   document.getElementById('headerRight').style.display = '';
+  document.getElementById('backNavBtn').textContent = '← All Weeks';
   document.getElementById('backNavLabel').textContent = WEEK_STORE[wk].range;
   switchWeek(wk);
 }
@@ -2328,6 +2422,164 @@ function caRenderResult(r, selectedDispo, selectedReason, rep) {
     ${dispoComp}
     ${evidence}
     ${coaching}`;
+}
+
+// ── Call Analyzer ────────────────────────────────────────────────────────────
+const CA_DISPOSITIONS = [
+  { key:'meeting_booked', label:'Working in Monday',
+    def:'Real meeting scheduled or handoff created.',
+    reasons:['Meeting scheduled','Other - type note'] },
+  { key:'tier1', label:'Tier 1',
+    def:'Closest-to-money non-meeting call: real progress, decision-maker engaged, proposal/review, or clear commercial next step.',
+    reasons:['Decision-maker engaged','Great Call','Other - type note'] },
+  { key:'positive_blocker', label:'Positive Call - Blocker',
+    def:'Engaged/useful call where the blocker is exactly why it is valuable to call again.',
+    reasons:["Broker / CPA uncomfortable","Current carrier / current solution","Compliance / program skepticism","Doesn't Understand / Employees Don't Want","Other - type note"] },
+  { key:'follow_up', label:'Follow Up',
+    def:'Receptive or actionable call-again, but shallow/no real progress and no substantive blocker.',
+    reasons:['Requested information','Asked to call later / bad time','Specific callback date','Other - type note'] },
+  { key:'no_connect', label:'No Connect',
+    def:'No real business context: hung up during pitch, transfer then no answer, bad connection.',
+    reasons:['Hung up during pitch','No answer after transfer','Bad connection / dead air','Other - type note'] },
+  { key:'disqualified', label:'Disqualified / DNC',
+    def:'Disqualified, no eligible fit, or explicit removal/do-not-call request.',
+    reasons:['Explicit DNC / remove request','Too small / no employees','No eligible W2 population','Other - type note'] },
+  { key:'data_correction', label:'Data Correction Needed',
+    def:'Record is not ready for normal calling because data is wrong/incomplete.',
+    reasons:['Wrong contact / need decision-maker','Contact no longer at company','Wrong company / corporate owns benefits','Need replacement phone','Other - type note'] },
+];
+const CA_DISPO_MODEL = CA_DISPOSITIONS.map(d =>
+  `${d.label}: ${d.def}\n  Reasons: ${d.reasons.join(', ')}`
+).join('\n\n');
+
+function renderCallAnalyzer() {
+  const saved = localStorage.getItem('pc_claude_key');
+  const dispoOpts = CA_DISPOSITIONS.map(d =>
+    `<option value="${d.key}">${d.label}</option>`).join('');
+  document.getElementById('call-analyzer-view').innerHTML = `
+    <div style="margin-bottom:18px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);padding-bottom:10px;border-bottom:1px solid var(--border)">Call Analyzer — Disposition QA</div>
+    <div class="ca-key-bar" style="margin-bottom:18px;max-width:860px">
+      <label>Anthropic API Key</label>
+      <input type="password" id="caKeyInput" placeholder="sk-ant-… (saved locally)">
+      <button class="btn-save-token" onclick="caSaveKey()">Save</button>
+      <span id="caKeyStatus" class="${saved?'token-ok':'token-no'}">${saved?'✓ Key saved':'No key — save one to analyze calls'}</span>
+    </div>
+    <div class="ca-wrap">
+      <div class="ca-panel">
+        <div class="ca-panel-title">Call Details</div>
+        <div class="ca-field">
+          <label>Rep Name (optional)</label>
+          <input type="text" id="caRep" placeholder="e.g. Jack Shimonov">
+        </div>
+        <div class="ca-field">
+          <label>Disposition Rep Selected</label>
+          <select id="caDispo" onchange="caUpdateReasons()">
+            <option value="">— Select disposition —</option>${dispoOpts}
+          </select>
+        </div>
+        <div class="ca-field">
+          <label>Reason Rep Selected</label>
+          <select id="caReason">
+            <option value="">— Select reason —</option>
+          </select>
+        </div>
+        <div class="ca-field">
+          <label>Call Transcript</label>
+          <textarea id="caTranscript" placeholder="Paste the full call transcript here…"></textarea>
+        </div>
+        <button class="ca-analyze-btn" id="caBtn" onclick="caAnalyze()">Analyze Call</button>
+      </div>
+      <div class="ca-result" id="caResult">
+        <div class="ca-result-empty">Paste a transcript and select the disposition the rep logged.<br>The AI will verify whether it was correct.</div>
+      </div>
+    </div>`;
+}
+
+function caSaveKey() {
+  const k = document.getElementById('caKeyInput').value.trim();
+  if (!k) { alert('Paste your Anthropic API key first.'); return; }
+  localStorage.setItem('pc_claude_key', k);
+  document.getElementById('caKeyInput').value = '';
+  document.getElementById('caKeyStatus').textContent = '✓ Key saved';
+  document.getElementById('caKeyStatus').className = 'token-ok';
+}
+
+function caUpdateReasons() {
+  const d = CA_DISPOSITIONS.find(x => x.key === document.getElementById('caDispo').value);
+  const sel = document.getElementById('caReason');
+  sel.innerHTML = '<option value="">— Select reason —</option>';
+  if (d) d.reasons.forEach(r => {
+    const o = document.createElement('option'); o.value = r; o.textContent = r; sel.appendChild(o);
+  });
+}
+
+async function caAnalyze() {
+  const key = localStorage.getItem('pc_claude_key');
+  if (!key) { alert('Save your Anthropic API key first.'); return; }
+  const tx = document.getElementById('caTranscript').value.trim();
+  if (!tx) { alert('Paste a call transcript first.'); return; }
+  const dk = document.getElementById('caDispo').value;
+  const dispo = CA_DISPOSITIONS.find(d => d.key === dk);
+  if (!dispo) { alert('Select the disposition the rep logged.'); return; }
+  const reason = document.getElementById('caReason').value || '(none selected)';
+  const rep = document.getElementById('caRep').value.trim() || 'The rep';
+  const result = document.getElementById('caResult');
+  const btn = document.getElementById('caBtn');
+  result.innerHTML = '<div class="ca-loading"><div class="ca-spinner"></div>Analyzing…</div>';
+  btn.disabled = true;
+  const prompt = `You are a call quality analyst for Pinecrest Group, a professional services firm selling Section 125 / Supplemental Prevention Plans (SPP) to Amazon Delivery Service Partners (DSPs).
+
+You have been given a sales call transcript and the disposition + reason the rep logged. Verify whether the correct disposition was used.
+
+DISPOSITION MODEL:
+${CA_DISPO_MODEL}
+
+TRANSCRIPT:
+${tx}
+
+REP LOGGED:
+Disposition: ${dispo.label}
+Reason: ${reason}
+
+Determine the correct disposition, correct reason, verdict (correct/partially_correct/incorrect), 2-3 direct quotes from the transcript supporting your verdict, and a short coaching note if wrong (empty string if correct).
+
+Respond ONLY with valid JSON:
+{"verdict":"correct"|"partially_correct"|"incorrect","correct_disposition":"exact label","correct_reason":"exact reason","explanation":"1-2 sentences","evidence":["q1","q2","q3"],"coaching_note":"text or empty string"}`;
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'x-api-key':key,'anthropic-version':'2023-06-01','content-type':'application/json','anthropic-dangerous-allow-browser':'true'},
+      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1024,messages:[{role:'user',content:prompt}]})
+    });
+    if (!res.ok) { const e=await res.json().catch(()=>({})); throw new Error(e.error?.message||'API error '+res.status); }
+    const data = await res.json();
+    const json = JSON.parse(data.content[0].text.match(/\{[\s\S]*\}/)[0]);
+    caRenderResult(json, dispo.label, reason, rep);
+  } catch(e) {
+    result.innerHTML = `<div style="color:#B91C1C;font-size:13px;padding:20px 0">Error: ${e.message}</div>`;
+  } finally { btn.disabled = false; }
+}
+
+function caRenderResult(r, selDispo, selReason, rep) {
+  const vClass = r.verdict==='correct'?'correct':r.verdict==='partially_correct'?'partial':'incorrect';
+  const vLabel = r.verdict==='correct'?'✓ Correct Disposition':r.verdict==='partially_correct'?'⚠ Partially Correct':'✗ Incorrect Disposition';
+  const changed = r.correct_disposition !== selDispo;
+  const dispoHtml = `<div>
+    <div class="ca-sec-label">Disposition Review</div>
+    <div class="ca-dispo-row">
+      <div class="ca-dispo-box${changed?' wrong':''}">
+        <div class="ca-dispo-eyebrow">${rep} logged</div>
+        <div class="ca-dispo-name">${selDispo}</div>
+        <div class="ca-dispo-reason">${selReason}</div>
+      </div>
+      ${changed?`<div class="ca-dispo-arrow">→</div><div class="ca-dispo-box right"><div class="ca-dispo-eyebrow">Should be</div><div class="ca-dispo-name">${r.correct_disposition}</div><div class="ca-dispo-reason">${r.correct_reason}</div></div>`:''}
+    </div></div>`;
+  const evidHtml = r.evidence&&r.evidence.length?`<div><div class="ca-sec-label">Evidence from Call</div><div class="ca-evidence">${r.evidence.map(q=>`<div class="ca-quote">"${q}"</div>`).join('')}</div></div>`:'';
+  const coachHtml = r.coaching_note?`<div><div class="ca-sec-label">Coaching Note</div><div class="ca-coaching">${r.coaching_note}</div><button class="ca-copy-btn" onclick="navigator.clipboard.writeText(${JSON.stringify(r.coaching_note)}).then(()=>{this.textContent='✓ Copied';setTimeout(()=>this.textContent='Copy Note',1500)})">Copy Note</button></div>`:'';
+  document.getElementById('caResult').innerHTML = `
+    <div class="ca-verdict ${vClass}">${vLabel}</div>
+    <div style="font-size:13px;color:var(--text-2);line-height:1.7">${r.explanation}</div>
+    ${dispoHtml}${evidHtml}${coachHtml}`;
 }
 
 showHome();
