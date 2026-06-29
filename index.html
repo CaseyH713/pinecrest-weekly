@@ -1415,7 +1415,11 @@ const DIAL_CANONICAL=[
 ];
 function dialGetEntry(name){
   const n=name.toLowerCase().trim();
-  return DIAL_CANONICAL.find(e=>e.aliases.some(a=>n.includes(a)||a.includes(n)))||null;
+  const esc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  return DIAL_CANONICAL.find(e=>e.aliases.some(a=>{
+    if(n===a)return true;
+    return new RegExp('\\b'+esc(a)+'\\b').test(n)||new RegExp('\\b'+esc(n)+'\\b').test(a);
+  }))||null;
 }
 const DIAL_FIELDS=[
   {key:'rep',      label:'Team Member Name'},
