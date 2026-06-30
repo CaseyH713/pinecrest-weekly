@@ -3,7 +3,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <script>(function(){
-  var BUILD='20260629j';
+  var BUILD='20260630a';
   if(sessionStorage.getItem('_b')===BUILD)return;
   sessionStorage.setItem('_b',BUILD);
   fetch(location.pathname+'?_chk='+BUILD,{cache:'no-cache'})
@@ -11,6 +11,7 @@
     .then(function(h){if(h.indexOf(BUILD)===-1)location.replace(location.pathname+'?_t='+Date.now());})
     .catch(function(){});
 }());</script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 :root {
   --bg:          #FFFFFF;
@@ -1072,7 +1073,11 @@ function renderDay(dayKey) {
   const outToday = ptoOutOnDay(dayKey);
   let html = `<div class="day-export-header">
     <span class="day-export-title">${dayObj.label} &mdash; ${dayObj.date}</span>
-    <button class="btn-export-day" onclick="exportDay('${dayKey}')">↓ Export Day</button>
+
+    <div style="display:flex;gap:8px;align-items:center">
+      ${gcalIsConnected()&&gcalGetMap()?`<button class="btn-gcal-sync" onclick="gcalRefreshCurrentDay('${dayKey}')">↻ Sync</button>`:''}
+      <button class="btn-export-day" onclick="exportDay('${dayKey}')">↓ Export Day</button>
+    </div>
   </div>`;
   html += outToday.length
     ? `<div class="pto-day-banner">
@@ -1301,7 +1306,17 @@ let _exportDoc = '';
 const RPT_CSS = `*{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1A2550;background:#fff;padding:48px 56px;font-size:13px;line-height:1.5;max-width:960px;margin:0 auto}.rpt-header{display:flex;align-items:center;gap:20px;padding-bottom:22px;border-bottom:2px solid #2B3990;margin-bottom:28px}.rpt-header img{height:34px}.rpt-title{font-size:20px;font-weight:700;color:#2B3990}.rpt-meta-line{font-size:12px;color:#8A9BBF;margin-top:2px}.rpt-stats{display:flex;gap:12px;margin-bottom:28px}.rpt-stat{flex:1;border:1px solid #C8D4EC;border-radius:8px;padding:14px 16px;background:#F4F7FC}.rpt-stat-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#8A9BBF;margin-bottom:4px}.rpt-stat-num{font-size:26px;font-weight:700;color:#2B3990;font-variant-numeric:tabular-nums}.rpt-stat-sub{font-size:11px;color:#8A9BBF;margin-top:2px}.rpt-stat.sh .rpt-stat-num{color:#1A8A4A}.rpt-stat.sn .rpt-stat-num{color:#D94040}.rpt-stat.sr .rpt-stat-num{color:#E8932A}.rpt-stat.sp .rpt-stat-num{color:#7C4DCC}.rpt-section{margin-bottom:32px}.rpt-section h2{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#8A9BBF;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid #E8EEF8}.rpt-table{width:100%;border-collapse:collapse;font-size:12px}.rpt-table th{background:#E8EEF8;text-align:left;padding:8px 10px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#4A5E8A}.rpt-table td{padding:9px 10px;border-bottom:1px solid #E8EEF8;vertical-align:middle}.rpt-table tr:last-child td{border-bottom:none}.rpt-footer{margin-top:40px;padding-top:14px;border-top:1px solid #E8EEF8;font-size:10px;color:#8A9BBF;display:flex;justify-content:space-between}@media print{body{padding:20px}.rpt-section{break-inside:avoid}.rpt-stats{break-inside:avoid}}`;
 
 function buildStandaloneDoc(content, title) {
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>${title}</title><style>${RPT_CSS}</style></head><body>${content}</body></html>`;
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>${title}</title><style>${RPT_CSS}
+/* ── Google Calendar bar ── */
+.gcal-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:10px 14px;margin-bottom:16px;font-size:12px;color:var(--text-2);}
+.gcal-bar.ok{background:#EAF5EE;border-color:#B8DFC8;color:#1A3D2B;}
+.gcal-bar.warn{background:#FEF3C7;border-color:#FCD34D;color:#78350F;}
+.gcal-bar span{flex:1;}
+.gcal-bar-btn{background:var(--navy);color:#fff;border:none;border-radius:4px;padding:5px 12px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;}
+.gcal-bar-btn.secondary{background:transparent;border:1px solid currentColor;color:inherit;}
+.btn-gcal-sync{background:transparent;border:1px solid var(--border);border-radius:4px;padding:3px 10px;font-size:11px;color:var(--text-2);cursor:pointer;}
+.btn-gcal-sync:hover{background:var(--surface);}
+.btn-gcal-sync:disabled{opacity:.5;cursor:default;}</style></head><body>${content}</body></html>`;
 }
 function showExportToast(msg) {
   let t = document.getElementById('export-toast');
@@ -1584,6 +1599,189 @@ function weekPtoCount(wk) {
     return d && Object.values(d).some(h => h > 0);
   }).length;
 }
+
+// ── Google Calendar Integration ──────────────────────────────────────────────
+const GCAL_CLIENT_ID = '303228217453-j6dric3ibsjhtpgecafclnrdcsgci66b.apps.googleusercontent.com';
+const GCAL_SCOPE = 'https://www.googleapis.com/auth/calendar.readonly';
+const GCAL_MAP_KEY = 'pc_gcal_map';
+let _gcalTC = null;
+
+function gcalGetToken() {
+  const t = sessionStorage.getItem('pc_gcal_tok');
+  const exp = Number(sessionStorage.getItem('pc_gcal_exp') || 0);
+  return (t && Date.now() < exp) ? t : null;
+}
+function gcalSaveTok(r) {
+  sessionStorage.setItem('pc_gcal_tok', r.access_token);
+  sessionStorage.setItem('pc_gcal_exp', String(Date.now() + (r.expires_in - 60) * 1000));
+}
+function gcalIsConnected() { return !!gcalGetToken(); }
+function gcalGetMap() {
+  try { return JSON.parse(localStorage.getItem(GCAL_MAP_KEY) || 'null'); } catch(e) { return null; }
+}
+function gcalTzISO(dayKey, time) {
+  const off = new Date().getTimezoneOffset();
+  const sign = off > 0 ? '-' : '+';
+  const hh = String(Math.floor(Math.abs(off) / 60)).padStart(2, '0');
+  const mm = String(Math.abs(off) % 60).padStart(2, '0');
+  return dayKey + 'T' + time + sign + hh + ':' + mm;
+}
+
+function gcalConnect(onSuccess) {
+  if (!window.google?.accounts?.oauth2) { setTimeout(() => gcalConnect(onSuccess), 300); return; }
+  if (!_gcalTC) {
+    _gcalTC = google.accounts.oauth2.initTokenClient({
+      client_id: GCAL_CLIENT_ID,
+      scope: GCAL_SCOPE,
+      callback: (resp) => {
+        if (resp.error) { alert('Google sign-in failed: ' + resp.error); return; }
+        gcalSaveTok(resp);
+        if (onSuccess) onSuccess();
+      }
+    });
+  }
+  if (gcalGetToken()) { if (onSuccess) onSuccess(); return; }
+  _gcalTC.requestAccessToken();
+}
+
+async function gcalListCalendars() {
+  const r = await fetch('https://www.googleapis.com/calendar/v3/users/me/calendarList?maxResults=100', {
+    headers: { Authorization: 'Bearer ' + gcalGetToken() }
+  });
+  return (await r.json()).items || [];
+}
+
+async function gcalFetchEventsRaw(calId, isoMin, isoMax) {
+  const p = new URLSearchParams({ timeMin: isoMin, timeMax: isoMax, singleEvents: 'true', orderBy: 'startTime', maxResults: '100' });
+  const r = await fetch(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calId)}/events?${p}`, {
+    headers: { Authorization: 'Bearer ' + gcalGetToken() }
+  });
+  return await r.json();
+}
+
+function gcalFmt(dt) {
+  const h = dt.getHours(), m = dt.getMinutes(), ap = h < 12 ? 'AM' : 'PM';
+  return (h % 12 || 12) + ':' + String(m).padStart(2, '0') + ' ' + ap;
+}
+
+function gcalEvtToMtg(ev, rep) {
+  if (!ev.start?.dateTime || ev.status === 'cancelled') return null;
+  const s = new Date(ev.start.dateTime), e = new Date(ev.end.dateTime);
+  const durMin = Math.round((e - s) / 60000);
+  const dur = durMin >= 60 ? (durMin % 60 === 0 ? durMin/60 + ' hr' : (durMin/60).toFixed(1) + ' hr') : durMin + ' min';
+  let meet = '';
+  if (ev.conferenceData?.entryPoints) {
+    const ve = ev.conferenceData.entryPoints.find(ep => ep.entryPointType === 'video');
+    if (ve) meet = ve.uri;
+  }
+  if (!meet && ev.location && /^https?:|zoom\.|meet\.google/i.test(ev.location)) meet = ev.location;
+  let contact = '';
+  if (ev.attendees) {
+    const ext = ev.attendees.find(a => !a.self && !a.organizer &&
+      !/(pinecrestgroup|pinecrestconsulting|innovativebps)\.com/.test(a.email || ''));
+    if (ext) contact = ext.email;
+  }
+  const dayKey = s.toISOString().slice(0, 10);
+  return { id: 'gc-' + rep[0] + '-' + ev.id.replace(/[^a-z0-9]/gi,'').slice(-12), ts: gcalFmt(s), te: gcalFmt(e), dur, title: ev.summary || '(No title)', contact, org: '', meet, _dayKey: dayKey };
+}
+
+async function gcalFetchWeek(wk) {
+  const map = gcalGetMap();
+  if (!map || !gcalGetToken()) return false;
+  const w = WEEK_STORE[wk];
+  const isoMin = gcalTzISO(w.days[0].key, '00:00:00');
+  const isoMax = gcalTzISO(w.days[w.days.length - 1].key, '23:59:59');
+  try {
+    await Promise.all(['judah','matt','ben'].map(async rep => {
+      const calId = map[rep]; if (!calId) return;
+      const data = await gcalFetchEventsRaw(calId, isoMin, isoMax);
+      const evts = (data.items || []).map(ev => gcalEvtToMtg(ev, rep)).filter(Boolean);
+      w.days.forEach(d => { w.meetings[rep][d.key] = []; });
+      evts.forEach(ev => { if (w.meetings[rep][ev._dayKey] !== undefined) w.meetings[rep][ev._dayKey].push(ev); });
+    }));
+    return true;
+  } catch(e) { console.error('gcalFetchWeek', e); return false; }
+}
+
+async function gcalRefreshCurrentDay(dayKey) {
+  if (!gcalIsConnected() || !gcalGetMap()) { gcalConnect(() => gcalRefreshCurrentDay(dayKey)); return; }
+  const map = gcalGetMap();
+  const w = WEEK_STORE[ACTIVE_WEEK];
+  const isoMin = gcalTzISO(dayKey, '00:00:00');
+  const isoMax = gcalTzISO(dayKey, '23:59:59');
+  const btn = document.querySelector('.btn-gcal-sync');
+  if (btn) { btn.textContent = '↻ Syncing…'; btn.disabled = true; }
+  try {
+    await Promise.all(['judah','matt','ben'].map(async rep => {
+      const calId = map[rep]; if (!calId) return;
+      const data = await gcalFetchEventsRaw(calId, isoMin, isoMax);
+      w.meetings[rep][dayKey] = (data.items || []).map(ev => gcalEvtToMtg(ev, rep)).filter(ev => ev && ev._dayKey === dayKey);
+    }));
+    MEETINGS = w.meetings;
+    renderDay(dayKey);
+    buildNav();
+    renderSummary();
+    renderHeaderStats();
+  } catch(err) { alert('Sync failed: ' + err.message); }
+  finally {
+    const b = document.querySelector('.btn-gcal-sync');
+    if (b) { b.textContent = '↻ Sync'; b.disabled = false; }
+  }
+}
+
+async function gcalShowSetup() {
+  let ov = document.getElementById('gcal-overlay');
+  if (ov) ov.remove();
+  ov = document.createElement('div');
+  ov.id = 'gcal-overlay';
+  ov.style.cssText = 'position:fixed;inset:0;background:rgba(26,37,80,.55);z-index:9999;display:flex;align-items:center;justify-content:center';
+  ov.innerHTML = `<div style="background:#fff;border-radius:10px;padding:32px;max-width:460px;width:90%;box-shadow:0 12px 48px rgba(26,37,80,.25)">
+    <div style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px">Map Google Calendars</div>
+    <div style="font-size:13px;color:var(--text-2);margin-bottom:22px">Choose which calendar belongs to each MD. Saved once, used every week.</div>
+    <div id="gcal-setup-body" style="font-size:13px">Loading calendars…</div>
+    <div style="margin-top:24px;display:flex;gap:10px;justify-content:flex-end">
+      <button onclick="document.getElementById('gcal-overlay').remove()" style="padding:8px 18px;border:1px solid var(--border);border-radius:5px;background:#fff;cursor:pointer;font-size:13px">Cancel</button>
+      <button onclick="gcalSaveSetup()" style="padding:8px 18px;background:var(--navy);color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:13px;font-weight:600">Save</button>
+    </div>
+  </div>`;
+  document.body.appendChild(ov);
+  const existing = gcalGetMap() || {};
+  try {
+    const cals = await gcalListCalendars();
+    const row = (rep, label) =>
+      `<div style="margin-bottom:14px"><label style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-bottom:5px">${label}</label>` +
+      `<select id="gcal-sel-${rep}" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:5px;font-size:13px">` +
+      `<option value="">&#8212; Select calendar &#8212;</option>` +
+      cals.map(c => `<option value="${c.id}"${existing[rep]===c.id?' selected':''}>${c.summary}</option>`).join('') +
+      `</select></div>`;
+    document.getElementById('gcal-setup-body').innerHTML = row('judah','Judah Azose') + row('matt','Matt Levy') + row('ben','Ben Tabaria');
+  } catch(e) {
+    document.getElementById('gcal-setup-body').innerHTML = '<div style="color:#B91C1C;font-size:13px">Failed to load calendars: ' + e.message + '</div>';
+  }
+}
+
+function gcalSaveSetup() {
+  const map = {
+    judah: document.getElementById('gcal-sel-judah')?.value || '',
+    matt:  document.getElementById('gcal-sel-matt')?.value  || '',
+    ben:   document.getElementById('gcal-sel-ben')?.value   || '',
+  };
+  if (!map.judah && !map.matt && !map.ben) { alert('Select at least one calendar.'); return; }
+  localStorage.setItem(GCAL_MAP_KEY, JSON.stringify(map));
+  document.getElementById('gcal-overlay')?.remove();
+  showWeekSelector();
+}
+
+function gcalStatusBar() {
+  const connected = gcalIsConnected(), mapped = !!gcalGetMap();
+  if (connected && mapped) return '<div class="gcal-bar ok"><span>✓ Google Calendar connected</span><button class="gcal-bar-btn secondary" onclick="gcalShowSetup()">Edit Mapping</button><button class="gcal-bar-btn secondary" onclick="gcalDisconnect()" style="margin-left:6px">Disconnect</button></div>';
+  if (connected) return '<div class="gcal-bar warn"><span>Calendar connected — map your MDs to enable auto-sync</span><button class="gcal-bar-btn" onclick="gcalShowSetup()">Set Up</button></div>';
+  return '<div class="gcal-bar"><span>Connect Google Calendar to auto-sync meetings each week</span><button class="gcal-bar-btn" onclick="gcalConnectAndSetup()">Connect Calendar</button></div>';
+}
+
+function gcalConnectAndSetup() { gcalConnect(gcalShowSetup); }
+function gcalDisconnect() { sessionStorage.removeItem('pc_gcal_tok'); sessionStorage.removeItem('pc_gcal_exp'); showWeekSelector(); }
+
 var _backFn = showHome;
 
 // Level 0 — Tool picker
@@ -1648,7 +1846,7 @@ function showWeekSelector() {
   document.getElementById('backNavBtn').textContent = '← Home';
   document.getElementById('backNavLabel').textContent = 'Select a Week';
   document.getElementById('home-view').innerHTML =
-    `<div class="home-inner"><div class="home-heading">Select a Week</div><div class="week-grid">${cards}</div></div>`;
+    `<div class="home-inner">${gcalStatusBar()}<div class="home-heading">Select a Week</div><div class="week-grid">${cards}</div></div>`;
 }
 
 // Level 1b — Call Analyzer
@@ -1678,6 +1876,10 @@ function enterWeek(wk) {
   document.getElementById('backNavBtn').textContent = '← All Weeks';
   document.getElementById('backNavLabel').textContent = WEEK_STORE[wk].range;
   switchWeek(wk);
+  if (gcalIsConnected() && gcalGetMap()) {
+    const _wk = wk;
+    gcalFetchWeek(_wk).then(ok => { if (ok && ACTIVE_WEEK === _wk) { MEETINGS = WEEK_STORE[_wk].meetings; for (const d of DAYS) renderDay(d.key); buildNav(); renderSummary(); renderHeaderStats(); } });
+  }
 }
 
 // ── Week switching ───────────────────────────────────────────────────────────
