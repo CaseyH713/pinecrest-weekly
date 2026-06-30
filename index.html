@@ -3,7 +3,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <script>(function(){
-  var BUILD='20260630a';
+  var BUILD='20260630b';
   if(sessionStorage.getItem('_b')===BUILD)return;
   sessionStorage.setItem('_b',BUILD);
   fetch(location.pathname+'?_chk='+BUILD,{cache:'no-cache'})
@@ -1075,7 +1075,7 @@ function renderDay(dayKey) {
     <span class="day-export-title">${dayObj.label} &mdash; ${dayObj.date}</span>
 
     <div style="display:flex;gap:8px;align-items:center">
-      ${gcalIsConnected()&&gcalGetMap()?`<button class="btn-gcal-sync" onclick="gcalRefreshCurrentDay('${dayKey}')">↻ Sync</button>`:''}
+      ${gcalIsConnected()?`<button class="btn-gcal-sync" onclick="gcalRefreshCurrentDay('${dayKey}')">↻ Sync</button>`:''}
       <button class="btn-export-day" onclick="exportDay('${dayKey}')">↓ Export Day</button>
     </div>
   </div>`;
@@ -1603,7 +1603,7 @@ function weekPtoCount(wk) {
 // ── Google Calendar Integration ──────────────────────────────────────────────
 const GCAL_CLIENT_ID = '303228217453-j6dric3ibsjhtpgecafclnrdcsgci66b.apps.googleusercontent.com';
 const GCAL_SCOPE = 'https://www.googleapis.com/auth/calendar.readonly';
-const GCAL_MAP_KEY = 'pc_gcal_map';
+const GCAL_MD_IDS = { judah: 'judah@pinecrestgroup.com', matt: 'matt@pinecrestgroup.com', ben: 'ben@pinecrestgroup.com' };
 let _gcalTC = null;
 
 function gcalGetToken() {
@@ -1616,9 +1616,7 @@ function gcalSaveTok(r) {
   sessionStorage.setItem('pc_gcal_exp', String(Date.now() + (r.expires_in - 60) * 1000));
 }
 function gcalIsConnected() { return !!gcalGetToken(); }
-function gcalGetMap() {
-  try { return JSON.parse(localStorage.getItem(GCAL_MAP_KEY) || 'null'); } catch(e) { return null; }
-}
+function gcalGetGustoId() { return localStorage.getItem('pc_gcal_gusto') || ''; }
 function gcalTzISO(dayKey, time) {
   const off = new Date().getTimezoneOffset();
   const sign = off > 0 ? '-' : '+';
@@ -1657,6 +1655,15 @@ async function gcalListCalendars() {
   return items;
 }
 
+async function gcalAutoDetectGusto() {
+  try {
+    const cals = await gcalListCalendars();
+    const gusto = cals.find(c => (c.summary || '').toLowerCase().includes('gusto'));
+    if (gusto) { localStorage.setItem('pc_gcal_gusto', gusto.id); return true; }
+  } catch(e) { console.error('gcalAutoDetectGusto', e); }
+  return false;
+}
+
 async function gcalFetchEventsRaw(calId, isoMin, isoMax) {
   const p = new URLSearchParams({ timeMin: isoMin, timeMax: isoMax, singleEvents: 'true', orderBy: 'startTime', maxResults: '100' });
   const r = await fetch(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calId)}/events?${p}`, {
@@ -1691,27 +1698,60 @@ function gcalEvtToMtg(ev, rep) {
   return { id: 'gc-' + rep[0] + '-' + ev.id.replace(/[^a-z0-9]/gi,'').slice(-12), ts: gcalFmt(s), te: gcalFmt(e), dur, title: ev.summary || '(No title)', contact, org: '', meet, _dayKey: dayKey };
 }
 
+function gcalMatchPerson(title) {
+  const t = title.toLowerCase();
+  for (const p of SALES_TEAM) {
+    const n = p.name.toLowerCase();
+    const parts = n.split(' ');
+    if (t.includes(n)) return p.name;
+    if (parts.length >= 2 && t.includes(parts[0]) && t.includes(parts[parts.length - 1])) return p.name;
+  }
+  return null;
+}
+
+async function gcalFetchPTO(wk, gustoId, isoMin, isoMax) {
+  try {
+    const data = await gcalFetchEventsRaw(gustoId, isoMin, isoMax);
+    const w = WEEK_STORE[wk];
+    const newPto = {};
+    for (const ev of (data.items || [])) {
+      if (ev.status === 'cancelled' || !ev.start?.date) continue;
+      const person = gcalMatchPerson(ev.summary || '');
+      if (!person) continue;
+      if (!newPto[person]) newPto[person] = {};
+      const start = new Date(ev.start.date + 'T12:00:00');
+      const end = new Date(ev.end.date + 'T12:00:00');
+      for (let d = new Date(start); d < end; d.setDate(d.getDate() + 1)) {
+        const dk = d.toISOString().slice(0, 10);
+        if (w.days.some(wd => wd.key === dk)) newPto[person][dk] = 8;
+      }
+    }
+    w.pto = newPto;
+    PTO_DATA = w.pto;
+  } catch(e) { console.error('gcalFetchPTO', e); }
+}
+
 async function gcalFetchWeek(wk) {
-  const map = gcalGetMap();
-  if (!map || !gcalGetToken()) return false;
+  if (!gcalGetToken()) return false;
   const w = WEEK_STORE[wk];
   const isoMin = gcalTzISO(w.days[0].key, '00:00:00');
   const isoMax = gcalTzISO(w.days[w.days.length - 1].key, '23:59:59');
   try {
     await Promise.all(['judah','matt','ben'].map(async rep => {
-      const calId = map[rep]; if (!calId) return;
+      const calId = GCAL_MD_IDS[rep];
       const data = await gcalFetchEventsRaw(calId, isoMin, isoMax);
       const evts = (data.items || []).map(ev => gcalEvtToMtg(ev, rep)).filter(Boolean);
       w.days.forEach(d => { w.meetings[rep][d.key] = []; });
       evts.forEach(ev => { if (w.meetings[rep][ev._dayKey] !== undefined) w.meetings[rep][ev._dayKey].push(ev); });
     }));
+    const gustoId = gcalGetGustoId();
+    if (gustoId) await gcalFetchPTO(wk, gustoId, isoMin, isoMax);
     return true;
   } catch(e) { console.error('gcalFetchWeek', e); return false; }
 }
 
 async function gcalRefreshCurrentDay(dayKey) {
-  if (!gcalIsConnected() || !gcalGetMap()) { gcalConnect(() => gcalRefreshCurrentDay(dayKey)); return; }
-  const map = gcalGetMap();
+  if (!gcalIsConnected()) { gcalConnect(() => gcalRefreshCurrentDay(dayKey)); return; }
   const w = WEEK_STORE[ACTIVE_WEEK];
   const isoMin = gcalTzISO(dayKey, '00:00:00');
   const isoMax = gcalTzISO(dayKey, '23:59:59');
@@ -1719,14 +1759,17 @@ async function gcalRefreshCurrentDay(dayKey) {
   if (btn) { btn.textContent = '↻ Syncing…'; btn.disabled = true; }
   try {
     await Promise.all(['judah','matt','ben'].map(async rep => {
-      const calId = map[rep]; if (!calId) return;
-      const data = await gcalFetchEventsRaw(calId, isoMin, isoMax);
+      const data = await gcalFetchEventsRaw(GCAL_MD_IDS[rep], isoMin, isoMax);
       w.meetings[rep][dayKey] = (data.items || []).map(ev => gcalEvtToMtg(ev, rep)).filter(ev => ev && ev._dayKey === dayKey);
     }));
+    const gustoId = gcalGetGustoId();
+    if (gustoId) await gcalFetchPTO(ACTIVE_WEEK, gustoId, isoMin, isoMax);
     MEETINGS = w.meetings;
     renderDay(dayKey);
     buildNav();
     renderSummary();
+    renderPTO();
+    renderPTOSidebar();
     renderHeaderStats();
   } catch(err) { alert('Sync failed: ' + err.message); }
   finally {
@@ -1742,8 +1785,8 @@ async function gcalShowSetup() {
   ov.id = 'gcal-overlay';
   ov.style.cssText = 'position:fixed;inset:0;background:rgba(26,37,80,.55);z-index:9999;display:flex;align-items:center;justify-content:center';
   ov.innerHTML = `<div style="background:#fff;border-radius:10px;padding:32px;max-width:460px;width:90%;box-shadow:0 12px 48px rgba(26,37,80,.25)">
-    <div style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px">Map Google Calendars</div>
-    <div style="font-size:13px;color:var(--text-2);margin-bottom:22px">Choose which calendar belongs to each MD. Saved once, used every week.</div>
+    <div style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px">Gusto PTO Calendar</div>
+    <div style="font-size:13px;color:var(--text-2);margin-bottom:22px">MD calendars are pre-configured. Select the Gusto calendar for PTO sync.</div>
     <div id="gcal-setup-body" style="font-size:13px">Loading calendars…</div>
     <div style="margin-top:24px;display:flex;gap:10px;justify-content:flex-end">
       <button onclick="document.getElementById('gcal-overlay').remove()" style="padding:8px 18px;border:1px solid var(--border);border-radius:5px;background:#fff;cursor:pointer;font-size:13px">Cancel</button>
@@ -1751,42 +1794,43 @@ async function gcalShowSetup() {
     </div>
   </div>`;
   document.body.appendChild(ov);
-  const existing = gcalGetMap() || {};
+  const currentGusto = gcalGetGustoId();
   try {
     const cals = await gcalListCalendars();
-    const row = (rep, label) =>
-      `<div style="margin-bottom:14px"><label style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-bottom:5px">${label}</label>` +
-      `<select id="gcal-sel-${rep}" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:5px;font-size:13px">` +
+    document.getElementById('gcal-setup-body').innerHTML =
+      `<div style="margin-bottom:14px"><label style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-bottom:5px">PTO Calendar (Gusto)</label>` +
+      `<select id="gcal-sel-gusto" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:5px;font-size:13px">` +
       `<option value="">&#8212; Select calendar &#8212;</option>` +
-      cals.map(c => `<option value="${c.id}"${existing[rep]===c.id?' selected':''}>${c.summary}</option>`).join('') +
+      cals.map(c => `<option value="${c.id}"${currentGusto===c.id?' selected':''}>${c.summary}</option>`).join('') +
       `</select></div>`;
-    document.getElementById('gcal-setup-body').innerHTML = row('judah','Judah Azose') + row('matt','Matt Levy') + row('ben','Ben Tabaria');
   } catch(e) {
     document.getElementById('gcal-setup-body').innerHTML = '<div style="color:#B91C1C;font-size:13px">Failed to load calendars: ' + e.message + '</div>';
   }
 }
 
 function gcalSaveSetup() {
-  const map = {
-    judah: document.getElementById('gcal-sel-judah')?.value || '',
-    matt:  document.getElementById('gcal-sel-matt')?.value  || '',
-    ben:   document.getElementById('gcal-sel-ben')?.value   || '',
-  };
-  if (!map.judah && !map.matt && !map.ben) { alert('Select at least one calendar.'); return; }
-  localStorage.setItem(GCAL_MAP_KEY, JSON.stringify(map));
+  const gustoId = document.getElementById('gcal-sel-gusto')?.value || '';
+  if (!gustoId) { alert('Select the Gusto PTO calendar.'); return; }
+  localStorage.setItem('pc_gcal_gusto', gustoId);
   document.getElementById('gcal-overlay')?.remove();
   showWeekSelector();
 }
 
 function gcalStatusBar() {
-  const connected = gcalIsConnected(), mapped = !!gcalGetMap();
-  if (connected && mapped) return '<div class="gcal-bar ok"><span>✓ Google Calendar connected</span><button class="gcal-bar-btn secondary" onclick="gcalShowSetup()">Edit Mapping</button><button class="gcal-bar-btn secondary" onclick="gcalDisconnect()" style="margin-left:6px">Disconnect</button></div>';
-  if (connected) return '<div class="gcal-bar warn"><span>Calendar connected — map your MDs to enable auto-sync</span><button class="gcal-bar-btn" onclick="gcalShowSetup()">Set Up</button></div>';
-  return '<div class="gcal-bar"><span>Connect Google Calendar to auto-sync meetings each week</span><button class="gcal-bar-btn" onclick="gcalConnectAndSetup()">Connect Calendar</button></div>';
+  const connected = gcalIsConnected(), hasGusto = !!gcalGetGustoId();
+  if (connected && hasGusto) return '<div class="gcal-bar ok"><span>✓ Google Calendar connected — meetings + PTO synced</span><button class="gcal-bar-btn secondary" onclick="gcalShowSetup()">Edit Gusto</button><button class="gcal-bar-btn secondary" onclick="gcalDisconnect()" style="margin-left:6px">Disconnect</button></div>';
+  if (connected) return '<div class="gcal-bar warn"><span>Connected — select Gusto calendar to enable PTO sync</span><button class="gcal-bar-btn" onclick="gcalShowSetup()">Select Gusto</button></div>';
+  return '<div class="gcal-bar"><span>Connect Google Calendar to auto-sync meetings and PTO each week</span><button class="gcal-bar-btn" onclick="gcalConnectAndSetup()">Connect Calendar</button></div>';
 }
 
-function gcalConnectAndSetup() { gcalConnect(gcalShowSetup); }
+function gcalConnectAndSetup() {
+  gcalConnect(async () => {
+    await gcalAutoDetectGusto();
+    showWeekSelector();
+  });
+}
 function gcalDisconnect() { sessionStorage.removeItem('pc_gcal_tok'); sessionStorage.removeItem('pc_gcal_exp'); showWeekSelector(); }
+
 
 var _backFn = showHome;
 
@@ -1882,7 +1926,7 @@ function enterWeek(wk) {
   document.getElementById('backNavBtn').textContent = '← All Weeks';
   document.getElementById('backNavLabel').textContent = WEEK_STORE[wk].range;
   switchWeek(wk);
-  if (gcalIsConnected() && gcalGetMap()) {
+  if (gcalIsConnected()) {
     const _wk = wk;
     gcalFetchWeek(_wk).then(ok => { if (ok && ACTIVE_WEEK === _wk) { MEETINGS = WEEK_STORE[_wk].meetings; for (const d of DAYS) renderDay(d.key); buildNav(); renderSummary(); renderHeaderStats(); } });
   }
