@@ -1600,6 +1600,7 @@ function weekPtoCount(wk) {
   }).length;
 }
 
+
 // ── Google Calendar Integration ──────────────────────────────────────────────
 const GCAL_CLIENT_ID = '303228217453-j6dric3ibsjhtpgecafclnrdcsgci66b.apps.googleusercontent.com';
 const GCAL_SCOPE = 'https://www.googleapis.com/auth/calendar.readonly';
@@ -1830,8 +1831,6 @@ function gcalConnectAndSetup() {
   });
 }
 function gcalDisconnect() { sessionStorage.removeItem('pc_gcal_tok'); sessionStorage.removeItem('pc_gcal_exp'); showWeekSelector(); }
-
-
 var _backFn = showHome;
 
 // Level 0 — Tool picker
