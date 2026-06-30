@@ -626,6 +626,18 @@ body {
 }
 .week-card.current .wc-action { color: var(--navy); }
 @media (max-width: 520px) { .week-grid { grid-template-columns: 1fr; } }
+/* ── Google Calendar bar & sync button ── */
+.gcal-bar { display:flex; align-items:center; gap:12px; flex-wrap:wrap; background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:10px 14px; margin-bottom:16px; font-size:12px; color:var(--text-2); }
+.gcal-bar.ok { background:#EAF5EE; border-color:#B8DFC8; color:#1A3D2B; }
+.gcal-bar.warn { background:#FEF3C7; border-color:#FCD34D; color:#78350F; }
+.gcal-bar span { flex:1; font-size:12px; font-weight:500; }
+.gcal-bar-btn { background:var(--navy); color:#fff; border:none; border-radius:6px; padding:5px 13px; font-size:11px; font-weight:600; cursor:pointer; white-space:nowrap; }
+.gcal-bar-btn:hover { background:#1e2a6e; }
+.gcal-bar-btn.secondary { background:transparent; border:1px solid currentColor; color:inherit; }
+.gcal-bar-btn.secondary:hover { background:rgba(0,0,0,.06); }
+.btn-gcal-sync { background:transparent; color:var(--navy); border:1px solid var(--navy-border); border-radius:6px; padding:4px 11px; font-size:11px; font-weight:600; cursor:pointer; white-space:nowrap; }
+.btn-gcal-sync:hover { background:var(--navy-dim); }
+.btn-gcal-sync:disabled { opacity:.5; cursor:default; }
 </style>
 
 <div class="header">
@@ -1680,6 +1692,7 @@ function gcalFmt(dt) {
 
 function gcalEvtToMtg(ev, rep) {
   if (!ev.start?.dateTime || ev.status === 'cancelled') return null;
+  if (!/\bspp\b|payroll[\s\-]?tax|\bwc\b/i.test(ev.summary || '')) return null;
   const s = new Date(ev.start.dateTime), e = new Date(ev.end.dateTime);
   const durMin = Math.round((e - s) / 60000);
   const dur = durMin >= 60 ? (durMin % 60 === 0 ? durMin/60 + ' hr' : (durMin/60).toFixed(1) + ' hr') : durMin + ' min';
