@@ -3,7 +3,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <script>(function(){
-  var BUILD='20260630c';
+  var BUILD='20260630d';
   if(sessionStorage.getItem('_b')===BUILD)return;
   sessionStorage.setItem('_b',BUILD);
   fetch(location.pathname+'?_chk='+BUILD,{cache:'no-cache'})
@@ -1832,9 +1832,16 @@ function gcalSaveSetup() {
 
 function gcalStatusBar() {
   const connected = gcalIsConnected(), hasGusto = !!gcalGetGustoId();
-  if (connected && hasGusto) return '<div class="gcal-bar ok"><span>✓ Google Calendar connected — meetings + PTO synced</span><button class="gcal-bar-btn secondary" onclick="gcalShowSetup()">Edit Gusto</button><button class="gcal-bar-btn secondary" onclick="gcalDisconnect()" style="margin-left:6px">Disconnect</button></div>';
-  if (connected) return '<div class="gcal-bar warn"><span>Connected — select Gusto calendar to enable PTO sync</span><button class="gcal-bar-btn" onclick="gcalShowSetup()">Select Gusto</button></div>';
+  if (connected && hasGusto) return '<div class="gcal-bar ok"><span>✓ Google Calendar connected — meetings + PTO synced</span><button class="gcal-bar-btn secondary" onclick="gcalSyncAll()">↻ Sync</button><button class="gcal-bar-btn secondary" onclick="gcalShowSetup()">Edit Gusto</button><button class="gcal-bar-btn secondary" onclick="gcalDisconnect()" style="margin-left:6px">Disconnect</button></div>';
+  if (connected) return '<div class="gcal-bar warn"><span>Connected — select Gusto calendar to enable PTO sync</span><button class="gcal-bar-btn" onclick="gcalSyncAll()">↻ Sync</button><button class="gcal-bar-btn" onclick="gcalShowSetup()">Select Gusto</button></div>';
   return '<div class="gcal-bar"><span>Connect Google Calendar to auto-sync meetings and PTO each week</span><button class="gcal-bar-btn" onclick="gcalConnectAndSetup()">Connect Calendar</button></div>';
+}
+
+async function gcalSyncAll() {
+  const bar = document.querySelector('.gcal-bar span');
+  if (bar) bar.textContent = '↻ Syncing…';
+  try { await Promise.all(Object.keys(WEEK_STORE).map(wk => gcalFetchWeek(wk))); } catch(e) { console.error('gcalSyncAll', e); }
+  showWeekSelector();
 }
 
 function gcalConnectAndSetup() {
@@ -1877,7 +1884,8 @@ function showHome() {
 }
 
 // Level 1a — Week selector
-function showWeekSelector() {
+async function showWeekSelector() {
+  if (gcalIsConnected() && !gcalGetGustoId()) await gcalAutoDetectGusto();
   _backFn = showHome;
   const order = ['w29','w22'];
   const cards = order.map(wk => {
