@@ -1243,7 +1243,7 @@ function renderPTO() {
 <p class="pto-level-head">${levelNames[lvl]}</p>
 <div class="tbl-wrap">
 <table class="pto-tbl">
-  <thead><tr><th>Name</th><th>Mon 22</th><th>Tue 23</th><th>Wed 24</th><th>Thu 25</th><th>Fri 26</th><th>Total</th></tr></thead>
+  <thead><tr><th>Name</th>${DAYS.map(d=>`<th>${d.label}</th>`).join('')}<th>Total</th></tr></thead>
   <tbody>${rows}</tbody>
 </table>
 </div>`;
@@ -1948,7 +1948,7 @@ function enterWeek(wk) {
   switchWeek(wk);
   if (gcalIsConnected()) {
     const _wk = wk;
-    gcalFetchWeek(_wk).then(ok => { if (ok && ACTIVE_WEEK === _wk) { MEETINGS = WEEK_STORE[_wk].meetings; for (const d of DAYS) renderDay(d.key); buildNav(); renderSummary(); renderHeaderStats(); } });
+    gcalFetchWeek(_wk).then(ok => { if (ok && ACTIVE_WEEK === _wk) { MEETINGS = WEEK_STORE[_wk].meetings; PTO_DATA = WEEK_STORE[_wk].pto; for (const d of DAYS) renderDay(d.key); buildNav(); renderSummary(); renderHeaderStats(); renderPTO(); renderPTOSidebar(); } });
   }
 }
 
