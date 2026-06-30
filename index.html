@@ -1645,10 +1645,16 @@ function gcalConnect(onSuccess) {
 }
 
 async function gcalListCalendars() {
-  const r = await fetch('https://www.googleapis.com/calendar/v3/users/me/calendarList?maxResults=100', {
-    headers: { Authorization: 'Bearer ' + gcalGetToken() }
-  });
-  return (await r.json()).items || [];
+  const items = [];
+  let pageToken = '';
+  do {
+    const url = 'https://www.googleapis.com/calendar/v3/users/me/calendarList?maxResults=250&showHidden=true&showDeleted=false' + (pageToken ? '&pageToken=' + pageToken : '');
+    const r = await fetch(url, { headers: { Authorization: 'Bearer ' + gcalGetToken() } });
+    const d = await r.json();
+    (d.items || []).forEach(c => items.push(c));
+    pageToken = d.nextPageToken || '';
+  } while (pageToken);
+  return items;
 }
 
 async function gcalFetchEventsRaw(calId, isoMin, isoMax) {
