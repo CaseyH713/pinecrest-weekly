@@ -3,7 +3,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <script>(function(){
-  var BUILD='20260701a';
+  var BUILD='20260701b';
   if(sessionStorage.getItem('_b')===BUILD)return;
   sessionStorage.setItem('_b',BUILD);
   fetch(location.pathname+'?_chk='+BUILD,{cache:'no-cache'})
@@ -1627,6 +1627,7 @@ function gcalGetToken() {
 function gcalSaveTok(r) {
   localStorage.setItem('pc_gcal_tok', r.access_token);
   localStorage.setItem('pc_gcal_exp', String(Date.now() + (r.expires_in - 60) * 1000));
+  gcalStartAutoRefresh();
 }
 function gcalIsConnected() { return !!gcalGetToken(); }
 function gcalGetGustoId() { return localStorage.getItem('pc_gcal_gusto') || ''; }
@@ -1850,7 +1851,21 @@ function gcalConnectAndSetup() {
     showWeekSelector();
   });
 }
-function gcalDisconnect() { localStorage.removeItem('pc_gcal_tok'); localStorage.removeItem('pc_gcal_exp'); showWeekSelector(); }
+function gcalDisconnect() { localStorage.removeItem('pc_gcal_tok'); localStorage.removeItem('pc_gcal_exp'); clearInterval(_gcalRefreshTimer); _gcalRefreshTimer = null; showWeekSelector(); }
+
+let _gcalRefreshTimer = null;
+function gcalStartAutoRefresh() {
+  if (_gcalRefreshTimer) return;
+  _gcalRefreshTimer = setInterval(() => {
+    const exp = Number(localStorage.getItem('pc_gcal_exp') || 0);
+    const msLeft = exp - Date.now();
+    if (msLeft <= 0 || msLeft > 10 * 60 * 1000) return; // not connected or plenty of time left
+    if (!window.google?.accounts?.oauth2) return;
+    if (!_gcalTC) return;
+    _gcalTC.requestAccessToken({ prompt: '' }); // silent re-auth, no popup
+  }, 5 * 60 * 1000);
+}
+function gcalStopAutoRefresh() { clearInterval(_gcalRefreshTimer); _gcalRefreshTimer = null; }
 var _backFn = showHome;
 
 // Level 0 — Tool picker
@@ -2645,4 +2660,5 @@ function caRenderResult(r, selDispo, selReason, rep) {
 }
 
 showHome();
+if (gcalIsConnected()) gcalStartAutoRefresh();
 </script>
