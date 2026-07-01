@@ -3,7 +3,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <script>(function(){
-  var BUILD='20260701b';
+  var BUILD='20260701c';
   if(sessionStorage.getItem('_b')===BUILD)return;
   sessionStorage.setItem('_b',BUILD);
   fetch(location.pathname+'?_chk='+BUILD,{cache:'no-cache'})
@@ -1728,7 +1728,7 @@ async function gcalFetchPTO(wk, gustoId, isoMin, isoMax) {
   try {
     const data = await gcalFetchEventsRaw(gustoId, isoMin, isoMax);
     const w = WEEK_STORE[wk];
-    const newPto = {};
+    const newPto = JSON.parse(JSON.stringify(w.pto)); // start from static seed so manual entries survive
     for (const ev of (data.items || [])) {
       if (ev.status === 'cancelled' || !ev.start?.date) continue;
       const person = gcalMatchPerson(ev.summary || '');
