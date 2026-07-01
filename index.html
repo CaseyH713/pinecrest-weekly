@@ -3,7 +3,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <script>(function(){
-  var BUILD='20260630e';
+  var BUILD='20260701a';
   if(sessionStorage.getItem('_b')===BUILD)return;
   sessionStorage.setItem('_b',BUILD);
   fetch(location.pathname+'?_chk='+BUILD,{cache:'no-cache'})
@@ -1620,13 +1620,13 @@ const GCAL_MD_IDS = { judah: 'judah@pinecrestgroup.com', matt: 'matt@pinecrestgr
 let _gcalTC = null;
 
 function gcalGetToken() {
-  const t = sessionStorage.getItem('pc_gcal_tok');
-  const exp = Number(sessionStorage.getItem('pc_gcal_exp') || 0);
+  const t = localStorage.getItem('pc_gcal_tok');
+  const exp = Number(localStorage.getItem('pc_gcal_exp') || 0);
   return (t && Date.now() < exp) ? t : null;
 }
 function gcalSaveTok(r) {
-  sessionStorage.setItem('pc_gcal_tok', r.access_token);
-  sessionStorage.setItem('pc_gcal_exp', String(Date.now() + (r.expires_in - 60) * 1000));
+  localStorage.setItem('pc_gcal_tok', r.access_token);
+  localStorage.setItem('pc_gcal_exp', String(Date.now() + (r.expires_in - 60) * 1000));
 }
 function gcalIsConnected() { return !!gcalGetToken(); }
 function gcalGetGustoId() { return localStorage.getItem('pc_gcal_gusto') || ''; }
@@ -1850,7 +1850,7 @@ function gcalConnectAndSetup() {
     showWeekSelector();
   });
 }
-function gcalDisconnect() { sessionStorage.removeItem('pc_gcal_tok'); sessionStorage.removeItem('pc_gcal_exp'); showWeekSelector(); }
+function gcalDisconnect() { localStorage.removeItem('pc_gcal_tok'); localStorage.removeItem('pc_gcal_exp'); showWeekSelector(); }
 var _backFn = showHome;
 
 // Level 0 — Tool picker
