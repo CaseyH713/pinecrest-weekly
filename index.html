@@ -3,7 +3,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <script>(function(){
-  var BUILD='20260701c';
+  var BUILD='20260706a';
   if(sessionStorage.getItem('_b')===BUILD)return;
   sessionStorage.setItem('_b',BUILD);
   fetch(location.pathname+'?_chk='+BUILD,{cache:'no-cache'})
@@ -693,7 +693,7 @@ body {
 </div>
 
 <script>
-const TODAY = '2026-06-29';
+const TODAY = '2026-07-06';
 const STORE_KEY = 'pc_spp_tracker_v1';
 
 const _DAYS_W22 = [
@@ -954,13 +954,27 @@ const _MEETINGS_W29 = {
     '2026-07-03': [],
   },
 };
+const _DAYS_W6 = [
+  { key: '2026-07-06', id: 'mon', label: 'Mon', date: 'Jul 6' },
+  { key: '2026-07-07', id: 'tue', label: 'Tue', date: 'Jul 7' },
+  { key: '2026-07-08', id: 'wed', label: 'Wed', date: 'Jul 8' },
+  { key: '2026-07-09', id: 'thu', label: 'Thu', date: 'Jul 9' },
+  { key: '2026-07-10', id: 'fri', label: 'Fri', date: 'Jul 10' },
+];
+const _MEETINGS_W6 = {
+  judah: { '2026-07-06': [], '2026-07-07': [], '2026-07-08': [], '2026-07-09': [], '2026-07-10': [] },
+  matt:  { '2026-07-06': [], '2026-07-07': [], '2026-07-08': [], '2026-07-09': [], '2026-07-10': [] },
+  ben:   { '2026-07-06': [], '2026-07-07': [], '2026-07-08': [], '2026-07-09': [], '2026-07-10': [] },
+};
+const _PTO_W6 = {};
 const WEEK_STORE = {
+  w6:  { label:'Jul 6–10', range:'Jul 6 – 10, 2026', days:_DAYS_W6, meetings:_MEETINGS_W6, pto:_PTO_W6, seed:{} },
   w22: { label:'Jun 22–26', range:'Jun 22 – 26, 2026', days:_DAYS_W22, meetings:_MEETINGS_W22, pto:_PTO_W22, seed:_SEED_W22 },
   w29: { label:'Jun 29–Jul 3', range:'Jun 29 – Jul 3, 2026', days:_DAYS_W29, meetings:_MEETINGS_W29, pto:_PTO_W29, seed:{} },
 };
 let DAYS, MEETINGS, PTO_DATA;
 let _storeKey = STORE_KEY;
-let ACTIVE_WEEK = 'w29';
+let ACTIVE_WEEK = 'w6';
 let state = {};
 function save() { localStorage.setItem(_storeKey, JSON.stringify(state)); }
 // Per-week storage key helpers — w22 uses legacy (pre-week-specific) filenames
@@ -1595,8 +1609,9 @@ function exportDay(dayKey) {
 function weekMeetingCount(wk) {
   const w = WEEK_STORE[wk];
   const sk = wk === 'w22' ? STORE_KEY : STORE_KEY + '_' + wk;
-  let saved = {};
-  try { saved = JSON.parse(localStorage.getItem(sk) || '{}'); } catch(e) {}
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem(sk)); } catch(e) { saved = null; }
+  if (!saved) saved = w.seed || {}; // match switchWeek()'s own fallback, or counts drift from the in-week total
   let n = 0;
   for (const rep of REPS)
     for (const day of w.days)
@@ -1693,7 +1708,7 @@ function gcalFmt(dt) {
 
 function gcalEvtToMtg(ev, rep) {
   if (!ev.start?.dateTime || ev.status === 'cancelled') return null;
-  if (!/\bspp\b|payroll[\s\-]?tax|\bwc\b/i.test(ev.summary || '')) return null;
+  if (!/\bspp\b|supplemental\s+prevention|payroll[\s\-]?tax|section\s*125|workers?[\s\-]?comp(ensation)?|\bwc\b|group\s+health|tax\s+savings/i.test(ev.summary || '')) return null;
   const s = new Date(ev.start.dateTime), e = new Date(ev.end.dateTime);
   const durMin = Math.round((e - s) / 60000);
   const dur = durMin >= 60 ? (durMin % 60 === 0 ? durMin/60 + ' hr' : (durMin/60).toFixed(1) + ' hr') : durMin + ' min';
@@ -1902,7 +1917,7 @@ function showHome() {
 async function showWeekSelector() {
   if (gcalIsConnected() && !gcalGetGustoId()) await gcalAutoDetectGusto();
   _backFn = showHome;
-  const order = ['w29','w22'];
+  const order = ['w6','w29','w22'];
   const cards = order.map(wk => {
     const w = WEEK_STORE[wk];
     const isCurrent = w.days.some(d => d.key === TODAY);
@@ -1961,10 +1976,8 @@ function enterWeek(wk) {
   document.getElementById('backNavBtn').textContent = '← All Weeks';
   document.getElementById('backNavLabel').textContent = WEEK_STORE[wk].range;
   switchWeek(wk);
-  if (gcalIsConnected()) {
-    const _wk = wk;
-    gcalFetchWeek(_wk).then(ok => { if (ok && ACTIVE_WEEK === _wk) { MEETINGS = WEEK_STORE[_wk].meetings; PTO_DATA = WEEK_STORE[_wk].pto; for (const d of DAYS) renderDay(d.key); buildNav(); renderSummary(); renderHeaderStats(); renderPTO(); renderPTOSidebar(); } });
-  }
+  // Note: calendar sync is manual-only (Sync buttons) — entering a week must never
+  // silently overwrite already-tracked meetings/outcomes with a live GCal pull.
 }
 
 // ── Week switching ───────────────────────────────────────────────────────────
