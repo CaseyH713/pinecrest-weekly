@@ -652,6 +652,7 @@ body {
   </div>
   <div class="header-right" id="headerRight" style="display:none">
     <div id="headerStats" style="display:contents"></div>
+    <div id="lockBar" style="display:contents"></div>
     <button class="btn-export" onclick="exportSnapshot()">↓ Export Week</button>
   </div>
 </div>
@@ -976,6 +977,8 @@ let DAYS, MEETINGS, PTO_DATA;
 let _storeKey = STORE_KEY;
 let ACTIVE_WEEK = 'w6';
 let state = {};
+let WEEK_LOCKED = false;
+function outcomesJsonFile(wk) { return 'outcomes-' + wk + '.json'; }
 function save() { localStorage.setItem(_storeKey, JSON.stringify(state)); }
 // Per-week storage key helpers — w22 uses legacy (pre-week-specific) filenames
 function dialKey(p){ return ACTIVE_WEEK==='w22'?'pc_dial_mapped_'+p:'pc_dial_mapped_'+p+'_'+ACTIVE_WEEK; }
@@ -985,15 +988,18 @@ function listJsonFile(){ return ACTIVE_WEEK==='w22'?'list-analytics.json':'list-
 function getOutcome(id) { return state[id] || { status: null, notes: '', excluded: false }; }
 
 function setStatus(id, status) {
+  if (WEEK_LOCKED) { alert('This week is locked. Click Unlock (in the header) to make changes.'); return; }
   const cur = getOutcome(id);
   state[id] = { ...cur, status: cur.status === status ? null : status };
   save(); refreshCard(id); renderSummary(); renderHeaderStats();
 }
 function setNotes(id, notes) {
+  if (WEEK_LOCKED) { alert('This week is locked. Click Unlock (in the header) to make changes.'); return; }
   state[id] = { ...getOutcome(id), notes };
   save(); renderSummary();
 }
 function toggleExclude(id) {
+  if (WEEK_LOCKED) { alert('This week is locked. Click Unlock (in the header) to make changes.'); return; }
   const cur = getOutcome(id);
   state[id] = { ...cur, excluded: !cur.excluded };
   save(); refreshCard(id); renderSummary(); renderHeaderStats();
@@ -1044,7 +1050,7 @@ function meetingCard(m) {
   const s = o.status;
   const meetLink = m.meet ? `<span class="chip"><a href="${m.meet}" target="_blank">📹 Meet</a></span>` : '';
   return `
-<div class="mc${cardClass(m.id)}" id="card-${m.id}">
+<div class="mc${cardClass(m.id)}" id="card-${m.id}"${WEEK_LOCKED ? ' style="opacity:.6;pointer-events:none"' : ''}>
   <div class="mc-top">
     <div class="mc-time">
       <div class="tstart">${m.ts}</div>
@@ -1325,6 +1331,7 @@ function renderHeaderStats() {
     <div class="week-stat ws-ns"><span class="n">${n}</span> ✗</div>
     <div class="week-stat ws-rs"><span class="n">${r}</span> ↻</div>
     <div class="week-stat ws-pto"><span class="n">${ptoOut}</span> out</div>`;
+  renderLockBar();
 }
 
 // ── Export helpers ──────────────────────────────────────────────────────────
@@ -1987,12 +1994,14 @@ function switchWeek(wk) {
   DAYS = w.days;
   MEETINGS = w.meetings;
   PTO_DATA = w.pto;
+  WEEK_LOCKED = false;
   _storeKey = wk === 'w22' ? STORE_KEY : STORE_KEY + '_' + wk;
   try {
     const stored = localStorage.getItem(_storeKey);
     state = stored ? JSON.parse(stored) : JSON.parse(JSON.stringify(w.seed));
     if (!stored) localStorage.setItem(_storeKey, JSON.stringify(state));
   } catch(e) { state = JSON.parse(JSON.stringify(w.seed)); }
+  loadSharedOutcomes(wk); // async — upgrades local view to the shared/locked version once it lands
   // Update header / export label
   const hm = document.getElementById('headerMeta');
   if (hm) hm.textContent = w.range;
@@ -2011,6 +2020,68 @@ function switchWeek(wk) {
   // Default: go to today's day if in this week, otherwise first day
   const todayD = DAYS.find(d => d.key === TODAY);
   switchTo(todayD ? todayD.id : DAYS[0].id);
+}
+
+// ── Shared outcome save / lock ────────────────────────────────────────────────
+// State is local (per-browser) by default. Saving publishes it to a JSON file in
+// the repo so everyone loading the page sees the same outcomes; locking makes it
+// read-only for everyone until an admin explicitly unlocks it.
+async function loadSharedOutcomes(wk) {
+  try {
+    const r = await fetch('https://caseyh713.github.io/pinecrest-weekly/' + outcomesJsonFile(wk) + '?_t=' + Date.now());
+    if (!r.ok) { if (ACTIVE_WEEK === wk) renderLockBar(); return; }
+    const shared = await r.json();
+    if (ACTIVE_WEEK !== wk) return; // user already navigated away
+    state = shared.state || {};
+    WEEK_LOCKED = !!shared.locked;
+    localStorage.setItem(_storeKey, JSON.stringify(state));
+    for (const d of DAYS) renderDay(d.key);
+    renderSummary(); renderHeaderStats(); renderPTO(); renderPTOSidebar();
+  } catch(e) {
+    console.error('loadSharedOutcomes', e);
+    if (ACTIVE_WEEK === wk) renderLockBar();
+  }
+}
+
+async function saveAndLock() {
+  const token = localStorage.getItem('pc_gh_token');
+  if (!token) { alert('Save your GitHub token first (Dialer or List tab has the token field).'); return; }
+  if (!confirm('Save and lock ' + WEEK_STORE[ACTIVE_WEEK].label + '? Everyone will see this data, and no one (including you) can edit it until it\'s unlocked.')) return;
+  const bar = document.getElementById('lockBar');
+  if (bar) bar.innerHTML = '<span class="week-stat">Saving…</span>';
+  try {
+    await ghWriteJson(token, outcomesJsonFile(ACTIVE_WEEK), { locked: true, state, savedAt: new Date().toISOString() });
+    WEEK_LOCKED = true;
+  } catch(err) {
+    alert('Save failed: ' + err.message);
+  }
+  renderLockBar();
+}
+
+async function unlockWeek() {
+  const token = localStorage.getItem('pc_gh_token');
+  if (!token) { alert('Save your GitHub token first (Dialer or List tab has the token field).'); return; }
+  if (!confirm('Unlock ' + WEEK_STORE[ACTIVE_WEEK].label + ' for editing? It will show as unlocked for everyone until saved again.')) return;
+  const bar = document.getElementById('lockBar');
+  if (bar) bar.innerHTML = '<span class="week-stat">Unlocking…</span>';
+  try {
+    await ghWriteJson(token, outcomesJsonFile(ACTIVE_WEEK), { locked: false, state, savedAt: new Date().toISOString() });
+    WEEK_LOCKED = false;
+  } catch(err) {
+    alert('Unlock failed: ' + err.message);
+  }
+  renderLockBar();
+}
+
+function renderLockBar() {
+  const bar = document.getElementById('lockBar');
+  if (!bar) return;
+  if (WEEK_LOCKED) {
+    bar.innerHTML = '<span class="week-stat" style="color:var(--danger)">🔒 Locked</span>' +
+      (isAdmin() ? '<button class="btn-export-day" onclick="unlockWeek()">Unlock</button>' : '');
+  } else {
+    bar.innerHTML = isAdmin() ? '<button class="btn-export-day" onclick="saveAndLock()">💾 Save &amp; Lock</button>' : '';
+  }
 }
 
 // ── Nav ─────────────────────────────────────────────────────────────────────
