@@ -3,7 +3,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <script>(function(){
-  var BUILD='20260706a';
+  var BUILD='20260708a';
   if(sessionStorage.getItem('_b')===BUILD)return;
   sessionStorage.setItem('_b',BUILD);
   fetch(location.pathname+'?_chk='+BUILD,{cache:'no-cache'})
@@ -972,10 +972,139 @@ const _DAYS_W6 = [
   { key: '2026-07-09', id: 'thu', label: 'Thu', date: 'Jul 9' },
   { key: '2026-07-10', id: 'fri', label: 'Fri', date: 'Jul 10' },
 ];
+// Rebuilt from live Google Calendar 2026-07-08 — the manual-sync design means this
+// is a point-in-time snapshot, not a live feed. Click Sync on the week selector or
+// a day's Sync button to refresh against calendars as they change after this date.
 const _MEETINGS_W6 = {
-  judah: { '2026-07-06': [], '2026-07-07': [], '2026-07-08': [], '2026-07-09': [], '2026-07-10': [] },
-  matt:  { '2026-07-06': [], '2026-07-07': [], '2026-07-08': [], '2026-07-09': [], '2026-07-10': [] },
-  ben:   { '2026-07-06': [], '2026-07-07': [], '2026-07-08': [], '2026-07-09': [], '2026-07-10': [] },
+  judah: {
+    '2026-07-06': [],
+    '2026-07-07': [
+      { id:'j-0707-1', ts:'3:30 PM', te:'4:00 PM', dur:'30 min',
+        title:'Supplemental Prevention Program X Deepland',
+        contact:'deeplandllc@gmail.com', org:'Deepland',
+        meet:'https://meet.google.com/jkv-erbr-jit' },
+    ],
+    '2026-07-08': [
+      { id:'j-0708-1', ts:'9:00 AM', te:'9:30 AM', dur:'30 min',
+        title:'Payroll Tax Savings - Follow Up',
+        contact:'mparker@blackrockres.com', org:'Blackrock Resources',
+        meet:'https://meet.google.com/ysj-ztym-pov' },
+      { id:'j-0708-2', ts:'12:00 PM', te:'12:30 PM', dur:'30 min',
+        title:'David x Carol Payroll Tax Savings Plan',
+        contact:'carol@shawharbor.com', org:'Shaw Harbor',
+        meet:'https://meet.google.com/dgn-vgfy-pvb' },
+    ],
+    '2026-07-09': [
+      { id:'j-0709-1', ts:'3:30 PM', te:'4:00 PM', dur:'30 min',
+        title:'Natalia/Tim Nash — Section 125 Proposal/Discussion',
+        contact:'timothy.nash@nafelogistics.com', org:'NAFE Logistics',
+        meet:'https://meet.google.com/zgj-yspv-exq' },
+    ],
+    '2026-07-10': [],
+  },
+  matt: {
+    '2026-07-06': [
+      { id:'m-0706-1', ts:'9:00 AM', te:'9:30 AM', dur:'30 min',
+        title:'Pinecrest SPP & WC/The Providence House',
+        contact:'kristenk@provhouse.org', org:'The Providence House',
+        meet:'https://meet.google.com/cck-pxcu-vze' },
+      { id:'m-0706-2', ts:'10:30 AM', te:'11:00 AM', dur:'30 min',
+        title:'125 - SPP with Pinecrest - 45k in savings',
+        contact:'natan.haile.2023@gmail.com', org:'',
+        meet:'https://meet.google.com/dak-oxaf-kiz' },
+      { id:'m-0706-3', ts:'2:00 PM', te:'2:30 PM', dur:'30 min',
+        title:'Section 125 Side by side - Clear Logistics',
+        contact:'clearlogisticsil@gmail.com', org:'Clear Logistics',
+        meet:'https://meet.google.com/jof-wumo-trc' },
+      { id:'m-0706-4', ts:'2:30 PM', te:'3:00 PM', dur:'30 min',
+        title:'Mike/Salim Logistics — 125 plans + 25% workers comp savings',
+        contact:'mike@salimlogistics.com', org:'Salim Logistics',
+        meet:'https://meet.google.com/zfc-xvhg-pxp' },
+    ],
+    '2026-07-07': [],
+    '2026-07-08': [
+      { id:'m-0708-1', ts:'12:00 PM', te:'12:30 PM', dur:'30 min',
+        title:'(Pasta) SPP Tax Strategy - A Place at Home',
+        contact:'essa.bangura@aplaceathome.com', org:'A Place at Home',
+        meet:'https://meet.google.com/pmo-miaf-ise' },
+      { id:'m-0708-2', ts:'3:00 PM', te:'3:30 PM', dur:'30 min',
+        title:'Supplemental Prevention Plan X Megan (MD2 International)',
+        contact:'megan.martin@md2.com', org:'MD2 International',
+        meet:'https://meet.google.com/ris-bfrh-npz' },
+    ],
+    '2026-07-09': [
+      { id:'m-0709-1', ts:'10:00 AM', te:'10:30 AM', dur:'30 min',
+        title:'Supplemental Prevention Program X Layne Final Mile (Don)',
+        contact:'donlayne85@outlook.com', org:'Layne Final Mile',
+        meet:'https://meet.google.com/fdm-proo-ovy' },
+      { id:'m-0709-2', ts:'3:30 PM', te:'3:45 PM', dur:'15 min',
+        title:'Pinecrest SPP/MsLisasDanceStudio',
+        contact:'mslisasdancestudio@gmail.com', org:"Ms Lisa's Dance Studio",
+        meet:'https://meet.google.com/swy-vqrx-ddf' },
+      { id:'m-0709-3', ts:'3:30 PM', te:'4:00 PM', dur:'30 min',
+        title:'Supplemental Prevention Program X Gina (GRT Logistics)',
+        contact:'gtempledsp@gmail.com', org:'GRT Logistics',
+        meet:'https://meet.google.com/keq-gohp-nzw' },
+    ],
+    '2026-07-10': [
+      { id:'m-0710-1', ts:'9:30 AM', te:'10:00 AM', dur:'30 min',
+        title:'SPP Call - C-Vision',
+        contact:'vpereddy@c-visionit.com', org:'C-Vision IT',
+        meet:'https://meet.google.com/upt-nrss-ujc' },
+      { id:'m-0710-2', ts:'2:00 PM', te:'2:15 PM', dur:'15 min',
+        title:'SPP Follow Up X Redline Couriers',
+        contact:'jason@redlinecourier.com', org:'Redline Couriers',
+        meet:'https://meet.google.com/rzk-samv-cyr' },
+      { id:'m-0710-3', ts:'3:00 PM', te:'3:45 PM', dur:'45 min',
+        title:'Group Health - Metropolitan Learning Institute',
+        contact:'bdavidoff@gettraining.org', org:'Metropolitan Learning Institute',
+        meet:'https://meet.google.com/qtz-wqtz-tca' },
+    ],
+  },
+  ben: {
+    '2026-07-06': [
+      { id:'b-0706-1', ts:'2:30 PM', te:'3:00 PM', dur:'30 min',
+        title:'SPP Follow up - Customer First Logistics (Jim)',
+        contact:'jim@customerfirstlogistics.com', org:'Customer First Logistics',
+        meet:'https://meet.google.com/qka-ydje-rmt' },
+    ],
+    '2026-07-07': [
+      { id:'b-0707-1', ts:'9:30 AM', te:'10:00 AM', dur:'30 min',
+        title:'SPP - Tax Savings Discussion',
+        contact:'bschaffart@ckfco.com', org:'CKFCO',
+        meet:'https://meet.google.com/ebt-nhdc-ddk' },
+      { id:'b-0707-2', ts:'10:30 AM', te:'11:00 AM', dur:'30 min',
+        title:'SPP - Tax Savings Discussion (Meeting with Nicole)',
+        contact:'', org:'',
+        meet:'https://meet.google.com/dgh-nurt-izh' },
+    ],
+    '2026-07-08': [
+      { id:'b-0708-1', ts:'1:30 PM', te:'2:00 PM', dur:'30 min',
+        title:'SPP Tax Strategy - Initial Call',
+        contact:'laurak@profinium.com', org:'Profinium',
+        meet:'https://meet.google.com/yzq-ciam-asa' },
+      { id:'b-0708-2', ts:'2:00 PM', te:'2:45 PM', dur:'45 min',
+        title:'Ben X Omyal Express - Supplemental Prevention Program',
+        contact:'omyalexpress@omyal.com', org:'Omyal Express',
+        meet:'https://meet.google.com/acy-nnqs-ctf' },
+    ],
+    '2026-07-09': [
+      { id:'b-0709-1', ts:'11:00 AM', te:'11:30 AM', dur:'30 min',
+        title:'SPP with Pinecrest x Faus Glass',
+        contact:'fausglassemployee@gmail.com', org:'Faus Glass',
+        meet:'https://meet.google.com/tnq-cohc-kmb' },
+      { id:'b-0709-2', ts:'2:00 PM', te:'2:30 PM', dur:'30 min',
+        title:'SPP - Tax Savings Program',
+        contact:'russell.huebner@avana.bank', org:'Avana Bank',
+        meet:'https://meet.google.com/wig-rwbx-dac' },
+    ],
+    '2026-07-10': [
+      { id:'b-0710-1', ts:'12:00 PM', te:'12:45 PM', dur:'45 min',
+        title:'Supplemental Prevention Plan - People Now Logistics',
+        contact:'amboyo@gmail.com', org:'People Now Logistics',
+        meet:'https://meet.google.com/iax-xcme-ynz' },
+    ],
+  },
 };
 const _PTO_W6 = {};
 const WEEK_STORE = {
