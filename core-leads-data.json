@@ -1,0 +1,11 @@
+{
+  "updatedAt": "2026-07-08T03:42:07.000Z",
+  "byMonth": [
+    { "month": "2026-04", "total": 44, "with125": 38 },
+    { "month": "2026-05", "total": 4, "with125": 3 },
+    { "month": "2026-06", "total": 193, "with125": 162 },
+    { "month": "2026-07", "total": 15, "with125": 9 },
+    { "month": "Undated", "total": 5, "with125": 4 }
+  ],
+  "history": []
+}
