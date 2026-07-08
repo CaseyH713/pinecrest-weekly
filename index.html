@@ -140,6 +140,14 @@ body {
 .rpt-table td { padding: 9px 10px; border-bottom: 1px solid var(--surface-2); vertical-align: middle; }
 .rpt-table tr:last-child td { border-bottom: none; }
 .rpt-footer { margin-top: 40px; padding-top: 14px; border-top: 1px solid var(--surface-2); font-size: 10px; color: var(--text-3); display: flex; justify-content: space-between; }
+/* CORE Leads monthly bar chart */
+.bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; position: relative; }
+.bar-stack { width: 56px; display: flex; flex-direction: column-reverse; border-radius: 4px 4px 0 0; overflow: hidden; position: relative; }
+.seg-125 { background: var(--navy); }
+.seg-other { background: var(--cyan); }
+.bar-total-label { font-size: 11px; font-weight: 700; color: var(--text); margin-bottom: 6px; font-variant-numeric: tabular-nums; }
+.bar-month { margin-top: 10px; font-size: 12px; color: var(--text-2); font-weight: 600; }
+.bar-col:hover .bar-stack { outline: 2px solid var(--navy); outline-offset: 2px; }
 @media print {
   @page { size: letter landscape; margin: 0.3in; }
   body > *:not(#export-overlay) { display: none !important; }
@@ -220,6 +228,7 @@ body {
 .list-view.active { display: block; }
 /* Call Analyzer */
 #call-analyzer-view { padding: 24px 28px; max-width: 1100px; }
+#core-leads-view { padding: 24px 28px; max-width: 1100px; }
 .ca-wrap { display: grid; grid-template-columns: 400px 1fr; gap: 24px; align-items: start; }
 .ca-panel { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
 .ca-panel-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--text-3); padding-bottom: 10px; border-bottom: 1px solid var(--border); }
@@ -659,6 +668,7 @@ body {
 
 <div id="home-view"></div>
 <div id="call-analyzer-view" style="display:none"></div>
+<div id="core-leads-view" style="display:none"></div>
 <div class="back-nav" id="backNav" style="display:none">
   <button class="back-nav-btn" id="backNavBtn" onclick="_backFn()">← Home</button>
   <span class="back-nav-sep">·</span>
@@ -1894,6 +1904,7 @@ var _backFn = showHome;
 function showHome() {
   document.getElementById('home-view').style.display = 'flex';
   document.getElementById('call-analyzer-view').style.display = 'none';
+  document.getElementById('core-leads-view').style.display = 'none';
   document.getElementById('backNav').style.display = 'none';
   document.getElementById('tabNav').style.display = 'none';
   document.getElementById('pageWrap').style.display = 'none';
@@ -1914,6 +1925,12 @@ function showHome() {
           <div class="wc-range">Call Analyzer</div>
           <div class="wc-year">AI-powered disposition QA</div>
           <div class="wc-stats"><span>Paste transcript · Verify disposition</span></div>
+          <div class="wc-action">Open →</div>
+        </div>
+        <div class="week-card" onclick="enterCoreLeads()" style="cursor:pointer">
+          <div class="wc-range">CORE Leads Report</div>
+          <div class="wc-year">Monthly breakdown · 125 Sales Status</div>
+          <div class="wc-stats"><span>Updated weekly from Master Deal Board</span></div>
           <div class="wc-action">Open →</div>
         </div>
       </div>
@@ -1945,6 +1962,7 @@ async function showWeekSelector() {
   }).join('');
   document.getElementById('home-view').style.display = 'flex';
   document.getElementById('call-analyzer-view').style.display = 'none';
+  document.getElementById('core-leads-view').style.display = 'none';
   document.getElementById('backNav').style.display = 'flex';
   document.getElementById('tabNav').style.display = 'none';
   document.getElementById('pageWrap').style.display = 'none';
@@ -1961,6 +1979,7 @@ function enterCallAnalyzer() {
   _backFn = showHome;
   document.getElementById('home-view').style.display = 'none';
   document.getElementById('call-analyzer-view').style.display = 'block';
+  document.getElementById('core-leads-view').style.display = 'none';
   document.getElementById('backNav').style.display = 'flex';
   document.getElementById('tabNav').style.display = 'none';
   document.getElementById('pageWrap').style.display = 'none';
@@ -1971,11 +1990,28 @@ function enterCallAnalyzer() {
   renderCallAnalyzer();
 }
 
+// Level 1c — CORE Leads Report
+function enterCoreLeads() {
+  _backFn = showHome;
+  document.getElementById('home-view').style.display = 'none';
+  document.getElementById('call-analyzer-view').style.display = 'none';
+  document.getElementById('core-leads-view').style.display = 'block';
+  document.getElementById('backNav').style.display = 'flex';
+  document.getElementById('tabNav').style.display = 'none';
+  document.getElementById('pageWrap').style.display = 'none';
+  document.getElementById('headerRight').style.display = 'none';
+  document.getElementById('headerMeta').textContent = 'CORE Leads Report';
+  document.getElementById('backNavBtn').textContent = '← Home';
+  document.getElementById('backNavLabel').textContent = 'Monthly Breakdown';
+  renderCoreLeads();
+}
+
 // Level 2 — Inside a week
 function enterWeek(wk) {
   _backFn = showWeekSelector;
   document.getElementById('home-view').style.display = 'none';
   document.getElementById('call-analyzer-view').style.display = 'none';
+  document.getElementById('core-leads-view').style.display = 'none';
   document.getElementById('backNav').style.display = 'flex';
   document.getElementById('tabNav').style.display = '';
   document.getElementById('pageWrap').style.display = '';
@@ -2583,6 +2619,246 @@ async function listPublish(){
     status.textContent='Error: '+err.message;status.className='dial-pub-status err';
     btn.disabled=false;
   }
+}
+
+// ── CORE Leads Report ─────────────────────────────────────────────────────────
+// Weekly recurring report: drop the latest Master Deal Board (monday.com) export,
+// re-bucket every lead by Item Created month, publish the shared snapshot so
+// everyone sees the same numbers, and keep prior snapshots for month-over-month
+// comparison as new exports come in.
+const CORE_JSON_FILE = 'core-leads-data.json';
+let coreParsed = null; // {rows, byMonth} from the most recently processed file (not yet published)
+
+function coreComputeBreakdown(rows) {
+  const byKey = {}; // 'yyyy-MM' or 'Undated' -> {total, with125}
+  rows.forEach(r => {
+    const created = String(r.Created || '').trim();
+    const isDate = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} UTC$/.test(created);
+    const key = isDate ? created.slice(0, 7) : 'Undated';
+    if (!byKey[key]) byKey[key] = { total: 0, with125: 0 };
+    byKey[key].total++;
+    if (String(r.Status125 || '').trim() !== '') byKey[key].with125++;
+  });
+  const monthKeys = Object.keys(byKey).filter(k => k !== 'Undated').sort();
+  const out = monthKeys.map(k => ({ month: k, ...byKey[k] }));
+  if (byKey['Undated']) out.push({ month: 'Undated', ...byKey['Undated'] });
+  return out;
+}
+
+function coreMonthLabel(key) {
+  if (key === 'Undated') return 'Undated';
+  const [y, m] = key.split('-');
+  const names = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return names[Number(m) - 1] + ' ' + y;
+}
+
+function coreProcessFile(file) {
+  if (typeof XLSX === 'undefined') {
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
+    s.onload = () => coreReadFile(file);
+    document.head.appendChild(s);
+  } else { coreReadFile(file); }
+}
+
+function coreReadFile(file) {
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const wb = XLSX.read(e.target.result, { type: 'array' });
+    const ws = wb.Sheets[wb.SheetNames[0]];
+    const grid = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
+    // monday.com exports put a 2-row title block before the real header row —
+    // find it by searching for the columns we need instead of assuming row 1.
+    const headerRowIdx = grid.findIndex(row =>
+      row.some(c => String(c).trim() === 'Item Created') &&
+      row.some(c => String(c).trim() === '125 Sales Status'));
+    if (headerRowIdx === -1) {
+      alert('Could not find "Item Created" and "125 Sales Status" columns in this file. Is this the Master Deal Board export?');
+      return;
+    }
+    const headerRow = grid[headerRowIdx].map(c => String(c).trim());
+    const colCreated = headerRow.indexOf('Item Created');
+    const col125 = headerRow.indexOf('125 Sales Status');
+    const colName = headerRow.indexOf('Name');
+    const rows = [];
+    for (let i = headerRowIdx + 1; i < grid.length; i++) {
+      const row = grid[i];
+      if (!row || row.every(c => String(c).trim() === '')) continue;
+      rows.push({ Name: row[colName] || '', Created: row[colCreated] || '', Status125: row[col125] || '' });
+    }
+    if (!rows.length) { alert('No data rows found under the header row.'); return; }
+    const byMonth = coreComputeBreakdown(rows);
+    coreParsed = { rows, byMonth };
+    localStorage.setItem('pc_core_draft', JSON.stringify(byMonth));
+    document.getElementById('core-result').innerHTML = coreRenderReport(byMonth, null);
+    if (isAdmin()) {
+      document.getElementById('corePublishBtn').disabled = false;
+      document.getElementById('coreClearBtn').style.display = 'inline-block';
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function coreDzOver(e) { e.preventDefault(); document.getElementById('coreDropZone').classList.add('drag-over'); }
+function coreDzLeave() { document.getElementById('coreDropZone').classList.remove('drag-over'); }
+function coreDzDrop(e) { e.preventDefault(); coreDzLeave(); const f = e.dataTransfer.files[0]; if (f) coreProcessFile(f); }
+function coreFileChosen(e) { const f = e.target.files[0]; if (f) coreProcessFile(f); }
+
+function coreClear() {
+  coreParsed = null;
+  localStorage.removeItem('pc_core_draft');
+  renderCoreLeads();
+}
+
+function coreSaveToken() {
+  const t = document.getElementById('coreToken').value.trim();
+  if (!t) { alert('Paste your token first.'); return; }
+  localStorage.setItem('pc_gh_token', t);
+  document.getElementById('coreToken').value = '';
+  document.getElementById('coreTokenStatus').textContent = '✓ Token saved';
+  document.getElementById('coreTokenStatus').className = 'token-ok';
+}
+
+async function corePublish() {
+  const token = localStorage.getItem('pc_gh_token');
+  if (!token) { alert('Save your GitHub token first.'); return; }
+  if (!coreParsed) { alert('No data to publish.'); return; }
+  const btn = document.getElementById('corePublishBtn');
+  const status = document.getElementById('corePubStatus');
+  btn.disabled = true; status.textContent = 'Publishing…'; status.className = 'dial-pub-status loading';
+  try {
+    let existing = null;
+    try {
+      const r = await fetch('https://caseyh713.github.io/pinecrest-weekly/' + CORE_JSON_FILE + '?_t=' + Date.now());
+      if (r.ok) existing = await r.json();
+    } catch (e) {}
+    const history = (existing && Array.isArray(existing.history)) ? existing.history.slice() : [];
+    if (existing && existing.byMonth) history.push({ uploadedAt: existing.updatedAt, byMonth: existing.byMonth });
+    while (history.length > 12) history.shift();
+    const payload = { updatedAt: new Date().toISOString(), byMonth: coreParsed.byMonth, history };
+    await ghWriteJson(token, CORE_JSON_FILE, payload);
+    status.textContent = '✓ Published! Team sees it in ~60 seconds.'; status.className = 'dial-pub-status ok';
+    document.getElementById('core-result').innerHTML = coreRenderReport(coreParsed.byMonth, history);
+  } catch (err) {
+    status.textContent = 'Error: ' + err.message; status.className = 'dial-pub-status err';
+    btn.disabled = false;
+  }
+}
+
+function coreRenderReport(byMonth, history) {
+  const totTotal = byMonth.reduce((s, d) => s + d.total, 0);
+  const tot125 = byMonth.reduce((s, d) => s + d.with125, 0);
+  const pct = totTotal ? Math.round((tot125 / totTotal) * 100) : 0;
+  const maxTotal = Math.max(...byMonth.map(d => d.total), 1);
+  const prevByMonth = (history && history.length) ? history[history.length - 1].byMonth : null;
+  const prevMap = {};
+  if (prevByMonth) prevByMonth.forEach(d => { prevMap[d.month] = d; });
+
+  const bars = byMonth.map(d => {
+    const other = d.total - d.with125;
+    const totalH = Math.round((d.total / maxTotal) * 190);
+    const h125 = d.total ? Math.round((d.with125 / d.total) * totalH) : 0;
+    const hOther = totalH - h125;
+    return `<div class="bar-col" title="${coreMonthLabel(d.month)}: ${d.total} total, ${d.with125} with 125 status, ${other} without">
+      <div class="bar-total-label">${d.total}</div>
+      <div class="bar-stack" style="height:${totalH}px">
+        <div class="seg-other" style="height:${hOther}px"></div>
+        <div class="seg-125" style="height:${h125}px"></div>
+      </div>
+      <div class="bar-month">${coreMonthLabel(d.month)}</div>
+    </div>`;
+  }).join('');
+
+  const rows = byMonth.map(d => {
+    const other = d.total - d.with125;
+    const p = d.total ? Math.round((d.with125 / d.total) * 100) : 0;
+    const prev = prevMap[d.month];
+    const delta = prev ? (d.total - prev.total) : null;
+    const deltaTxt = delta === null ? '—' : (delta === 0 ? '±0' : (delta > 0 ? '+' + delta : String(delta)));
+    const rowCls = d.month === 'Undated' ? ' class="undated-row"' : '';
+    return `<tr${rowCls}><td>${coreMonthLabel(d.month)}</td><td>${d.total}</td><td>${d.with125}</td><td>${other}</td><td>${p}%</td><td>${deltaTxt}</td></tr>`;
+  }).join('');
+
+  return `
+    <div class="stat-row" style="display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap">
+      <div class="rpt-stat" style="flex:1;min-width:150px"><div class="rpt-stat-label" style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);margin-bottom:4px">Total Leads</div><div class="rpt-stat-num" style="font-size:26px;font-weight:700;color:var(--navy)">${totTotal}</div></div>
+      <div class="rpt-stat" style="flex:1;min-width:150px"><div class="rpt-stat-label" style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);margin-bottom:4px">With 125 Status</div><div class="rpt-stat-num" style="font-size:26px;font-weight:700;color:var(--navy)">${tot125}</div><div style="font-size:11px;color:var(--text-2);margin-top:2px">${pct}% of total</div></div>
+      <div class="rpt-stat" style="flex:1;min-width:150px"><div class="rpt-stat-label" style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);margin-bottom:4px">Without 125</div><div class="rpt-stat-num" style="font-size:26px;font-weight:700;color:var(--navy)">${totTotal - tot125}</div><div style="font-size:11px;color:var(--text-2);margin-top:2px">${100-pct}% of total</div></div>
+    </div>
+    <div style="background:var(--bg,#fff);border:1px solid var(--border);border-radius:10px;padding:24px 24px 8px;margin-bottom:20px">
+      <div style="font-size:13px;font-weight:700;margin-bottom:2px">Leads by month created</div>
+      <div style="font-size:11px;color:var(--text-3);margin-bottom:16px">Navy = has a 125 Sales Status value · Cyan = does not</div>
+      <div style="display:flex;align-items:flex-end;gap:24px;height:220px;padding:0 8px;border-bottom:2px solid var(--navy)">${bars}</div>
+    </div>
+    <div style="background:var(--bg,#fff);border:1px solid var(--border);border-radius:10px;padding:20px 24px">
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead><tr>
+          <th style="text-align:left;padding:8px;border-bottom:2px solid var(--navy);font-size:10px;text-transform:uppercase;color:var(--text-3)">Month</th>
+          <th style="text-align:right;padding:8px;border-bottom:2px solid var(--navy);font-size:10px;text-transform:uppercase;color:var(--text-3)">Total</th>
+          <th style="text-align:right;padding:8px;border-bottom:2px solid var(--navy);font-size:10px;text-transform:uppercase;color:var(--text-3)">With 125</th>
+          <th style="text-align:right;padding:8px;border-bottom:2px solid var(--navy);font-size:10px;text-transform:uppercase;color:var(--text-3)">Without</th>
+          <th style="text-align:right;padding:8px;border-bottom:2px solid var(--navy);font-size:10px;text-transform:uppercase;color:var(--text-3)">% 125</th>
+          <th style="text-align:right;padding:8px;border-bottom:2px solid var(--navy);font-size:10px;text-transform:uppercase;color:var(--text-3)" title="Change in total leads vs the previous published upload">Δ Total vs last upload</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+    <style>#core-leads-view td{padding:8px;text-align:right;border-bottom:1px solid var(--surface,#f4f7fc)}#core-leads-view td:first-child{text-align:left}#core-leads-view tr.undated-row td{color:var(--text-3)}</style>`;
+}
+
+async function coreLoadPublished() {
+  const el = document.getElementById('core-result');
+  try {
+    const r = await fetch('https://caseyh713.github.io/pinecrest-weekly/' + CORE_JSON_FILE + '?_t=' + Date.now());
+    if (!r.ok) { el.innerHTML = '<div class="dial-no-data">No data published yet — drop this week\'s Master Deal Board export below to get started.</div>'; return; }
+    const data = await r.json();
+    el.innerHTML = coreRenderReport(data.byMonth, data.history) +
+      `<div style="font-size:11px;color:var(--text-3);margin-top:10px">Last published ${new Date(data.updatedAt).toLocaleString()}</div>`;
+  } catch (e) {
+    el.innerHTML = '<div class="dial-no-data">No data published yet — drop this week\'s Master Deal Board export below to get started.</div>';
+  }
+}
+
+function renderCoreLeads() {
+  const tokenSaved = localStorage.getItem('pc_gh_token');
+  const admin = isAdmin();
+  document.getElementById('core-leads-view').innerHTML = `
+    <div style="max-width:900px">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-bottom:16px;padding-bottom:6px;border-bottom:1px solid var(--surface-2)">CORE Leads — Monthly Breakdown by 125 Sales Status</div>
+      <div id="core-result"><div class="dial-no-data">Loading…</div></div>
+      ${admin ? `<div style="margin-top:20px">
+        <div class="dial-token-bar">
+          <label>GitHub Token</label>
+          <input type="password" id="coreToken" placeholder="ghp_... (saved locally)" value="">
+          <button class="btn-save-token" onclick="coreSaveToken()">Save</button>
+          <span id="coreTokenStatus" class="${tokenSaved?'token-ok':'token-no'}">${tokenSaved?'✓ Token saved':'No token — save one to publish'}</span>
+        </div>
+        <div class="dial-drop-zone" id="coreDropZone"
+          ondragover="coreDzOver(event)" ondragleave="coreDzLeave()" ondrop="coreDzDrop(event)">
+          <input type="file" accept=".xlsx,.xls,.csv" onchange="coreFileChosen(event)">
+          <div class="dial-drop-zone-icon">📥</div>
+          <div class="dial-drop-zone-text">Drop this week's Master Deal Board export here or click to browse</div>
+          <div class="dial-drop-zone-sub">Accepts .xlsx, .xls, .csv — re-buckets every lead by Item Created month automatically</div>
+        </div>
+        <div class="dial-publish-bar">
+          <button class="btn-dial-publish" id="corePublishBtn" onclick="corePublish()" disabled>↑ Publish to Team</button>
+          <button class="btn-dial-clear" id="coreClearBtn" onclick="coreClear()" style="display:none">Clear</button>
+          <span class="dial-pub-status" id="corePubStatus"></span>
+        </div>
+      </div>` : ''}
+    </div>`;
+  const draft = localStorage.getItem('pc_core_draft');
+  if (draft) {
+    try {
+      const byMonth = JSON.parse(draft);
+      coreParsed = { rows: null, byMonth };
+      document.getElementById('core-result').innerHTML = coreRenderReport(byMonth, null) +
+        `<div style="font-size:11px;color:var(--text-3);margin-top:10px">Unpublished local draft — click Publish to share with the team.</div>`;
+      if (admin) { document.getElementById('corePublishBtn').disabled = false; document.getElementById('coreClearBtn').style.display = 'inline-block'; }
+      return;
+    } catch (e) {}
+  }
+  coreLoadPublished();
 }
 
 // ── Call Analyzer ────────────────────────────────────────────────────────────
