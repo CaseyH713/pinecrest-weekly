@@ -59,10 +59,13 @@ function evtToMtg(ev, repKey) {
 
 function matchPerson(title) {
   const t = (title || '').toLowerCase();
+  const person = t.replace(/\s*-\s*ooo.*$/, '').trim(); // "hannah b - ooo" -> "hannah b"
   for (const name of SALES_TEAM) {
     const parts = name.toLowerCase().split(' ');
-    if (t.includes(name.toLowerCase())) return name;
-    if (parts.length >= 2 && t.includes(parts[0]) && t.includes(parts[parts.length - 1])) return name;
+    const first = parts[0], last = parts[parts.length - 1], li = last[0];
+    if (t.includes(name.toLowerCase())) return name;                              // full name anywhere
+    if (parts.length >= 2 && t.includes(first) && t.includes(last)) return name;  // first + full last
+    if (person === first + ' ' + li) return name;                                 // Gusto "First L" format
   }
   return null;
 }

@@ -4,16 +4,14 @@ name: Daily calendar sync
 # meetings JSON to the repo, so the hub shows current meetings/PTO without
 # anyone having to sign in a browser.
 #
-# INACTIVE until the one-time OAuth setup is done (see CALENDAR-SYNC-SETUP.md):
-#   secrets GOOGLE_OAUTH_CLIENT_ID, GOOGLE_OAUTH_CLIENT_SECRET, and
-#   GOOGLE_OAUTH_REFRESH_TOKEN (minted once via scripts/auth-once.mjs).
-# The daily schedule below is intentionally commented out until those exist;
-# run it by hand from the Actions tab (workflow_dispatch) to test first.
+# ACTIVE — runs daily at 12:00 UTC. Auth via the OAuth secrets
+# GOOGLE_OAUTH_CLIENT_ID / _SECRET / _REFRESH_TOKEN (see CALENDAR-SYNC-SETUP.md).
+# Can also be run on demand from the Actions tab (workflow_dispatch).
 
 on:
   workflow_dispatch: {}
-  # schedule:
-  #   - cron: '0 12 * * *'   # 12:00 UTC daily (~5-7am Pacific) — enable after GOOGLE_SA_KEY is set
+  schedule:
+    - cron: '0 12 * * *'   # 12:00 UTC daily (~5-7am Pacific)
 
 permissions:
   contents: write
