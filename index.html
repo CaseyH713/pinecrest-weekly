@@ -3,7 +3,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <script>(function(){
-  var BUILD='20260720h';
+  var BUILD='20260720i';
   if(sessionStorage.getItem('_b')===BUILD)return;
   sessionStorage.setItem('_b',BUILD);
   fetch(location.pathname+'?_chk='+BUILD,{cache:'no-cache'})
@@ -2383,15 +2383,20 @@ function renderLockBar() {
       (admin ? '<button class="btn-export-day" onclick="unlockWeek()">Unlock</button>' : '');
     return;
   }
-  const statusMap = {
-    idle:    '',
-    pending: '<span class="week-stat" style="color:var(--text-3)">Saving…</span>',
-    saving:  '<span class="week-stat" style="color:var(--text-3)">Saving…</span>',
-    saved:   '<span class="week-stat" style="color:#1A8A4A">✓ Saved</span>',
-    local:   '<span class="week-stat" style="color:#B45309">Saved on this device only — add a GitHub token to publish</span>',
-    error:   '<span class="week-stat" style="color:var(--danger)">Save failed — will retry on next change</span>',
-  };
-  const status = admin ? (statusMap[_saveState] || '') : '';
+  let status = '';
+  if (admin) {
+    const hasToken = !!localStorage.getItem('pc_gh_token');
+    if (!hasToken) {
+      status = '<span class="week-stat" style="color:#B45309">⚠ Saved on this device only — add a GitHub token to publish</span>';
+    } else if (_saveState === 'pending' || _saveState === 'saving') {
+      status = '<span class="week-stat" style="color:var(--text-3)">Saving…</span>';
+    } else if (_saveState === 'error') {
+      status = '<span class="week-stat" style="color:var(--danger)">Save failed — will retry on next change</span>';
+    } else {
+      // idle or saved — everything on screen matches what's published
+      status = '<span class="week-stat" style="color:#1A8A4A;font-weight:600">✓ All changes saved</span>';
+    }
+  }
   bar.innerHTML = status + (admin ? '<button class="btn-export-day" onclick="saveAndLock()">🔒 Lock week</button>' : '');
 }
 
