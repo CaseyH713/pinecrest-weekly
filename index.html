@@ -3,7 +3,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <script>(function(){
-  var BUILD='20260720g';
+  var BUILD='20260720h';
   if(sessionStorage.getItem('_b')===BUILD)return;
   sessionStorage.setItem('_b',BUILD);
   fetch(location.pathname+'?_chk='+BUILD,{cache:'no-cache'})
@@ -1183,18 +1183,18 @@ function setStatus(id, status) {
   if (WEEK_LOCKED) { alert('This week is locked. Click Unlock (in the header) to make changes.'); return; }
   const cur = getOutcome(id);
   state[id] = { ...cur, status: cur.status === status ? null : status };
-  save(); refreshCard(id); renderSummary(); renderHeaderStats();
+  save(); scheduleOutcomeSave(); refreshCard(id); renderSummary(); renderHeaderStats();
 }
 function setNotes(id, notes) {
   if (WEEK_LOCKED) { alert('This week is locked. Click Unlock (in the header) to make changes.'); return; }
   state[id] = { ...getOutcome(id), notes };
-  save(); renderSummary();
+  save(); scheduleOutcomeSave(); renderSummary();
 }
 function toggleExclude(id) {
   if (WEEK_LOCKED) { alert('This week is locked. Click Unlock (in the header) to make changes.'); return; }
   const cur = getOutcome(id);
   state[id] = { ...cur, excluded: !cur.excluded };
-  save(); refreshCard(id); renderSummary(); renderHeaderStats();
+  save(); scheduleOutcomeSave(); refreshCard(id); renderSummary(); renderHeaderStats();
 }
 
 // ── Meeting helpers ─────────────────────────────────────────────────────────
@@ -1488,34 +1488,42 @@ ${tablesByLevel}`;
 }
 
 // ── PTO Sidebar ─────────────────────────────────────────────────────────────
+// Tracks which day tab is active so the sidebar shows PTO for THAT day only.
+// On the week views (Week ∑ / PTO tab) it shows the full week breakdown + total.
+let _activeDayId = null;
 function renderPTOSidebar() {
-  const outMembers = SALES_TEAM.filter(p => ptoHoursForPerson(p.name) > 0);
+  const el = document.getElementById('ptoSidebar');
+  if (!el) return;
+  const dayObj = _activeDayId ? DAYS.find(d => d.id === _activeDayId) : null;
 
+  if (dayObj) {
+    // Per-day: only people out on this specific day
+    const out = ptoOutOnDay(dayObj.key);
+    const cards = out.map(p => {
+      const hrs = (PTO_DATA[p.name] || {})[dayObj.key] || 0;
+      return `<div class="psb-card"><div class="psb-name">${p.name}</div><div class="psb-level">${p.level}</div><div class="psb-total">${hrs}h out</div></div>`;
+    }).join('');
+    el.innerHTML = `
+<div class="psb-head">PTO <span class="psb-week">${dayObj.label} ${dayObj.date.split(' ')[1]}</span></div>
+${out.length
+  ? `<div class="psb-section-label">Out ${dayObj.label} (${out.length})</div>${cards}`
+  : `<div class="psb-empty">No one out ${dayObj.label}.</div>`}`;
+    return;
+  }
+
+  // Week views: full breakdown + total
+  const outMembers = SALES_TEAM.filter(p => ptoHoursForPerson(p.name) > 0);
   let cards = '';
   for (const p of outMembers) {
     const pto = PTO_DATA[p.name];
-    const dayLines = DAYS
-      .filter(d => pto[d.key] > 0)
-      .map(d => `${d.label} — ${pto[d.key]}h`)
-      .join('<br>');
-    const total = ptoHoursForPerson(p.name);
-    cards += `
-<div class="psb-card">
-  <div class="psb-name">${p.name}</div>
-  <div class="psb-level">${p.level}</div>
-  <div class="psb-days">${dayLines}</div>
-  <div class="psb-total">${total}h total</div>
-</div>`;
+    const dayLines = DAYS.filter(d => pto[d.key] > 0).map(d => `${d.label} — ${pto[d.key]}h`).join('<br>');
+    cards += `<div class="psb-card"><div class="psb-name">${p.name}</div><div class="psb-level">${p.level}</div><div class="psb-days">${dayLines}</div><div class="psb-total">${ptoHoursForPerson(p.name)}h total</div></div>`;
   }
-
-  const totalHrs = ptoTotalHours();
-
-  document.getElementById('ptoSidebar').innerHTML = `
+  el.innerHTML = `
 <div class="psb-head">PTO <span class="psb-week">${WEEK_STORE[ACTIVE_WEEK].label}</span></div>
 ${outMembers.length
-  ? `<div class="psb-section-label">Out This Week (${outMembers.length})</div>${cards}<hr class="psb-divider"><div class="psb-footer">${totalHrs} total hours out</div>`
-  : `<div class="psb-empty">No team members out this week.</div>`
-}`;
+  ? `<div class="psb-section-label">Out This Week (${outMembers.length})</div>${cards}<hr class="psb-divider"><div class="psb-footer">${ptoTotalHours()} total hours out</div>`
+  : `<div class="psb-empty">No team members out this week.</div>`}`;
 }
 
 // ── Header stats ────────────────────────────────────────────────────────────
@@ -2238,6 +2246,7 @@ function switchWeek(wk) {
   MEETINGS = w.meetings;
   PTO_DATA = w.pto;
   WEEK_LOCKED = false;
+  _saveState = 'idle';
   _storeKey = wk === LEGACY_WEEK ? STORE_KEY : STORE_KEY + '_' + wk;
   try {
     const stored = localStorage.getItem(_storeKey);
@@ -2311,10 +2320,34 @@ async function loadSharedOutcomes(wk) {
   }
 }
 
+// Auto-save: outcomes publish to the shared file automatically (debounced) as
+// they're marked, so each day's work persists with no button and accumulates
+// across the week. Locking is now optional (finalize a completed week).
+let _outcomeSaveTimer = null;
+let _saveState = 'idle'; // idle | pending | saving | saved | local | error
+function setSaveState(s) { _saveState = s; renderLockBar(); }
+function scheduleOutcomeSave() {
+  if (WEEK_LOCKED || !isAdmin()) return;
+  const token = localStorage.getItem('pc_gh_token');
+  if (!token) { setSaveState('local'); return; }
+  setSaveState('pending');
+  clearTimeout(_outcomeSaveTimer);
+  const wk = ACTIVE_WEEK;
+  _outcomeSaveTimer = setTimeout(async () => {
+    setSaveState('saving');
+    try {
+      await ghWriteJson(token, outcomesJsonFile(wk), { locked: false, state, savedAt: new Date().toISOString() });
+      if (ACTIVE_WEEK === wk) setSaveState('saved');
+    } catch (e) {
+      if (ACTIVE_WEEK === wk) setSaveState('error');
+    }
+  }, 2000);
+}
+
 async function saveAndLock() {
   const token = localStorage.getItem('pc_gh_token');
   if (!token) { alert('Save your GitHub token first (Dialer or List tab has the token field).'); return; }
-  if (!confirm('Save and lock ' + WEEK_STORE[ACTIVE_WEEK].label + '? Everyone will see this data, and no one (including you) can edit it until it\'s unlocked.')) return;
+  if (!confirm('Lock ' + WEEK_STORE[ACTIVE_WEEK].label + '? This freezes the week — no one (including you) can edit it until it\'s unlocked. Your changes are already saved automatically.')) return;
   const bar = document.getElementById('lockBar');
   if (bar) bar.innerHTML = '<span class="week-stat">Saving…</span>';
   try {
@@ -2344,12 +2377,22 @@ async function unlockWeek() {
 function renderLockBar() {
   const bar = document.getElementById('lockBar');
   if (!bar) return;
+  const admin = isAdmin();
   if (WEEK_LOCKED) {
     bar.innerHTML = '<span class="week-stat" style="color:var(--danger)">🔒 Locked</span>' +
-      (isAdmin() ? '<button class="btn-export-day" onclick="unlockWeek()">Unlock</button>' : '');
-  } else {
-    bar.innerHTML = isAdmin() ? '<button class="btn-export-day" onclick="saveAndLock()">💾 Save &amp; Lock</button>' : '';
+      (admin ? '<button class="btn-export-day" onclick="unlockWeek()">Unlock</button>' : '');
+    return;
   }
+  const statusMap = {
+    idle:    '',
+    pending: '<span class="week-stat" style="color:var(--text-3)">Saving…</span>',
+    saving:  '<span class="week-stat" style="color:var(--text-3)">Saving…</span>',
+    saved:   '<span class="week-stat" style="color:#1A8A4A">✓ Saved</span>',
+    local:   '<span class="week-stat" style="color:#B45309">Saved on this device only — add a GitHub token to publish</span>',
+    error:   '<span class="week-stat" style="color:var(--danger)">Save failed — will retry on next change</span>',
+  };
+  const status = admin ? (statusMap[_saveState] || '') : '';
+  bar.innerHTML = status + (admin ? '<button class="btn-export-day" onclick="saveAndLock()">🔒 Lock week</button>' : '');
 }
 
 // ── Nav ─────────────────────────────────────────────────────────────────────
@@ -2388,11 +2431,14 @@ function switchTo(id) {
   document.querySelectorAll('.day-view,.sum-view,.pto-view,.dial-view,.list-view').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.day-tab').forEach(b => b.classList.remove('active'));
   document.querySelector(`[data-id="${id}"]`).classList.add('active');
+  // Track active day so the PTO sidebar can scope to it (null on the week views)
+  _activeDayId = ['sum', 'pto', 'dial', 'list'].includes(id) ? null : id;
   if (id === 'sum') { document.getElementById('view-sum').classList.add('active'); renderSummary(); }
   else if (id === 'pto') { document.getElementById('view-pto').classList.add('active'); renderPTO(); }
   else if (id === 'dial') { document.getElementById('view-dial').classList.add('active'); renderDialer(); }
   else if (id === 'list') { document.getElementById('view-list').classList.add('active'); renderListTab(); }
   else document.getElementById('view-' + id).classList.add('active');
+  renderPTOSidebar();
 }
 
 // ── Dialer Tab ────────────────────────────────────────────────────────────────
