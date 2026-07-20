@@ -3,7 +3,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <script>(function(){
-  var BUILD='20260708a';
+  var BUILD='20260720a';
   if(sessionStorage.getItem('_b')===BUILD)return;
   sessionStorage.setItem('_b',BUILD);
   fetch(location.pathname+'?_chk='+BUILD,{cache:'no-cache'})
@@ -704,23 +704,32 @@ body {
 </div>
 
 <script>
-const TODAY = '2026-07-06';
-const STORE_KEY = 'pc_spp_tracker_v1';
+// ── Date helpers — weeks are generated from the real current date, never hardcoded ──
+function isoMonday(d) {
+  const dt = new Date(d);
+  const day = dt.getDay(); // 0 Sun .. 6 Sat
+  dt.setDate(dt.getDate() + (day === 0 ? -6 : 1) - day);
+  return dt.toISOString().slice(0, 10);
+}
+function addDays(iso, n) {
+  const dt = new Date(iso + 'T12:00:00');
+  dt.setDate(dt.getDate() + n);
+  return dt.toISOString().slice(0, 10);
+}
+const MONTH_ABBR = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function fmtDayDate(iso) {
+  const [y, m, d] = iso.split('-').map(Number);
+  return MONTH_ABBR[m - 1] + ' ' + d;
+}
+function makeDays(mondayISO) {
+  return [['mon','Mon'],['tue','Tue'],['wed','Wed'],['thu','Thu'],['fri','Fri']].map(([id, label], i) => {
+    const key = addDays(mondayISO, i);
+    return { key, id, label, date: fmtDayDate(key) };
+  });
+}
 
-const _DAYS_W22 = [
-  { key: '2026-06-22', id: 'mon', label: 'Mon', date: 'Jun 22' },
-  { key: '2026-06-23', id: 'tue', label: 'Tue', date: 'Jun 23' },
-  { key: '2026-06-24', id: 'wed', label: 'Wed', date: 'Jun 24' },
-  { key: '2026-06-25', id: 'thu', label: 'Thu', date: 'Jun 25' },
-  { key: '2026-06-26', id: 'fri', label: 'Fri', date: 'Jun 26' },
-];
-const _DAYS_W29 = [
-  { key: '2026-06-29', id: 'mon', label: 'Mon', date: 'Jun 29' },
-  { key: '2026-06-30', id: 'tue', label: 'Tue', date: 'Jun 30' },
-  { key: '2026-07-01', id: 'wed', label: 'Wed', date: 'Jul 1' },
-  { key: '2026-07-02', id: 'thu', label: 'Thu', date: 'Jul 2' },
-  { key: '2026-07-03', id: 'fri', label: 'Fri', date: 'Jul 3' },
-];
+const TODAY = new Date().toISOString().slice(0, 10);
+const STORE_KEY = 'pc_spp_tracker_v1';
 
 const REPS = [
   { key: 'judah', name: 'Judah Azose',  initials: 'JA', av: 'av-j' },
@@ -965,13 +974,6 @@ const _MEETINGS_W29 = {
     '2026-07-03': [],
   },
 };
-const _DAYS_W6 = [
-  { key: '2026-07-06', id: 'mon', label: 'Mon', date: 'Jul 6' },
-  { key: '2026-07-07', id: 'tue', label: 'Tue', date: 'Jul 7' },
-  { key: '2026-07-08', id: 'wed', label: 'Wed', date: 'Jul 8' },
-  { key: '2026-07-09', id: 'thu', label: 'Thu', date: 'Jul 9' },
-  { key: '2026-07-10', id: 'fri', label: 'Fri', date: 'Jul 10' },
-];
 // Rebuilt from live Google Calendar 2026-07-08 — the manual-sync design means this
 // is a point-in-time snapshot, not a live feed. Click Sync on the week selector or
 // a day's Sync button to refresh against calendars as they change after this date.
@@ -1107,23 +1109,74 @@ const _MEETINGS_W6 = {
   },
 };
 const _PTO_W6 = {};
-const WEEK_STORE = {
-  w6:  { label:'Jul 6–10', range:'Jul 6 – 10, 2026', days:_DAYS_W6, meetings:_MEETINGS_W6, pto:_PTO_W6, seed:{} },
-  w22: { label:'Jun 22–26', range:'Jun 22 – 26, 2026', days:_DAYS_W22, meetings:_MEETINGS_W22, pto:_PTO_W22, seed:_SEED_W22 },
-  w29: { label:'Jun 29–Jul 3', range:'Jun 29 – Jul 3, 2026', days:_DAYS_W29, meetings:_MEETINGS_W29, pto:_PTO_W29, seed:{} },
+
+// Historical weeks that were hand-built before the dynamic-week rewrite keep
+// their curated meeting/PTO/outcome data — matched by their Monday's ISO date.
+// Every other generated week starts empty and self-populates from Google
+// Calendar the first time it's opened (see switchWeek's auto-sync block).
+const STATIC_SEEDS = {
+  '2026-06-22': { meetings: _MEETINGS_W22, pto: _PTO_W22, outcomeSeed: _SEED_W22 },
+  '2026-06-29': { meetings: _MEETINGS_W29, pto: _PTO_W29, outcomeSeed: {} },
+  '2026-07-06': { meetings: _MEETINGS_W6,  pto: _PTO_W6,  outcomeSeed: {} },
 };
+
+function emptyMeetings() {
+  const m = {};
+  for (const rep of REPS) m[rep.key] = {};
+  return m;
+}
+function weekLabel(days) {
+  const [mon1, d1] = days[0].date.split(' ');
+  const [mon2, d2] = days[4].date.split(' ');
+  return mon1 === mon2 ? `${mon1} ${d1}–${d2}` : `${mon1} ${d1}–${mon2} ${d2}`;
+}
+function weekRange(days) {
+  const year = Number(days[0].key.slice(0, 4));
+  const [mon1, d1] = days[0].date.split(' ');
+  const [mon2, d2] = days[4].date.split(' ');
+  return mon1 === mon2
+    ? `${mon1} ${d1} – ${d2}, ${year}`
+    : `${mon1} ${d1} – ${mon2} ${d2}, ${year}`;
+}
+
+const WEEKS_BACK = 8; // rolling window shown in the week selector
+function buildWeekStore() {
+  const store = {};
+  const curMonday = isoMonday(new Date());
+  for (let i = 0; i < WEEKS_BACK; i++) {
+    const monday = addDays(curMonday, -7 * i);
+    const days = makeDays(monday);
+    const seed = STATIC_SEEDS[monday];
+    store[monday] = {
+      label: weekLabel(days),
+      range: weekRange(days),
+      days,
+      meetings: seed ? seed.meetings : emptyMeetings(),
+      pto: seed ? seed.pto : {},
+      seed: seed ? seed.outcomeSeed : {},
+    };
+  }
+  return store;
+}
+const WEEK_STORE = buildWeekStore();
+function weekHasAnyMeetings(w) {
+  return Object.values(w.meetings).some(byDay => Object.values(byDay).some(arr => arr.length > 0));
+}
+
 let DAYS, MEETINGS, PTO_DATA;
 let _storeKey = STORE_KEY;
-let ACTIVE_WEEK = 'w6';
+let ACTIVE_WEEK = isoMonday(new Date());
 let state = {};
 let WEEK_LOCKED = false;
 function outcomesJsonFile(wk) { return 'outcomes-' + wk + '.json'; }
 function save() { localStorage.setItem(_storeKey, JSON.stringify(state)); }
-// Per-week storage key helpers — w22 uses legacy (pre-week-specific) filenames
-function dialKey(p){ return ACTIVE_WEEK==='w22'?'pc_dial_mapped_'+p:'pc_dial_mapped_'+p+'_'+ACTIVE_WEEK; }
-function listKey(){ return ACTIVE_WEEK==='w22'?'pc_list_mapped':'pc_list_mapped_'+ACTIVE_WEEK; }
-function dialJsonFile(p){ return ACTIVE_WEEK==='w22'?'dialer-'+p+'.json':'dialer-'+p+'-'+ACTIVE_WEEK+'.json'; }
-function listJsonFile(){ return ACTIVE_WEEK==='w22'?'list-analytics.json':'list-analytics-'+ACTIVE_WEEK+'.json'; }
+// Per-week storage key helpers — the original week (Jun 22) uses legacy
+// (pre-week-specific) filenames that predate every other week getting its own.
+const LEGACY_WEEK = '2026-06-22';
+function dialKey(p){ return ACTIVE_WEEK===LEGACY_WEEK?'pc_dial_mapped_'+p:'pc_dial_mapped_'+p+'_'+ACTIVE_WEEK; }
+function listKey(){ return ACTIVE_WEEK===LEGACY_WEEK?'pc_list_mapped':'pc_list_mapped_'+ACTIVE_WEEK; }
+function dialJsonFile(p){ return ACTIVE_WEEK===LEGACY_WEEK?'dialer-'+p+'.json':'dialer-'+p+'-'+ACTIVE_WEEK+'.json'; }
+function listJsonFile(){ return ACTIVE_WEEK===LEGACY_WEEK?'list-analytics.json':'list-analytics-'+ACTIVE_WEEK+'.json'; }
 function getOutcome(id) { return state[id] || { status: null, notes: '', excluded: false }; }
 
 function setStatus(id, status) {
@@ -1352,7 +1405,7 @@ function renderSummary() {
 </div>
 <p class="sec-head">Managing Director Breakdown</p>
 <div class="tbl-wrap"><table class="sum-tbl">
-  <thead><tr><th>MD</th><th>Mon 22</th><th>Tue 23</th><th>Wed 24</th><th>Thu 25</th><th>Fri 26</th><th>Week Total</th></tr></thead>
+  <thead><tr><th>MD</th>${DAYS.map(d=>`<th>${d.label} ${d.date.split(' ')[1]}</th>`).join('')}<th>Week Total</th></tr></thead>
   <tbody>${rows}</tbody>
 </table></div>
 <p class="sec-head">Tracked Outcomes</p>
@@ -1453,7 +1506,7 @@ function renderPTOSidebar() {
   const totalHrs = ptoTotalHours();
 
   document.getElementById('ptoSidebar').innerHTML = `
-<div class="psb-head">PTO <span class="psb-week">Jun 22–26</span></div>
+<div class="psb-head">PTO <span class="psb-week">${WEEK_STORE[ACTIVE_WEEK].label}</span></div>
 ${outMembers.length
   ? `<div class="psb-section-label">Out This Week (${outMembers.length})</div>${cards}<hr class="psb-divider"><div class="psb-footer">${totalHrs} total hours out</div>`
   : `<div class="psb-empty">No team members out this week.</div>`
@@ -1643,7 +1696,7 @@ function exportSnapshot() {
       <img src="${logoSrc}" alt="Pinecrest Group">
       <div>
         <div class="rpt-title">Sales Team Weekly Breakdown Analysis</div>
-        <div class="rpt-meta-line">Week of Jun 22 – 26, 2026</div>
+        <div class="rpt-meta-line">Week of ${WEEK_STORE[ACTIVE_WEEK].range}</div>
       </div>
     </div>
     <div class="rpt-stats">
@@ -1660,7 +1713,7 @@ function exportSnapshot() {
     </div>
     <div class="rpt-section">
       <h2>Managing Director Breakdown</h2>
-      <table class="rpt-table"><thead><tr><th>MD</th><th>Mon 22</th><th>Tue 23</th><th>Wed 24</th><th>Thu 25</th><th>Fri 26</th><th>Week Total</th></tr></thead>
+      <table class="rpt-table"><thead><tr><th>MD</th>${DAYS.map(d=>`<th>${d.label} ${d.date.split(' ')[1]}</th>`).join('')}<th>Week Total</th></tr></thead>
       <tbody>${repRows}</tbody></table>
     </div>
     <div class="rpt-section">
@@ -1670,7 +1723,7 @@ function exportSnapshot() {
     </div>
     <div class="rpt-footer"><span>Pinecrest Group — Confidential</span><span>Generated ${generated}</span></div>`;
   document.getElementById('exportContent').innerHTML = weekContent;
-  _exportDoc = buildStandaloneDoc(weekContent, 'Pinecrest — Weekly Report Jun 22–26 2026');
+  _exportDoc = buildStandaloneDoc(weekContent, 'Pinecrest — Weekly Report ' + WEEK_STORE[ACTIVE_WEEK].label.replace('–','-') + ' 2026');
   document.getElementById('export-overlay').classList.add('open');
 }
 
@@ -1754,7 +1807,7 @@ function exportDay(dayKey) {
 // ── Home screen ──────────────────────────────────────────────────────────────
 function weekMeetingCount(wk) {
   const w = WEEK_STORE[wk];
-  const sk = wk === 'w22' ? STORE_KEY : STORE_KEY + '_' + wk;
+  const sk = wk === LEGACY_WEEK ? STORE_KEY : STORE_KEY + '_' + wk;
   let saved = null;
   try { saved = JSON.parse(localStorage.getItem(sk)); } catch(e) { saved = null; }
   if (!saved) saved = w.seed || {}; // match switchWeek()'s own fallback, or counts drift from the in-week total
@@ -2039,8 +2092,24 @@ function showHome() {
   document.getElementById('pageWrap').style.display = 'none';
   document.getElementById('headerRight').style.display = 'none';
   document.getElementById('headerMeta').textContent = 'Pinecrest Hub';
+  const curWk = isoMonday(new Date());
+  const curW = WEEK_STORE[curWk];
+  const glanceHtml = curW ? `
+      <div class="week-card current" onclick="enterWeek('${curWk}')" style="cursor:pointer;margin-bottom:20px">
+        <div class="wc-badge">This Week</div>
+        <div class="wc-range">${curW.label}</div>
+        <div class="wc-year">2026</div>
+        <div class="wc-stats">
+          <span>${weekMeetingCount(curWk)} meeting${weekMeetingCount(curWk)!==1?'s':''}</span>
+          <span class="wc-dot">·</span>
+          <span>${weekPtoCount(curWk)} out on PTO</span>
+        </div>
+        <div class="wc-action">Enter Week →</div>
+      </div>` : '';
   document.getElementById('home-view').innerHTML = `
     <div class="home-inner">
+      <div class="home-heading">This Week at a Glance</div>
+      ${glanceHtml}
       <div class="home-heading">Select a Tool</div>
       <div class="week-grid">
         <div class="week-card current" onclick="showWeekSelector()" style="cursor:pointer">
@@ -2070,7 +2139,7 @@ function showHome() {
 async function showWeekSelector() {
   if (gcalIsConnected() && !gcalGetGustoId()) await gcalAutoDetectGusto();
   _backFn = showHome;
-  const order = ['w6','w29','w22'];
+  const order = Object.keys(WEEK_STORE).sort().reverse();
   const cards = order.map(wk => {
     const w = WEEK_STORE[wk];
     const isCurrent = w.days.some(d => d.key === TODAY);
@@ -2160,7 +2229,7 @@ function switchWeek(wk) {
   MEETINGS = w.meetings;
   PTO_DATA = w.pto;
   WEEK_LOCKED = false;
-  _storeKey = wk === 'w22' ? STORE_KEY : STORE_KEY + '_' + wk;
+  _storeKey = wk === LEGACY_WEEK ? STORE_KEY : STORE_KEY + '_' + wk;
   try {
     const stored = localStorage.getItem(_storeKey);
     state = stored ? JSON.parse(stored) : JSON.parse(JSON.stringify(w.seed));
@@ -2185,6 +2254,23 @@ function switchWeek(wk) {
   // Default: go to today's day if in this week, otherwise first day
   const todayD = DAYS.find(d => d.key === TODAY);
   switchTo(todayD ? todayD.id : DAYS[0].id);
+  // Brand-new weeks start with zero meetings — self-populate from Google
+  // Calendar the first time they're opened. Weeks that already have any
+  // meetings (curated history, or a week synced on a prior visit) are left
+  // alone here; the manual Sync button is still how those top up.
+  if (gcalIsConnected() && !weekHasAnyMeetings(w)) {
+    gcalFetchWeek(wk).then(ok => {
+      if (!ok || ACTIVE_WEEK !== wk) return;
+      MEETINGS = w.meetings;
+      PTO_DATA = w.pto;
+      buildNav();
+      for (const d of DAYS) renderDay(d.key);
+      renderSummary();
+      renderPTO();
+      renderPTOSidebar();
+      renderHeaderStats();
+    });
+  }
 }
 
 // ── Shared outcome save / lock ────────────────────────────────────────────────
