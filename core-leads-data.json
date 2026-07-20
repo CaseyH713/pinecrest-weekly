@@ -1,122 +1,20 @@
 {
-  "updatedAt": "2026-07-19T22:23:43.000Z",
+  "updatedAt": "2026-07-20T17:00:58.000Z",
+  "source": "monday_replica — Master Deal Board (board 7124590647), CORE Leads group, active items, by month of item_created; with125 = c_125_sales_status populated",
+  "window": "trailing 12 months (bulk-import spikes Aug-2024 and Jan-2025 excluded from the default window)",
   "byMonth": [
-    {
-      "month": "2026-04",
-      "total": 42,
-      "with125": 37
-    },
-    {
-      "month": "2026-05",
-      "total": 4,
-      "with125": 3
-    },
-    {
-      "month": "2026-06",
-      "total": 188,
-      "with125": 160
-    },
-    {
-      "month": "2026-07",
-      "total": 42,
-      "with125": 29
-    },
-    {
-      "month": "Undated",
-      "total": 9,
-      "with125": 8
-    }
+    { "month": "2025-08", "total": 138, "with125": 29 },
+    { "month": "2025-09", "total": 193, "with125": 24 },
+    { "month": "2025-10", "total": 99,  "with125": 17 },
+    { "month": "2025-11", "total": 128, "with125": 25 },
+    { "month": "2025-12", "total": 105, "with125": 20 },
+    { "month": "2026-01", "total": 25,  "with125": 11 },
+    { "month": "2026-02", "total": 25,  "with125": 24 },
+    { "month": "2026-03", "total": 28,  "with125": 24 },
+    { "month": "2026-04", "total": 27,  "with125": 26 },
+    { "month": "2026-05", "total": 48,  "with125": 46 },
+    { "month": "2026-06", "total": 133, "with125": 106 },
+    { "month": "2026-07", "total": 49,  "with125": 36 }
   ],
-  "history": [
-    {
-      "uploadedAt": "2026-07-08T03:42:07.000Z",
-      "byMonth": [
-        {
-          "month": "2026-04",
-          "total": 44,
-          "with125": 38
-        },
-        {
-          "month": "2026-05",
-          "total": 4,
-          "with125": 3
-        },
-        {
-          "month": "2026-06",
-          "total": 193,
-          "with125": 162
-        },
-        {
-          "month": "2026-07",
-          "total": 15,
-          "with125": 9
-        },
-        {
-          "month": "Undated",
-          "total": 5,
-          "with125": 4
-        }
-      ]
-    },
-    {
-      "uploadedAt": "2026-07-08T15:35:08.000Z",
-      "byMonth": [
-        {
-          "month": "2026-04",
-          "total": 44,
-          "with125": 38
-        },
-        {
-          "month": "2026-05",
-          "total": 49,
-          "with125": 45
-        },
-        {
-          "month": "2026-06",
-          "total": 148,
-          "with125": 120
-        },
-        {
-          "month": "2026-07",
-          "total": 16,
-          "with125": 10
-        },
-        {
-          "month": "Undated",
-          "total": 6,
-          "with125": 5
-        }
-      ]
-    },
-    {
-      "uploadedAt": "2026-07-12T21:45:00.000Z",
-      "byMonth": [
-        {
-          "month": "2026-04",
-          "total": 59,
-          "with125": 53
-        },
-        {
-          "month": "2026-05",
-          "total": 48,
-          "with125": 46
-        },
-        {
-          "month": "2026-06",
-          "total": 130,
-          "with125": 103
-        },
-        {
-          "month": "2026-07",
-          "total": 29,
-          "with125": 21
-        },
-        {
-          "month": "Undated",
-          "total": 5,
-          "with125": 5
-        }
-      ]
-    }
-  ]
+  "history": []
 }
