@@ -3,7 +3,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <script>(function(){
-  var BUILD='20260720b';
+  var BUILD='20260720c';
   if(sessionStorage.getItem('_b')===BUILD)return;
   sessionStorage.setItem('_b',BUILD);
   fetch(location.pathname+'?_chk='+BUILD,{cache:'no-cache'})
@@ -3055,8 +3055,8 @@ function renderCoreLeads() {
           ondragover="coreDzOver(event)" ondragleave="coreDzLeave()" ondrop="coreDzDrop(event)">
           <input type="file" accept=".xlsx,.xls,.csv" onchange="coreFileChosen(event)">
           <div class="dial-drop-zone-icon">📥</div>
-          <div class="dial-drop-zone-text">Drop this week's Master Deal Board export here or click to browse</div>
-          <div class="dial-drop-zone-sub">Accepts .xlsx, .xls, .csv — re-buckets every lead by Item Created month automatically</div>
+          <div class="dial-drop-zone-text">Manual fallback — drop a Master Deal Board export here</div>
+          <div class="dial-drop-zone-sub">Data now comes live from the Monday replica; only use this if a replica refresh isn't available. Accepts .xlsx, .xls, .csv</div>
         </div>
         <div class="dial-publish-bar">
           <button class="btn-dial-publish" id="corePublishBtn" onclick="corePublish()" disabled>↑ Publish to Team</button>
