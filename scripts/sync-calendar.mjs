@@ -47,13 +47,16 @@ function evtToMtg(ev, repKey) {
   const ve = ev.conferenceData?.entryPoints?.find(p => p.entryPointType === 'video');
   if (ve) meet = ve.uri;
   if (!meet && ev.location && /^https?:|zoom\.|meet\.google/i.test(ev.location)) meet = ev.location;
-  let contact = '';
-  const ext = ev.attendees?.find(a => !a.self && !a.organizer && !/(pinecrestgroup|pinecrestconsulting|innovativebps)\.com/.test(a.email || ''));
-  if (ext) contact = ext.email;
+  const isPinecrest = a => /(pinecrestgroup|pinecrestconsulting|innovativebps)\.com$/i.test(a.email || '');
+  const attendees = (ev.attendees || [])
+    .filter(a => !a.resource && (a.displayName || a.email))
+    .map(a => ({ n: a.displayName || a.email, ext: !a.self && !isPinecrest(a) }));
+  const ext = ev.attendees?.find(a => !a.self && !a.organizer && !isPinecrest(a));
+  const contact = ext ? ext.email : '';
   return {
     id: 'gc-' + repKey[0] + '-' + ev.id.replace(/[^a-z0-9]/gi, '').slice(-12),
     ts: fmtTime(s), te: fmtTime(e), dur, title: ev.summary || '(No title)',
-    contact, org: '', meet, _dayKey: s.toISOString().slice(0, 10),
+    contact, attendees, org: '', meet, _dayKey: s.toISOString().slice(0, 10),
   };
 }
 

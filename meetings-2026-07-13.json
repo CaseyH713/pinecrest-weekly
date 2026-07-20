@@ -1,6 +1,6 @@
 {
   "week": "2026-07-13",
-  "updatedAt": "2026-07-20T18:54:05.900Z",
+  "updatedAt": "2026-07-20T18:59:47.560Z",
   "meetings": {
     "judah": {
       "2026-07-13": [],
@@ -9,11 +9,29 @@
       "2026-07-16": [
         {
           "id": "gc-j-sqdvn9htvch2",
-          "ts": "8:30 PM",
-          "te": "9:00 PM",
+          "ts": "3:30 PM",
+          "te": "4:00 PM",
           "dur": "30 min",
           "title": "Natalia/Tim Nash    Section 125 Proposal/ Discussion ",
           "contact": "timothy.nash@nafelogistics.com",
+          "attendees": [
+            {
+              "n": "diana.hakakian@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "timothy.nash@nafelogistics.com",
+              "ext": true
+            },
+            {
+              "n": "judah@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "natalia.nash@nafelogistics.com",
+              "ext": true
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/zgj-yspv-exq",
           "_dayKey": "2026-07-16"
@@ -26,33 +44,83 @@
       "2026-07-14": [
         {
           "id": "gc-m-tvvr653vgas4",
-          "ts": "3:00 PM",
-          "te": "3:15 PM",
+          "ts": "10:00 AM",
+          "te": "10:15 AM",
           "dur": "15 min",
           "title": "Pinecrest Group SPP/ iCRYO",
           "contact": "rachel.magnuson@icryo.com",
+          "attendees": [
+            {
+              "n": "james.johnson@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "rachel.magnuson@icryo.com",
+              "ext": true
+            },
+            {
+              "n": "rachel.magnuson.cryo@gmail.com",
+              "ext": true
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/quc-hswt-vgu",
           "_dayKey": "2026-07-14"
         },
         {
           "id": "gc-m-p2pc25l0tt8i",
-          "ts": "6:30 PM",
-          "te": "6:45 PM",
+          "ts": "1:30 PM",
+          "te": "1:45 PM",
           "dur": "15 min",
           "title": "PinecrestGroup SPP x Blue Sky Innovative Solutions",
           "contact": "svetla.borisova@bsis-llc.com",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "james.johnson@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "svetla.borisova@bsis-llc.com",
+              "ext": true
+            },
+            {
+              "n": "hr@bsis-llc.com",
+              "ext": true
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/avz-shwq-djg",
           "_dayKey": "2026-07-14"
         },
         {
           "id": "gc-m-uoino4mga5qc",
-          "ts": "7:00 PM",
-          "te": "7:30 PM",
+          "ts": "2:00 PM",
+          "te": "2:30 PM",
           "dur": "30 min",
           "title": "SPP with Pinecrest ",
           "contact": "primetimelogistics19@gmail.com",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "jack.shimonov@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "primetimelogistics19@gmail.com",
+              "ext": true
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/uoz-wbfv-qxi",
           "_dayKey": "2026-07-14"
@@ -61,11 +129,25 @@
       "2026-07-15": [
         {
           "id": "gc-m-kq38d13g32as",
-          "ts": "9:00 PM",
-          "te": "9:30 PM",
+          "ts": "4:00 PM",
+          "te": "4:30 PM",
           "dur": "30 min",
           "title": "Group Health and SPP with Pinecrest ",
           "contact": "aaronrazaq@yahoo.com",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "jack.shimonov@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "aaronrazaq@yahoo.com",
+              "ext": true
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/div-qvgm-xcq",
           "_dayKey": "2026-07-15"
@@ -74,11 +156,33 @@
       "2026-07-16": [
         {
           "id": "gc-m-eqi60oc67it9",
-          "ts": "3:00 PM",
-          "te": "3:30 PM",
+          "ts": "10:00 AM",
+          "te": "10:30 AM",
           "dur": "30 min",
           "title": "Supplemental Prevention Program X Layne Final Mile(Don)",
           "contact": "john.m.starr82@gmail.com",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "chaya.adelman@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "john.m.starr82@gmail.com",
+              "ext": true
+            },
+            {
+              "n": "stoya1957@gmail.com",
+              "ext": true
+            },
+            {
+              "n": "donlayne85@outlook.com",
+              "ext": true
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/fdm-proo-ovy",
           "_dayKey": "2026-07-16"
@@ -90,11 +194,25 @@
       "2026-07-13": [
         {
           "id": "gc-b-ku9nkpkucivg",
-          "ts": "8:30 PM",
-          "te": "9:00 PM",
+          "ts": "3:30 PM",
+          "te": "4:00 PM",
           "dur": "30 min",
           "title": "SPP Initial Meeting with Ben (Roy Mannix)",
           "contact": "roy@seattlefinalmile.com",
+          "attendees": [
+            {
+              "n": "roy@seattlefinalmile.com",
+              "ext": true
+            },
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "orly.tabaria@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/itp-syda-feq",
           "_dayKey": "2026-07-13"
@@ -103,33 +221,75 @@
       "2026-07-14": [
         {
           "id": "gc-b-l8p0pskkmu3f",
-          "ts": "5:30 PM",
-          "te": "6:00 PM",
+          "ts": "12:30 PM",
+          "te": "1:00 PM",
           "dur": "30 min",
           "title": "SPP Follow Up - Next Steps",
           "contact": "owner@legendarylinelogistics.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "owner@legendarylinelogistics.com",
+              "ext": true
+            },
+            {
+              "n": "chaya.adelman@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/gcm-ehcz-zho",
           "_dayKey": "2026-07-14"
         },
         {
           "id": "gc-b-c0i3a9e8hub1",
-          "ts": "6:00 PM",
-          "te": "6:30 PM",
+          "ts": "1:00 PM",
+          "te": "1:30 PM",
           "dur": "30 min",
           "title": "Supplemental Prevention Plan Proposal X Peak Performance Logistics",
           "contact": "peak2020kw@gmail.com",
+          "attendees": [
+            {
+              "n": "peak2020kw@gmail.com",
+              "ext": true
+            },
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "chaya.adelman@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/eof-fwpp-cqc",
           "_dayKey": "2026-07-14"
         },
         {
           "id": "gc-b-tboh4mnspc88",
-          "ts": "7:00 PM",
-          "te": "7:45 PM",
+          "ts": "2:00 PM",
+          "te": "2:45 PM",
           "dur": "45 min",
           "title": "Supplemental Prevention Plan -BNX Logistics ",
           "contact": "bnxlogisticsllc@gmail.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "orly.tabaria@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "bnxlogisticsllc@gmail.com",
+              "ext": true
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/rdp-uqyj-dyy",
           "_dayKey": "2026-07-14"
@@ -138,11 +298,25 @@
       "2026-07-15": [
         {
           "id": "gc-b-ci3vlh3t2cjl",
-          "ts": "7:30 PM",
-          "te": "8:00 PM",
+          "ts": "2:30 PM",
+          "te": "3:00 PM",
           "dur": "30 min",
           "title": "SPP - Tax Savings Discussion",
           "contact": "kate.schlichter@anewleaf.org",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "hannah.bernays@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "kate.schlichter@anewleaf.org",
+              "ext": true
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/pvq-gmnw-tok",
           "_dayKey": "2026-07-15"
@@ -152,44 +326,100 @@
       "2026-07-17": [
         {
           "id": "gc-b-ipsju572iv9v",
-          "ts": "2:30 PM",
-          "te": "3:15 PM",
+          "ts": "9:30 AM",
+          "te": "10:15 AM",
           "dur": "45 min",
           "title": "Gan Katan - Supplemental Prevention Plan- Tax Savings Discussion",
           "contact": "gankatanmiami@gmail.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "orly.tabaria@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "gankatanmiami@gmail.com",
+              "ext": true
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/tfd-qnwm-wff",
           "_dayKey": "2026-07-17"
         },
         {
           "id": "gc-b-phesc5o8uc5v",
-          "ts": "3:30 PM",
-          "te": "4:15 PM",
+          "ts": "10:30 AM",
+          "te": "11:15 AM",
           "dur": "45 min",
           "title": "Supplemental Prevention Program - How tangible is it?! - Butterdrive- Temi X Ben X Orly ",
           "contact": "temi@butterdrive.com",
+          "attendees": [
+            {
+              "n": "temi@butterdrive.com",
+              "ext": true
+            },
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "orly.tabaria@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/jwe-eqtm-xbd",
           "_dayKey": "2026-07-17"
         },
         {
           "id": "gc-b-pkjuuc0gsf61",
-          "ts": "4:15 PM",
-          "te": "4:45 PM",
+          "ts": "11:15 AM",
+          "te": "11:45 AM",
           "dur": "30 min",
           "title": "Supplemental Prevention Program X Aasira",
           "contact": "info@aasira.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "chaya.adelman@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "info@aasira.com",
+              "ext": true
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/ifh-mwnt-ife",
           "_dayKey": "2026-07-17"
         },
         {
           "id": "gc-b-rdegpqpv87ov",
-          "ts": "7:30 PM",
-          "te": "8:15 PM",
+          "ts": "2:30 PM",
+          "te": "3:15 PM",
           "dur": "45 min",
           "title": "Ben X Omyal Express-Supplemental Prevention Program",
           "contact": "omyalexpress@omyal.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "chaya.adelman@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "omyalexpress@omyal.com",
+              "ext": true
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/acy-nnqs-ctf",
           "_dayKey": "2026-07-17"

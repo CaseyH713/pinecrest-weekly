@@ -1,6 +1,6 @@
 {
   "week": "2026-07-20",
-  "updatedAt": "2026-07-20T18:54:04.106Z",
+  "updatedAt": "2026-07-20T18:59:45.840Z",
   "meetings": {
     "judah": {
       "2026-07-20": [],
@@ -8,22 +8,54 @@
       "2026-07-22": [
         {
           "id": "gc-j-2u3md8kcg53g",
-          "ts": "7:30 PM",
-          "te": "8:00 PM",
+          "ts": "2:30 PM",
+          "te": "3:00 PM",
           "dur": "30 min",
           "title": "Pinecrest x HCM Payroll Tax Savings Follow Up",
           "contact": "tburden@hcmlouisville.org",
+          "attendees": [
+            {
+              "n": "tburden@hcmlouisville.org",
+              "ext": true
+            },
+            {
+              "n": "david.shafron@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "judah@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/rrj-wowa-tes",
           "_dayKey": "2026-07-22"
         },
         {
           "id": "gc-j-i2bsuo4keuah",
-          "ts": "8:30 PM",
-          "te": "9:30 PM",
+          "ts": "3:30 PM",
+          "te": "4:30 PM",
           "dur": "1 hr",
           "title": "! Cat, Greg, Judah - Section 125 Call",
           "contact": "kurt@veniologistics.com",
+          "attendees": [
+            {
+              "n": "greg.yavner@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "judah@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "kurt@veniologistics.com",
+              "ext": true
+            },
+            {
+              "n": "cat@veniologistics.com",
+              "ext": true
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/pjy-bmwt-wco",
           "_dayKey": "2026-07-22"
@@ -36,11 +68,25 @@
       "2026-07-20": [
         {
           "id": "gc-m-qt9dvdctfta3",
-          "ts": "4:00 PM",
-          "te": "4:15 PM",
+          "ts": "11:00 AM",
+          "te": "11:15 AM",
           "dur": "15 min",
           "title": "Pinecrest 125 SPP/Dayton Pattern",
           "contact": "daytonpattern55@gmail.com",
+          "attendees": [
+            {
+              "n": "daytonpattern55@gmail.com",
+              "ext": true
+            },
+            {
+              "n": "james.johnson@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/rhz-zysh-rty",
           "_dayKey": "2026-07-20"
@@ -49,55 +95,137 @@
       "2026-07-21": [
         {
           "id": "gc-m-s41aa6ikurhs",
-          "ts": "5:00 PM",
-          "te": "5:30 PM",
+          "ts": "12:00 PM",
+          "te": "12:30 PM",
           "dur": "30 min",
           "title": "Supplemental Prevention Program X West Coast Wound",
           "contact": "aknapp@westcoastwound.com",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "chaya.adelman@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "aknapp@westcoastwound.com",
+              "ext": true
+            },
+            {
+              "n": "nchorvat@westcoastwound.com",
+              "ext": true
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/mxd-xmki-thn",
           "_dayKey": "2026-07-21"
         },
         {
           "id": "gc-m-mlcg0ctpv6l0",
-          "ts": "6:00 PM",
-          "te": "6:45 PM",
+          "ts": "1:00 PM",
+          "te": "1:45 PM",
           "dur": "45 min",
           "title": "Health Insurance Proposal/SPP X Mike Martin(Herc Logistics)",
           "contact": "mike@mrmdistributing.com",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "mike@mrmdistributing.com",
+              "ext": true
+            },
+            {
+              "n": "chaya.adelman@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/krx-mchb-xbn",
           "_dayKey": "2026-07-21"
         },
         {
           "id": "gc-m-7vcv2nk0cfj5",
-          "ts": "7:00 PM",
-          "te": "7:30 PM",
+          "ts": "2:00 PM",
+          "te": "2:30 PM",
           "dur": "30 min",
           "title": "Snowbird/ Shelley & Eliza  Workers Comp",
           "contact": "shelley@dauntlessdelivery.com",
+          "attendees": [
+            {
+              "n": "diana.hakakian@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "david.azose@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "shelley@dauntlessdelivery.com",
+              "ext": true
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/gwr-nkvt-neo",
           "_dayKey": "2026-07-21"
         },
         {
           "id": "gc-m-8j4okfo2hbtf",
-          "ts": "8:00 PM",
-          "te": "8:30 PM",
+          "ts": "3:00 PM",
+          "te": "3:30 PM",
           "dur": "30 min",
           "title": "Brighton/ Serge & Elvira  Supplemental Prevention Program",
           "contact": "info@brightontr.com",
+          "attendees": [
+            {
+              "n": "diana.hakakian@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "info@brightontr.com",
+              "ext": true
+            },
+            {
+              "n": "elvira@brightontr.com",
+              "ext": true
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/uyi-pezs-hgo",
           "_dayKey": "2026-07-21"
         },
         {
           "id": "gc-m-bdarlbok5l5g",
-          "ts": "9:00 PM",
-          "te": "9:15 PM",
+          "ts": "4:00 PM",
+          "te": "4:15 PM",
           "dur": "15 min",
           "title": "PinecrestGroup SPP x Center Point",
           "contact": "eking@cpinc.org",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "james.johnson@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "eking@cpinc.org",
+              "ext": true
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/krj-seaf-czy",
           "_dayKey": "2026-07-21"
@@ -106,22 +234,58 @@
       "2026-07-22": [
         {
           "id": "gc-m-tpjdev24c1v5",
-          "ts": "3:30 PM",
-          "te": "3:45 PM",
+          "ts": "10:30 AM",
+          "te": "10:45 AM",
           "dur": "15 min",
           "title": "PinecrestGroup SPP x EPTCU",
           "contact": "raiganm@etpcu.org",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "james.johnson@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "raiganm@etpcu.org",
+              "ext": true
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/ejj-qjsr-spd",
           "_dayKey": "2026-07-22"
         },
         {
           "id": "gc-m-5b4rehi722pl",
-          "ts": "4:00 PM",
-          "te": "4:30 PM",
+          "ts": "11:00 AM",
+          "te": "11:30 AM",
           "dur": "30 min",
           "title": "SPP Follow Up X Layne Final Mile",
           "contact": "john.m.starr82@gmail.com",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "chaya.adelman@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "john.m.starr82@gmail.com",
+              "ext": true
+            },
+            {
+              "n": "stoya1957@gmail.com",
+              "ext": true
+            },
+            {
+              "n": "donlayne85@outlook.com",
+              "ext": true
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/wkp-ymch-csr",
           "_dayKey": "2026-07-22"
@@ -130,11 +294,25 @@
       "2026-07-23": [
         {
           "id": "gc-m-fqhv2p8bl6va",
-          "ts": "2:00 PM",
-          "te": "2:30 PM",
+          "ts": "9:00 AM",
+          "te": "9:30 AM",
           "dur": "30 min",
           "title": "SPP with Pinecrest Group x Automatic Building Controls",
           "contact": "cunningk@ab-controls.com",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "jack.shimonov@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "cunningk@ab-controls.com",
+              "ext": true
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/tzh-gghg-eph",
           "_dayKey": "2026-07-23"
@@ -143,11 +321,25 @@
       "2026-07-24": [
         {
           "id": "gc-m-phdkufkvv8ts",
-          "ts": "6:30 PM",
-          "te": "7:00 PM",
+          "ts": "1:30 PM",
+          "te": "2:00 PM",
           "dur": "30 min",
           "title": "Supplemental Prevention Program Follow Up",
           "contact": "gtempledsp@gmail.com",
+          "attendees": [
+            {
+              "n": "gtempledsp@gmail.com",
+              "ext": true
+            },
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "chaya.adelman@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/bfv-kcwi-nux",
           "_dayKey": "2026-07-24"
@@ -158,55 +350,129 @@
       "2026-07-20": [
         {
           "id": "gc-b-7tv7rlh73tlv",
-          "ts": "2:30 PM",
-          "te": "3:15 PM",
+          "ts": "9:30 AM",
+          "te": "10:15 AM",
           "dur": "45 min",
           "title": "SPP Initial Call - Ben / Patricia",
           "contact": "vizcarrondo.patricia@gmail.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "orly.tabaria@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "vizcarrondo.patricia@gmail.com",
+              "ext": true
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/nxa-repr-jzj",
           "_dayKey": "2026-07-20"
         },
         {
           "id": "gc-b-8h8bc5oel4e5",
-          "ts": "3:30 PM",
-          "te": "4:15 PM",
+          "ts": "10:30 AM",
+          "te": "11:15 AM",
           "dur": "45 min",
           "title": "Supplemental Prevention Plan - Section 125 - Elite Riders Express ",
           "contact": "eliteridersexpress@gmail.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "orly.tabaria@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "eliteridersexpress@gmail.com",
+              "ext": true
+            },
+            {
+              "n": "estefania@eliteridersexpress.com",
+              "ext": true
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/tos-gfix-tjr",
           "_dayKey": "2026-07-20"
         },
         {
           "id": "gc-b-h0uoacv75gg8",
-          "ts": "4:15 PM",
-          "te": "4:50 PM",
+          "ts": "11:15 AM",
+          "te": "11:50 AM",
           "dur": "35 min",
           "title": "Hebrew Academy of Miami - Supplemental Prevention Program",
           "contact": "rweinberger@rasg.org",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "orly.tabaria@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "rweinberger@rasg.org",
+              "ext": true
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/tgu-hcda-xem",
           "_dayKey": "2026-07-20"
         },
         {
           "id": "gc-b-k3hu7o5pdock",
-          "ts": "6:30 PM",
-          "te": "7:00 PM",
+          "ts": "1:30 PM",
+          "te": "2:00 PM",
           "dur": "30 min",
           "title": "Ben X Hunter(Peanut's Parcels)-Touch base(SPP/WC)",
           "contact": "huntermichalowske.logistics@gmail.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "chaya.adelman@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "huntermichalowske.logistics@gmail.com",
+              "ext": true
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/vxj-amqi-vdk",
           "_dayKey": "2026-07-20"
         },
         {
           "id": "gc-b-8gog56hq0coo",
-          "ts": "8:30 PM",
-          "te": "9:00 PM",
+          "ts": "3:30 PM",
+          "te": "4:00 PM",
           "dur": "30 min",
           "title": "SPP Initial Call - A New Leaf",
           "contact": "kate.schlichter@anewleaf.org",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "kate.schlichter@anewleaf.org",
+              "ext": true
+            },
+            {
+              "n": "hannah.bernays@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/wwu-riva-pia",
           "_dayKey": "2026-07-20"
@@ -216,11 +482,25 @@
       "2026-07-22": [
         {
           "id": "gc-b-81jgg9s4u61o",
-          "ts": "3:10 PM",
-          "te": "3:40 PM",
+          "ts": "10:10 AM",
+          "te": "10:40 AM",
           "dur": "30 min",
           "title": "SPP Follow Up - Meg / Ben",
           "contact": "mlevis@chicagolightworks.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "mlevis@chicagolightworks.com",
+              "ext": true
+            },
+            {
+              "n": "hannah.bernays@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/pwu-xxwr-kyi",
           "_dayKey": "2026-07-22"
@@ -229,11 +509,25 @@
       "2026-07-23": [
         {
           "id": "gc-b-1jef2cnl7e24",
-          "ts": "7:50 PM",
-          "te": "8:20 PM",
+          "ts": "2:50 PM",
+          "te": "3:20 PM",
           "dur": "30 min",
           "title": "SPP Initial Call - National Sugar",
           "contact": "atorrente@natsugar.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "hannah.bernays@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "atorrente@natsugar.com",
+              "ext": true
+            }
+          ],
           "org": "",
           "meet": "https://meet.google.com/knu-jgtf-nhc",
           "_dayKey": "2026-07-23"
@@ -242,11 +536,25 @@
       "2026-07-24": [
         {
           "id": "gc-b-phliq2u5a20o",
-          "ts": "4:30 PM",
-          "te": "5:00 PM",
+          "ts": "11:30 AM",
+          "te": "12:00 PM",
           "dur": "30 min",
           "title": "SPP Initial Call - EPLA Limo",
           "contact": "bhunt@eplalimo.com",
+          "attendees": [
+            {
+              "n": "bhunt@eplalimo.com",
+              "ext": true
+            },
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "ari.lowenstein@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
           "org": "",
           "meet": "",
           "_dayKey": "2026-07-24"

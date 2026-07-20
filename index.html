@@ -3,7 +3,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <script>(function(){
-  var BUILD='20260720f';
+  var BUILD='20260720g';
   if(sessionStorage.getItem('_b')===BUILD)return;
   sessionStorage.setItem('_b',BUILD);
   fetch(location.pathname+'?_chk='+BUILD,{cache:'no-cache'})
@@ -1241,6 +1241,11 @@ function meetingCard(m) {
   const o = getOutcome(m.id);
   const s = o.status;
   const meetLink = m.meet ? `<span class="chip"><a href="${m.meet}" target="_blank">📹 Meet</a></span>` : '';
+  const esc = t => String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const people = (m.attendees && m.attendees.length)
+    ? m.attendees.map(a => `<span class="chip"${a.ext ? ' style="font-weight:600"' : ''}>👤 ${esc(a.n)}</span>`).join('')
+    : (m.contact ? `<span class="chip">👤 ${esc(m.contact)}</span>` : '');
+  const orgChip = m.org ? `<span class="chip">📋 ${esc(m.org)}</span>` : '';
   return `
 <div class="mc${cardClass(m.id)}" id="card-${m.id}"${WEEK_LOCKED ? ' style="opacity:.6;pointer-events:none"' : ''}>
   <div class="mc-top">
@@ -1253,8 +1258,8 @@ function meetingCard(m) {
     <div class="mc-body">
       <div class="mc-title" title="${m.title}">${m.title}</div>
       <div class="mc-chips">
-        <span class="chip">👤 ${m.contact}</span>
-        <span class="chip">📋 ${m.org}</span>
+        ${people}
+        ${orgChip}
         ${meetLink}
       </div>
     </div>
@@ -2170,8 +2175,10 @@ async function showWeekSelector() {
   document.getElementById('headerMeta').textContent = 'Weekly Breakdown';
   document.getElementById('backNavBtn').textContent = '← Home';
   document.getElementById('backNavLabel').textContent = 'Select a Week';
+  // Calendar connect/sync bar removed — meetings + PTO now come from the daily
+  // auto-sync (meetings-<wk>.json), so no per-user browser sign-in is needed.
   document.getElementById('home-view').innerHTML =
-    `<div class="home-inner">${gcalStatusBar()}<div class="home-heading">Select a Week</div><div class="week-grid">${cards}</div></div>`;
+    `<div class="home-inner"><div class="home-heading">Select a Week</div><div class="week-grid">${cards}</div></div>`;
 }
 
 // Level 1b — Call Analyzer
