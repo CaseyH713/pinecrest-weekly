@@ -3,7 +3,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <script>(function(){
-  var BUILD='20260720d';
+  var BUILD='20260720e';
   if(sessionStorage.getItem('_b')===BUILD)return;
   sessionStorage.setItem('_b',BUILD);
   fetch(location.pathname+'?_chk='+BUILD,{cache:'no-cache'})
@@ -2119,12 +2119,14 @@ function showHome() {
           <div class="wc-stats"><span>${Object.keys(WEEK_STORE).length} weeks available</span></div>
           <div class="wc-action">Open →</div>
         </div>
+        <!-- Call Analyzer hidden until Orum provides webhooks — restore this card to re-enable (enterCallAnalyzer/renderCallAnalyzer code left intact below).
         <div class="week-card" onclick="enterCallAnalyzer()" style="cursor:pointer">
           <div class="wc-range">Call Analyzer</div>
           <div class="wc-year">AI-powered disposition QA</div>
           <div class="wc-stats"><span>Paste transcript · Verify disposition</span></div>
           <div class="wc-action">Open →</div>
         </div>
+        -->
         <div class="week-card" onclick="enterCoreLeads()" style="cursor:pointer">
           <div class="wc-range">CORE Leads Report</div>
           <div class="wc-year">Monthly breakdown · 125 Sales Status</div>
