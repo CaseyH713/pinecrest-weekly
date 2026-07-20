@@ -1,6 +1,6 @@
 {
   "week": "2026-07-13",
-  "updatedAt": "2026-07-20T18:52:51.139Z",
+  "updatedAt": "2026-07-20T18:54:05.900Z",
   "meetings": {
     "judah": {
       "2026-07-13": [],
@@ -9,8 +9,8 @@
       "2026-07-16": [
         {
           "id": "gc-j-sqdvn9htvch2",
-          "ts": "3:30 PM",
-          "te": "4:00 PM",
+          "ts": "8:30 PM",
+          "te": "9:00 PM",
           "dur": "30 min",
           "title": "Natalia/Tim Nash    Section 125 Proposal/ Discussion ",
           "contact": "timothy.nash@nafelogistics.com",
@@ -26,8 +26,8 @@
       "2026-07-14": [
         {
           "id": "gc-m-tvvr653vgas4",
-          "ts": "10:00 AM",
-          "te": "10:15 AM",
+          "ts": "3:00 PM",
+          "te": "3:15 PM",
           "dur": "15 min",
           "title": "Pinecrest Group SPP/ iCRYO",
           "contact": "rachel.magnuson@icryo.com",
@@ -37,8 +37,8 @@
         },
         {
           "id": "gc-m-p2pc25l0tt8i",
-          "ts": "1:30 PM",
-          "te": "1:45 PM",
+          "ts": "6:30 PM",
+          "te": "6:45 PM",
           "dur": "15 min",
           "title": "PinecrestGroup SPP x Blue Sky Innovative Solutions",
           "contact": "svetla.borisova@bsis-llc.com",
@@ -48,8 +48,8 @@
         },
         {
           "id": "gc-m-uoino4mga5qc",
-          "ts": "2:00 PM",
-          "te": "2:30 PM",
+          "ts": "7:00 PM",
+          "te": "7:30 PM",
           "dur": "30 min",
           "title": "SPP with Pinecrest ",
           "contact": "primetimelogistics19@gmail.com",
@@ -61,8 +61,8 @@
       "2026-07-15": [
         {
           "id": "gc-m-kq38d13g32as",
-          "ts": "4:00 PM",
-          "te": "4:30 PM",
+          "ts": "9:00 PM",
+          "te": "9:30 PM",
           "dur": "30 min",
           "title": "Group Health and SPP with Pinecrest ",
           "contact": "aaronrazaq@yahoo.com",
@@ -74,8 +74,8 @@
       "2026-07-16": [
         {
           "id": "gc-m-eqi60oc67it9",
-          "ts": "10:00 AM",
-          "te": "10:30 AM",
+          "ts": "3:00 PM",
+          "te": "3:30 PM",
           "dur": "30 min",
           "title": "Supplemental Prevention Program X Layne Final Mile(Don)",
           "contact": "john.m.starr82@gmail.com",
@@ -90,8 +90,8 @@
       "2026-07-13": [
         {
           "id": "gc-b-ku9nkpkucivg",
-          "ts": "3:30 PM",
-          "te": "4:00 PM",
+          "ts": "8:30 PM",
+          "te": "9:00 PM",
           "dur": "30 min",
           "title": "SPP Initial Meeting with Ben (Roy Mannix)",
           "contact": "roy@seattlefinalmile.com",
@@ -103,8 +103,8 @@
       "2026-07-14": [
         {
           "id": "gc-b-l8p0pskkmu3f",
-          "ts": "12:30 PM",
-          "te": "1:00 PM",
+          "ts": "5:30 PM",
+          "te": "6:00 PM",
           "dur": "30 min",
           "title": "SPP Follow Up - Next Steps",
           "contact": "owner@legendarylinelogistics.com",
@@ -114,8 +114,8 @@
         },
         {
           "id": "gc-b-c0i3a9e8hub1",
-          "ts": "1:00 PM",
-          "te": "1:30 PM",
+          "ts": "6:00 PM",
+          "te": "6:30 PM",
           "dur": "30 min",
           "title": "Supplemental Prevention Plan Proposal X Peak Performance Logistics",
           "contact": "peak2020kw@gmail.com",
@@ -125,8 +125,8 @@
         },
         {
           "id": "gc-b-tboh4mnspc88",
-          "ts": "2:00 PM",
-          "te": "2:45 PM",
+          "ts": "7:00 PM",
+          "te": "7:45 PM",
           "dur": "45 min",
           "title": "Supplemental Prevention Plan -BNX Logistics ",
           "contact": "bnxlogisticsllc@gmail.com",
@@ -138,8 +138,8 @@
       "2026-07-15": [
         {
           "id": "gc-b-ci3vlh3t2cjl",
-          "ts": "2:30 PM",
-          "te": "3:00 PM",
+          "ts": "7:30 PM",
+          "te": "8:00 PM",
           "dur": "30 min",
           "title": "SPP - Tax Savings Discussion",
           "contact": "kate.schlichter@anewleaf.org",
@@ -152,8 +152,8 @@
       "2026-07-17": [
         {
           "id": "gc-b-ipsju572iv9v",
-          "ts": "9:30 AM",
-          "te": "10:15 AM",
+          "ts": "2:30 PM",
+          "te": "3:15 PM",
           "dur": "45 min",
           "title": "Gan Katan - Supplemental Prevention Plan- Tax Savings Discussion",
           "contact": "gankatanmiami@gmail.com",
@@ -163,8 +163,8 @@
         },
         {
           "id": "gc-b-phesc5o8uc5v",
-          "ts": "10:30 AM",
-          "te": "11:15 AM",
+          "ts": "3:30 PM",
+          "te": "4:15 PM",
           "dur": "45 min",
           "title": "Supplemental Prevention Program - How tangible is it?! - Butterdrive- Temi X Ben X Orly ",
           "contact": "temi@butterdrive.com",
@@ -174,8 +174,8 @@
         },
         {
           "id": "gc-b-pkjuuc0gsf61",
-          "ts": "11:15 AM",
-          "te": "11:45 AM",
+          "ts": "4:15 PM",
+          "te": "4:45 PM",
           "dur": "30 min",
           "title": "Supplemental Prevention Program X Aasira",
           "contact": "info@aasira.com",
@@ -185,8 +185,8 @@
         },
         {
           "id": "gc-b-rdegpqpv87ov",
-          "ts": "2:30 PM",
-          "te": "3:15 PM",
+          "ts": "7:30 PM",
+          "te": "8:15 PM",
           "dur": "45 min",
           "title": "Ben X Omyal Express-Supplemental Prevention Program",
           "contact": "omyalexpress@omyal.com",
