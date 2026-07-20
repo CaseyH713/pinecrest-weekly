@@ -3,7 +3,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <script>(function(){
-  var BUILD='20260720c';
+  var BUILD='20260720d';
   if(sessionStorage.getItem('_b')===BUILD)return;
   sessionStorage.setItem('_b',BUILD);
   fetch(location.pathname+'?_chk='+BUILD,{cache:'no-cache'})
@@ -2961,7 +2961,9 @@ async function corePublish() {
 }
 
 function coreRenderReport(byMonth, history) {
-  const sum = k => byMonth.reduce((s, d) => s + (d[k] || 0), 0);
+  // Summary cards count 2026 only; the chart/table below still show the full trend.
+  const is2026 = d => String(d.month).startsWith('2026');
+  const sum = k => byMonth.filter(is2026).reduce((s, d) => s + (d[k] || 0), 0);
   const totTotal = sum('total');
   const tot125 = sum('with125');
   const totWC = sum('withWC');
@@ -3002,10 +3004,10 @@ function coreRenderReport(byMonth, history) {
 
   return `
     <div class="stat-row" style="display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap">
-      ${statCard('Total Leads', totTotal, '')}
-      ${statCard('125 Sales Status', tot125, pctOf(tot125) + '% of leads')}
-      ${statCard('WC Sales Status', hasWC ? totWC : '—', hasWC ? pctOf(totWC) + '% of leads' : 'not in this data')}
-      ${statCard('GHI Status', hasGHI ? totGHI : '—', hasGHI ? pctOf(totGHI) + '% of leads' : 'not in this data')}
+      ${statCard('2026 Total Leads', totTotal, '')}
+      ${statCard('125 Sales Status', tot125, pctOf(tot125) + '% of 2026 leads')}
+      ${statCard('WC Sales Status', hasWC ? totWC : '—', hasWC ? pctOf(totWC) + '% of 2026 leads' : 'not in this data')}
+      ${statCard('GHI Status', hasGHI ? totGHI : '—', hasGHI ? pctOf(totGHI) + '% of 2026 leads' : 'not in this data')}
     </div>
     <div style="background:var(--bg,#fff);border:1px solid var(--border);border-radius:10px;padding:24px 24px 8px;margin-bottom:20px">
       <div style="font-size:13px;font-weight:700;margin-bottom:2px">Leads by month created</div>
