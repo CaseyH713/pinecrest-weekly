@@ -1,20 +1,20 @@
 {
   "updatedAt": "2026-07-20T17:00:58.000Z",
-  "source": "monday_replica — Master Deal Board (board 7124590647), CORE Leads group, active items, by month of item_created; with125 = c_125_sales_status populated",
+  "source": "monday_replica — Master Deal Board (board 7124590647), CORE Leads group, active items, by month of item_created. with125=c_125_sales_status, withWC=wc_sales_status, withGHI=ghi_status populated. Products overlap (a lead can be flagged for more than one).",
   "window": "trailing 12 months (bulk-import spikes Aug-2024 and Jan-2025 excluded from the default window)",
   "byMonth": [
-    { "month": "2025-08", "total": 138, "with125": 29 },
-    { "month": "2025-09", "total": 193, "with125": 24 },
-    { "month": "2025-10", "total": 99,  "with125": 17 },
-    { "month": "2025-11", "total": 128, "with125": 25 },
-    { "month": "2025-12", "total": 105, "with125": 20 },
-    { "month": "2026-01", "total": 25,  "with125": 11 },
-    { "month": "2026-02", "total": 25,  "with125": 24 },
-    { "month": "2026-03", "total": 28,  "with125": 24 },
-    { "month": "2026-04", "total": 27,  "with125": 26 },
-    { "month": "2026-05", "total": 48,  "with125": 46 },
-    { "month": "2026-06", "total": 133, "with125": 106 },
-    { "month": "2026-07", "total": 49,  "with125": 36 }
+    { "month": "2025-08", "total": 138, "with125": 29,  "withWC": 3,  "withGHI": 132 },
+    { "month": "2025-09", "total": 193, "with125": 24,  "withWC": 3,  "withGHI": 193 },
+    { "month": "2025-10", "total": 99,  "with125": 17,  "withWC": 2,  "withGHI": 99 },
+    { "month": "2025-11", "total": 128, "with125": 25,  "withWC": 3,  "withGHI": 128 },
+    { "month": "2025-12", "total": 105, "with125": 20,  "withWC": 7,  "withGHI": 105 },
+    { "month": "2026-01", "total": 25,  "with125": 11,  "withWC": 3,  "withGHI": 22 },
+    { "month": "2026-02", "total": 25,  "with125": 24,  "withWC": 1,  "withGHI": 19 },
+    { "month": "2026-03", "total": 28,  "with125": 24,  "withWC": 0,  "withGHI": 28 },
+    { "month": "2026-04", "total": 27,  "with125": 26,  "withWC": 2,  "withGHI": 26 },
+    { "month": "2026-05", "total": 48,  "with125": 46,  "withWC": 0,  "withGHI": 38 },
+    { "month": "2026-06", "total": 132, "with125": 105, "withWC": 15, "withGHI": 47 },
+    { "month": "2026-07", "total": 50,  "with125": 36,  "withWC": 13, "withGHI": 8 }
   ],
   "history": []
 }
