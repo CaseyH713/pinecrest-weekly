@@ -1,14 +1,15 @@
 // Daily calendar sync — server-side twin of the hub's in-browser gcalFetchWeek.
-// Reads the 3 MD calendars + Gusto PTO calendar via a Google service account
-// and writes per-week meetings JSON (meetings-<mondayISO>.json) the hub loads.
+// Reads the 3 MD calendars + Gusto PTO calendar using a one-time OAuth
+// authorization from a user account that already has read access to them
+// (Casey's login sees all four), and writes per-week meetings JSON
+// (meetings-<mondayISO>.json) the hub loads.
+//
+// Auth: OAuth2 refresh token (see scripts/auth-once.mjs to mint it, and
+// CALENDAR-SYNC-SETUP.md for the one-time setup). No service account, no IT.
 //
 // Meetings are derived fresh from the calendar each run; OUTCOMES (won/lost/
 // no-show/notes) live separately in outcomes-<wk>.json keyed by the stable
 // GCal-derived meeting id, so re-publishing meetings never touches them.
-//
-// PENDING VERIFICATION: field mapping mirrors index.html's gcalEvtToMtg /
-// gcalFetchPTO as of 2026-07-20; confirm against real output once GOOGLE_SA_KEY
-// exists. Requires the 4 calendars shared with the service-account email.
 import fs from 'fs';
 import { google } from 'googleapis';
 
@@ -67,10 +68,14 @@ function matchPerson(title) {
 }
 
 async function main() {
-  if (!process.env.GOOGLE_SA_KEY) { console.error('GOOGLE_SA_KEY not set — aborting (see CALENDAR-SYNC-SETUP.md).'); process.exit(1); }
-  const creds = JSON.parse(process.env.GOOGLE_SA_KEY);
-  const auth = new google.auth.GoogleAuth({ credentials: creds, scopes: ['https://www.googleapis.com/auth/calendar.readonly'] });
-  const cal = google.calendar({ version: 'v3', auth: await auth.getClient() });
+  const { GOOGLE_OAUTH_CLIENT_ID, GOOGLE_OAUTH_CLIENT_SECRET, GOOGLE_OAUTH_REFRESH_TOKEN } = process.env;
+  if (!GOOGLE_OAUTH_CLIENT_ID || !GOOGLE_OAUTH_CLIENT_SECRET || !GOOGLE_OAUTH_REFRESH_TOKEN) {
+    console.error('Missing GOOGLE_OAUTH_CLIENT_ID / _SECRET / _REFRESH_TOKEN — see CALENDAR-SYNC-SETUP.md.');
+    process.exit(1);
+  }
+  const oauth2 = new google.auth.OAuth2(GOOGLE_OAUTH_CLIENT_ID, GOOGLE_OAUTH_CLIENT_SECRET);
+  oauth2.setCredentials({ refresh_token: GOOGLE_OAUTH_REFRESH_TOKEN });
+  const cal = google.calendar({ version: 'v3', auth: oauth2 });
 
   const listEvents = async (calendarId, timeMin, timeMax) => {
     const out = [];

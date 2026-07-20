@@ -4,10 +4,10 @@ name: Daily calendar sync
 # meetings JSON to the repo, so the hub shows current meetings/PTO without
 # anyone having to sign in a browser.
 #
-# INACTIVE until IT provisions access (see CALENDAR-SYNC-SETUP.md):
-#   - a Google service account with Calendar read access to the 4 calendars
-#   - its JSON key stored as the repo secret GOOGLE_SA_KEY
-# The daily schedule below is intentionally commented out until that exists;
+# INACTIVE until the one-time OAuth setup is done (see CALENDAR-SYNC-SETUP.md):
+#   secrets GOOGLE_OAUTH_CLIENT_ID, GOOGLE_OAUTH_CLIENT_SECRET, and
+#   GOOGLE_OAUTH_REFRESH_TOKEN (minted once via scripts/auth-once.mjs).
+# The daily schedule below is intentionally commented out until those exist;
 # run it by hand from the Actions tab (workflow_dispatch) to test first.
 
 on:
@@ -30,7 +30,9 @@ jobs:
         run: npm install googleapis
       - name: Sync calendars → per-week meetings JSON
         env:
-          GOOGLE_SA_KEY: ${{ secrets.GOOGLE_SA_KEY }}
+          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+          GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
+          GOOGLE_OAUTH_REFRESH_TOKEN: ${{ secrets.GOOGLE_OAUTH_REFRESH_TOKEN }}
         run: node scripts/sync-calendar.mjs
       - name: Commit any changes
         run: |

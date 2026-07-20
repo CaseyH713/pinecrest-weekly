@@ -1,49 +1,66 @@
-# Calendar daily auto-sync — IT setup (one-time)
+# Calendar daily auto-sync — one-time setup (no IT, no service account)
 
-The hub can pull the sales calendars every morning with no one signed in, but it
-needs a Google credential that belongs to the company (not a person). Until the
-steps below are done, the daily job (`.github/workflows/sync-calendar.yml`) stays
-inactive.
+Your login already has read access to all four calendars (Judah, Matt, Ben, and
+the Gusto PTO calendar), so we don't need a service account or IT. Instead you
+authorize the sync **once**, and the daily job reuses that authorization forever.
+This is three steps, done once. After that it runs itself every morning.
 
-## What to provision
+## Step 1 — Create a small Google "app" (OAuth client)
 
-1. **Create a Google service account** (Google Cloud console, any project owned by
-   the Pinecrest Google Workspace org):
-   - Enable the **Google Calendar API** on the project.
-   - Create a service account (e.g. `pinecrest-calendar-sync`).
-   - Create a **JSON key** for it and download it. This key is the secret.
+This is what lets the job hold your authorization. It does NOT need a Google
+admin — do it in your own account.
 
-2. **Give the service account read access to the 4 calendars.** Simplest route (no
-   domain-wide delegation): in Google Calendar, for each calendar below →
-   Settings → *Share with specific people* → add the service account's email
-   (`...@...iam.gserviceaccount.com`) with **"See all event details."**
-   - `judah@pinecrestgroup.com`
-   - `matt@pinecrestgroup.com`
-   - `ben@pinecrestgroup.com`
-   - Gusto PTO calendar (`4dijd2554lesk1idet9iuotptpqhvk3s@import.calendar.google.com`)
+1. Go to https://console.cloud.google.com → create a project (any name, e.g.
+   "pinecrest-calendar-sync").
+2. Search "Google Calendar API" → **Enable** it.
+3. Left menu → **APIs & Services → OAuth consent screen**: choose **Internal**
+   (if offered — that's simplest for a company account) or **External** + add
+   yourself as a test user. Fill the required name/email fields, save.
+4. **APIs & Services → Credentials → Create credentials → OAuth client ID** →
+   application type **Desktop app** → Create.
+5. Copy the **Client ID** and **Client secret** it shows you.
 
-   (If IT prefers domain-wide delegation instead of per-calendar sharing, that also
-   works — tell me and I'll switch the script to impersonation.)
+## Step 2 — Authorize once (mints the refresh token)
 
-3. **Store the key as a repo secret.** In the `CaseyH713/pinecrest-weekly` repo →
-   Settings → Secrets and variables → Actions → New repository secret:
-   - Name: `GOOGLE_SA_KEY`
-   - Value: the entire contents of the JSON key file.
+On your machine, from the repo folder, run (paste your two values in):
+
+```
+npm install googleapis
+GOOGLE_OAUTH_CLIENT_ID=<client id> GOOGLE_OAUTH_CLIENT_SECRET=<client secret> node scripts/auth-once.mjs
+```
+
+It prints a URL. Open it, sign in as **casey.hickey@pinecrestgroup.com** (the
+account that sees the calendars), approve. It prints back a
+`GOOGLE_OAUTH_REFRESH_TOKEN=...` value. That token is the durable authorization.
+
+(In a Claude Code session you can run the command with a leading `!` so the
+output comes back here and I'll grab the token for you.)
+
+## Step 3 — Store the three secrets
+
+In the `CaseyH713/pinecrest-weekly` repo → Settings → Secrets and variables →
+Actions, add three repository secrets (or paste the values to me and I'll set
+them with `gh secret set`):
+
+- `GOOGLE_OAUTH_CLIENT_ID`
+- `GOOGLE_OAUTH_CLIENT_SECRET`
+- `GOOGLE_OAUTH_REFRESH_TOKEN`
 
 ## Then (my side)
 
 - Run the workflow once by hand (Actions tab → Daily calendar sync → Run) to
-  confirm it produces `meetings-<date>.json` files with the right meetings/PTO.
-- Uncomment the daily `schedule:` line in the workflow to turn on the 12:00-UTC
-  run.
-- Refactor the hub to load those published `meetings-<date>.json` files so viewers
-  see them without signing in.
+  confirm it produces `meetings-<date>.json` with the right meetings/PTO.
+- Uncomment the daily `schedule:` line in `.github/workflows/sync-calendar.yml`
+  to turn on the 12:00-UTC run.
+- The hub already loads `meetings-<date>.json`, so once the files publish,
+  everyone sees the meetings without signing in.
 
 ## Notes
 
-- The service account only ever **reads** calendars. It cannot edit them.
-- Your recorded outcomes (won / lost / no-show / notes) are stored separately in
-  `outcomes-<week>.json` and are keyed to each meeting's stable ID, so the daily
-  meeting refresh never overwrites them.
-- The JSON key is a real credential — it goes only in the GitHub secret, never in
-  the code or anywhere in the repo.
+- Read-only: the scope is `calendar.readonly` — the job can't change anything.
+- The refresh token is a credential — it lives only in the GitHub secret, never
+  in the code or repo.
+- Your recorded outcomes (won/lost/no-show/notes) are stored separately in
+  `outcomes-<week>.json` keyed to each meeting's stable ID, so the daily refresh
+  never overwrites them.
+- Gusto PTO comes through the same login, so no special handling needed.

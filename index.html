@@ -3,7 +3,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <script>(function(){
-  var BUILD='20260720e';
+  var BUILD='20260720f';
   if(sessionStorage.getItem('_b')===BUILD)return;
   sessionStorage.setItem('_b',BUILD);
   fetch(location.pathname+'?_chk='+BUILD,{cache:'no-cache'})
@@ -2256,23 +2256,31 @@ function switchWeek(wk) {
   // Default: go to today's day if in this week, otherwise first day
   const todayD = DAYS.find(d => d.key === TODAY);
   switchTo(todayD ? todayD.id : DAYS[0].id);
-  // Brand-new weeks start with zero meetings — self-populate from Google
-  // Calendar the first time they're opened. Weeks that already have any
-  // meetings (curated history, or a week synced on a prior visit) are left
-  // alone here; the manual Sync button is still how those top up.
-  if (gcalIsConnected() && !weekHasAnyMeetings(w)) {
-    gcalFetchWeek(wk).then(ok => {
-      if (!ok || ACTIVE_WEEK !== wk) return;
-      MEETINGS = w.meetings;
-      PTO_DATA = w.pto;
-      buildNav();
-      for (const d of DAYS) renderDay(d.key);
-      renderSummary();
-      renderPTO();
-      renderPTOSidebar();
-      renderHeaderStats();
-    });
-  }
+  // Non-historical weeks pull their meetings + PTO from the daily-published
+  // meetings-<wk>.json (produced by the calendar sync job). Historical curated
+  // weeks (STATIC_SEEDS) keep their baked-in data. Outcomes live separately in
+  // outcomes-<wk>.json keyed by stable meeting id, so this never overwrites them.
+  if (!STATIC_SEEDS[wk]) loadPublishedMeetings(wk);
+}
+
+function meetingsJsonFile(wk) { return 'meetings-' + wk + '.json'; }
+async function loadPublishedMeetings(wk) {
+  try {
+    const r = await fetch('https://caseyh713.github.io/pinecrest-weekly/' + meetingsJsonFile(wk) + '?_t=' + Date.now());
+    if (!r.ok) return; // no publish yet → week stays empty (no regression)
+    const data = await r.json();
+    if (ACTIVE_WEEK !== wk) return; // navigated away
+    const w = WEEK_STORE[wk];
+    for (const rep of REPS) {
+      w.meetings[rep.key] = {};
+      for (const d of w.days) w.meetings[rep.key][d.key] = (data.meetings && data.meetings[rep.key] && data.meetings[rep.key][d.key]) || [];
+    }
+    w.pto = data.pto || {};
+    MEETINGS = w.meetings; PTO_DATA = w.pto;
+    buildNav();
+    for (const d of w.days) renderDay(d.key);
+    renderSummary(); renderPTO(); renderPTOSidebar(); renderHeaderStats();
+  } catch (e) { console.error('loadPublishedMeetings', e); }
 }
 
 // ── Shared outcome save / lock ────────────────────────────────────────────────
