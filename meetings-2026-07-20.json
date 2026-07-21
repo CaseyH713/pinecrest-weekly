@@ -1,15 +1,41 @@
 {
   "week": "2026-07-20",
-  "updatedAt": "2026-07-20T18:59:45.840Z",
+  "updatedAt": "2026-07-21T14:01:15.440Z",
   "meetings": {
     "judah": {
       "2026-07-20": [],
-      "2026-07-21": [],
+      "2026-07-21": [
+        {
+          "id": "gc-j-pq00522ga1d7",
+          "ts": "8:00 PM",
+          "te": "8:30 PM",
+          "dur": "30 min",
+          "title": "Pinecrest Tax Savings Program",
+          "contact": "freddy@vsbaz.com",
+          "attendees": [
+            {
+              "n": "freddy@vsbaz.com",
+              "ext": true
+            },
+            {
+              "n": "david.shafron@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "judah@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/gvf-wzkz-jui",
+          "_dayKey": "2026-07-21"
+        }
+      ],
       "2026-07-22": [
         {
           "id": "gc-j-2u3md8kcg53g",
-          "ts": "2:30 PM",
-          "te": "3:00 PM",
+          "ts": "7:30 PM",
+          "te": "8:00 PM",
           "dur": "30 min",
           "title": "Pinecrest x HCM Payroll Tax Savings Follow Up",
           "contact": "tburden@hcmlouisville.org",
@@ -33,8 +59,8 @@
         },
         {
           "id": "gc-j-i2bsuo4keuah",
-          "ts": "3:30 PM",
-          "te": "4:30 PM",
+          "ts": "8:30 PM",
+          "te": "9:30 PM",
           "dur": "1 hr",
           "title": "! Cat, Greg, Judah - Section 125 Call",
           "contact": "kurt@veniologistics.com",
@@ -68,8 +94,8 @@
       "2026-07-20": [
         {
           "id": "gc-m-qt9dvdctfta3",
-          "ts": "11:00 AM",
-          "te": "11:15 AM",
+          "ts": "4:00 PM",
+          "te": "4:15 PM",
           "dur": "15 min",
           "title": "Pinecrest 125 SPP/Dayton Pattern",
           "contact": "daytonpattern55@gmail.com",
@@ -94,38 +120,9 @@
       ],
       "2026-07-21": [
         {
-          "id": "gc-m-s41aa6ikurhs",
-          "ts": "12:00 PM",
-          "te": "12:30 PM",
-          "dur": "30 min",
-          "title": "Supplemental Prevention Program X West Coast Wound",
-          "contact": "aknapp@westcoastwound.com",
-          "attendees": [
-            {
-              "n": "matt@pinecrestgroup.com",
-              "ext": false
-            },
-            {
-              "n": "chaya.adelman@pinecrestgroup.com",
-              "ext": false
-            },
-            {
-              "n": "aknapp@westcoastwound.com",
-              "ext": true
-            },
-            {
-              "n": "nchorvat@westcoastwound.com",
-              "ext": true
-            }
-          ],
-          "org": "",
-          "meet": "https://meet.google.com/mxd-xmki-thn",
-          "_dayKey": "2026-07-21"
-        },
-        {
           "id": "gc-m-mlcg0ctpv6l0",
-          "ts": "1:00 PM",
-          "te": "1:45 PM",
+          "ts": "6:00 PM",
+          "te": "6:45 PM",
           "dur": "45 min",
           "title": "Health Insurance Proposal/SPP X Mike Martin(Herc Logistics)",
           "contact": "mike@mrmdistributing.com",
@@ -149,8 +146,8 @@
         },
         {
           "id": "gc-m-7vcv2nk0cfj5",
-          "ts": "2:00 PM",
-          "te": "2:30 PM",
+          "ts": "7:00 PM",
+          "te": "7:30 PM",
           "dur": "30 min",
           "title": "Snowbird/ Shelley & Eliza  Workers Comp",
           "contact": "shelley@dauntlessdelivery.com",
@@ -178,8 +175,8 @@
         },
         {
           "id": "gc-m-8j4okfo2hbtf",
-          "ts": "3:00 PM",
-          "te": "3:30 PM",
+          "ts": "8:00 PM",
+          "te": "8:30 PM",
           "dur": "30 min",
           "title": "Brighton/ Serge & Elvira  Supplemental Prevention Program",
           "contact": "info@brightontr.com",
@@ -207,8 +204,8 @@
         },
         {
           "id": "gc-m-bdarlbok5l5g",
-          "ts": "4:00 PM",
-          "te": "4:15 PM",
+          "ts": "9:00 PM",
+          "te": "9:15 PM",
           "dur": "15 min",
           "title": "PinecrestGroup SPP x Center Point",
           "contact": "eking@cpinc.org",
@@ -234,8 +231,8 @@
       "2026-07-22": [
         {
           "id": "gc-m-tpjdev24c1v5",
-          "ts": "10:30 AM",
-          "te": "10:45 AM",
+          "ts": "3:30 PM",
+          "te": "3:45 PM",
           "dur": "15 min",
           "title": "PinecrestGroup SPP x EPTCU",
           "contact": "raiganm@etpcu.org",
@@ -259,8 +256,8 @@
         },
         {
           "id": "gc-m-5b4rehi722pl",
-          "ts": "11:00 AM",
-          "te": "11:30 AM",
+          "ts": "4:00 PM",
+          "te": "4:30 PM",
           "dur": "30 min",
           "title": "SPP Follow Up X Layne Final Mile",
           "contact": "john.m.starr82@gmail.com",
@@ -294,8 +291,8 @@
       "2026-07-23": [
         {
           "id": "gc-m-fqhv2p8bl6va",
-          "ts": "9:00 AM",
-          "te": "9:30 AM",
+          "ts": "2:00 PM",
+          "te": "2:30 PM",
           "dur": "30 min",
           "title": "SPP with Pinecrest Group x Automatic Building Controls",
           "contact": "cunningk@ab-controls.com",
@@ -321,8 +318,8 @@
       "2026-07-24": [
         {
           "id": "gc-m-phdkufkvv8ts",
-          "ts": "1:30 PM",
-          "te": "2:00 PM",
+          "ts": "6:30 PM",
+          "te": "7:00 PM",
           "dur": "30 min",
           "title": "Supplemental Prevention Program Follow Up",
           "contact": "gtempledsp@gmail.com",
@@ -350,8 +347,8 @@
       "2026-07-20": [
         {
           "id": "gc-b-7tv7rlh73tlv",
-          "ts": "9:30 AM",
-          "te": "10:15 AM",
+          "ts": "2:30 PM",
+          "te": "3:15 PM",
           "dur": "45 min",
           "title": "SPP Initial Call - Ben / Patricia",
           "contact": "vizcarrondo.patricia@gmail.com",
@@ -375,8 +372,8 @@
         },
         {
           "id": "gc-b-8h8bc5oel4e5",
-          "ts": "10:30 AM",
-          "te": "11:15 AM",
+          "ts": "3:30 PM",
+          "te": "4:15 PM",
           "dur": "45 min",
           "title": "Supplemental Prevention Plan - Section 125 - Elite Riders Express ",
           "contact": "eliteridersexpress@gmail.com",
@@ -404,8 +401,8 @@
         },
         {
           "id": "gc-b-h0uoacv75gg8",
-          "ts": "11:15 AM",
-          "te": "11:50 AM",
+          "ts": "4:15 PM",
+          "te": "4:50 PM",
           "dur": "35 min",
           "title": "Hebrew Academy of Miami - Supplemental Prevention Program",
           "contact": "rweinberger@rasg.org",
@@ -429,8 +426,8 @@
         },
         {
           "id": "gc-b-k3hu7o5pdock",
-          "ts": "1:30 PM",
-          "te": "2:00 PM",
+          "ts": "6:30 PM",
+          "te": "7:00 PM",
           "dur": "30 min",
           "title": "Ben X Hunter(Peanut's Parcels)-Touch base(SPP/WC)",
           "contact": "huntermichalowske.logistics@gmail.com",
@@ -454,8 +451,8 @@
         },
         {
           "id": "gc-b-8gog56hq0coo",
-          "ts": "3:30 PM",
-          "te": "4:00 PM",
+          "ts": "8:30 PM",
+          "te": "9:00 PM",
           "dur": "30 min",
           "title": "SPP Initial Call - A New Leaf",
           "contact": "kate.schlichter@anewleaf.org",
@@ -482,8 +479,8 @@
       "2026-07-22": [
         {
           "id": "gc-b-81jgg9s4u61o",
-          "ts": "10:10 AM",
-          "te": "10:40 AM",
+          "ts": "3:10 PM",
+          "te": "3:40 PM",
           "dur": "30 min",
           "title": "SPP Follow Up - Meg / Ben",
           "contact": "mlevis@chicagolightworks.com",
@@ -509,8 +506,8 @@
       "2026-07-23": [
         {
           "id": "gc-b-1jef2cnl7e24",
-          "ts": "2:50 PM",
-          "te": "3:20 PM",
+          "ts": "7:50 PM",
+          "te": "8:20 PM",
           "dur": "30 min",
           "title": "SPP Initial Call - National Sugar",
           "contact": "atorrente@natsugar.com",
@@ -536,8 +533,8 @@
       "2026-07-24": [
         {
           "id": "gc-b-phliq2u5a20o",
-          "ts": "11:30 AM",
-          "te": "12:00 PM",
+          "ts": "4:30 PM",
+          "te": "5:00 PM",
           "dur": "30 min",
           "title": "SPP Initial Call - EPLA Limo",
           "contact": "bhunt@eplalimo.com",
