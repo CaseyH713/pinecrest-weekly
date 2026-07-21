@@ -11,7 +11,10 @@ name: Daily calendar sync
 on:
   workflow_dispatch: {}
   schedule:
-    - cron: '0 12 * * *'   # 12:00 UTC daily (~5-7am Pacific)
+    # 12:17 UTC daily = 7:17 AM Central. Deliberately off the top-of-hour —
+    # GitHub delays/drops on-the-hour cron slots under load; an odd minute is
+    # far more likely to fire on time. (Cron is still best-effort, not exact.)
+    - cron: '17 12 * * *'
 
 permissions:
   contents: write
