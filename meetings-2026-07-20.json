@@ -1,6 +1,6 @@
 {
   "week": "2026-07-20",
-  "updatedAt": "2026-07-21T14:01:15.440Z",
+  "updatedAt": "2026-07-22T14:21:13.272Z",
   "meetings": {
     "judah": {
       "2026-07-20": [],
@@ -85,9 +85,68 @@
           "org": "",
           "meet": "https://meet.google.com/pjy-bmwt-wco",
           "_dayKey": "2026-07-22"
+        },
+        {
+          "id": "gc-j-7ghvgmpseub9",
+          "ts": "8:30 PM",
+          "te": "9:00 PM",
+          "dur": "30 min",
+          "title": "Charles x Judah Workers Comp",
+          "contact": "charles@acflywheel.com",
+          "attendees": [
+            {
+              "n": "judah@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "charles@acflywheel.com",
+              "ext": true
+            },
+            {
+              "n": "david.azose@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "grbinsurance@gmail.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/wqe-jeih-fst",
+          "_dayKey": "2026-07-22"
         }
       ],
-      "2026-07-23": [],
+      "2026-07-23": [
+        {
+          "id": "gc-j-7cj3gi61ufq7",
+          "ts": "4:00 PM",
+          "te": "4:15 PM",
+          "dur": "15 min",
+          "title": "American Health Care  - Payroll Tax Savings",
+          "contact": "o.yemi@americanhealthcare.com",
+          "attendees": [
+            {
+              "n": "david.shafron@pinecrestconsulting.com",
+              "ext": false
+            },
+            {
+              "n": "judah@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "abraham.benguigui@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "o.yemi@americanhealthcare.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/yey-azgz-bpb",
+          "_dayKey": "2026-07-23"
+        }
+      ],
       "2026-07-24": []
     },
     "matt": {
@@ -404,7 +463,7 @@
           "ts": "4:15 PM",
           "te": "4:50 PM",
           "dur": "35 min",
-          "title": "Hebrew Academy of Miami - Supplemental Prevention Program",
+          "title": "SPP Initial Call - Hebrew Academy of Miami",
           "contact": "rweinberger@rasg.org",
           "attendees": [
             {
@@ -531,6 +590,39 @@
         }
       ],
       "2026-07-24": [
+        {
+          "id": "gc-b-rveaac9j34t9",
+          "ts": "2:30 PM",
+          "te": "3:00 PM",
+          "dur": "30 min",
+          "title": "Workers Comp Quote Review X Hive Logistics",
+          "contact": "xrdcs3@gmail.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "xrdcs3@gmail.com",
+              "ext": true
+            },
+            {
+              "n": "david.azose@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "admin@gohivelogistics.com",
+              "ext": true
+            },
+            {
+              "n": "chaya.adelman@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/mvt-rbfp-waz",
+          "_dayKey": "2026-07-24"
+        },
         {
           "id": "gc-b-phliq2u5a20o",
           "ts": "4:30 PM",
