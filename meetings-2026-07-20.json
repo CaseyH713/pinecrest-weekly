@@ -1,6 +1,6 @@
 {
   "week": "2026-07-20",
-  "updatedAt": "2026-07-22T14:21:13.272Z",
+  "updatedAt": "2026-07-23T14:30:03.812Z",
   "meetings": {
     "judah": {
       "2026-07-20": [],
@@ -312,39 +312,6 @@
           "org": "",
           "meet": "https://meet.google.com/ejj-qjsr-spd",
           "_dayKey": "2026-07-22"
-        },
-        {
-          "id": "gc-m-5b4rehi722pl",
-          "ts": "4:00 PM",
-          "te": "4:30 PM",
-          "dur": "30 min",
-          "title": "SPP Follow Up X Layne Final Mile",
-          "contact": "john.m.starr82@gmail.com",
-          "attendees": [
-            {
-              "n": "matt@pinecrestgroup.com",
-              "ext": false
-            },
-            {
-              "n": "chaya.adelman@pinecrestgroup.com",
-              "ext": false
-            },
-            {
-              "n": "john.m.starr82@gmail.com",
-              "ext": true
-            },
-            {
-              "n": "stoya1957@gmail.com",
-              "ext": true
-            },
-            {
-              "n": "donlayne85@outlook.com",
-              "ext": true
-            }
-          ],
-          "org": "",
-          "meet": "https://meet.google.com/wkp-ymch-csr",
-          "_dayKey": "2026-07-22"
         }
       ],
       "2026-07-23": [
@@ -652,6 +619,10 @@
     }
   },
   "pto": {
+    "Abraham Benguigui": {
+      "2026-07-21": 8,
+      "2026-07-23": 8
+    },
     "Hannah Bernays": {
       "2026-07-21": 8
     }
