@@ -1,6 +1,6 @@
 {
   "week": "2026-07-20",
-  "updatedAt": "2026-07-23T14:30:03.812Z",
+  "updatedAt": "2026-07-24T14:10:53.603Z",
   "meetings": {
     "judah": {
       "2026-07-20": [],
@@ -344,8 +344,8 @@
       "2026-07-24": [
         {
           "id": "gc-m-phdkufkvv8ts",
-          "ts": "6:30 PM",
-          "te": "7:00 PM",
+          "ts": "7:00 PM",
+          "te": "7:30 PM",
           "dur": "30 min",
           "title": "Supplemental Prevention Program Follow Up",
           "contact": "gtempledsp@gmail.com",
