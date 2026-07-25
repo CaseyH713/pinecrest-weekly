@@ -1,6 +1,6 @@
 {
   "week": "2026-07-20",
-  "updatedAt": "2026-07-24T14:10:53.603Z",
+  "updatedAt": "2026-07-25T14:00:47.781Z",
   "meetings": {
     "judah": {
       "2026-07-20": [],
@@ -558,9 +558,34 @@
       ],
       "2026-07-24": [
         {
+          "id": "gc-b-phliq2u5a20o",
+          "ts": "4:30 PM",
+          "te": "5:00 PM",
+          "dur": "30 min",
+          "title": "SPP Initial Call - EPLA Limo",
+          "contact": "bhunt@eplalimo.com",
+          "attendees": [
+            {
+              "n": "bhunt@eplalimo.com",
+              "ext": true
+            },
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "ari.lowenstein@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/bjb-vsti-gfb",
+          "_dayKey": "2026-07-24"
+        },
+        {
           "id": "gc-b-rveaac9j34t9",
-          "ts": "2:30 PM",
-          "te": "3:00 PM",
+          "ts": "6:30 PM",
+          "te": "7:00 PM",
           "dur": "30 min",
           "title": "Workers Comp Quote Review X Hive Logistics",
           "contact": "xrdcs3@gmail.com",
@@ -589,31 +614,6 @@
           "org": "",
           "meet": "https://meet.google.com/mvt-rbfp-waz",
           "_dayKey": "2026-07-24"
-        },
-        {
-          "id": "gc-b-phliq2u5a20o",
-          "ts": "4:30 PM",
-          "te": "5:00 PM",
-          "dur": "30 min",
-          "title": "SPP Initial Call - EPLA Limo",
-          "contact": "bhunt@eplalimo.com",
-          "attendees": [
-            {
-              "n": "bhunt@eplalimo.com",
-              "ext": true
-            },
-            {
-              "n": "ben@pinecrestgroup.com",
-              "ext": false
-            },
-            {
-              "n": "ari.lowenstein@pinecrestgroup.com",
-              "ext": false
-            }
-          ],
-          "org": "",
-          "meet": "",
-          "_dayKey": "2026-07-24"
         }
       ]
     }
@@ -622,9 +622,6 @@
     "Abraham Benguigui": {
       "2026-07-21": 8,
       "2026-07-23": 8
-    },
-    "Hannah Bernays": {
-      "2026-07-21": 8
     }
   }
 }
