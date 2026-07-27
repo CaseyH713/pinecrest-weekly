@@ -1,0 +1,274 @@
+{
+  "week": "2026-07-27",
+  "updatedAt": "2026-07-27T15:12:23.222Z",
+  "meetings": {
+    "judah": {
+      "2026-07-27": [],
+      "2026-07-28": [],
+      "2026-07-29": [],
+      "2026-07-30": [
+        {
+          "id": "gc-j-atdg6v97ntnj",
+          "ts": "7:00 PM",
+          "te": "7:30 PM",
+          "dur": "30 min",
+          "title": "Section 125 call Pinecrest x Allie",
+          "contact": "aschieffelin@thelightingquotient.com",
+          "attendees": [
+            {
+              "n": "judah@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "sarah.ringelheim@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "aschieffelin@thelightingquotient.com",
+              "ext": true
+            },
+            {
+              "n": "lenore@thelightingquotient.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/gdw-xhqd-sfe",
+          "_dayKey": "2026-07-30"
+        }
+      ],
+      "2026-07-31": []
+    },
+    "matt": {
+      "2026-07-27": [],
+      "2026-07-28": [
+        {
+          "id": "gc-m-i80gr3u9mqrg",
+          "ts": "4:00 PM",
+          "te": "4:30 PM",
+          "dur": "30 min",
+          "title": "Supplemental Prevention Plan X NLJ Logistics",
+          "contact": "nljlogistics21@gmail.com",
+          "attendees": [
+            {
+              "n": "nljlogistics21@gmail.com",
+              "ext": true
+            },
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "chaya.adelman@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/mhv-wnkz-kvu",
+          "_dayKey": "2026-07-28"
+        },
+        {
+          "id": "gc-m-s41aa6ikurhs",
+          "ts": "5:00 PM",
+          "te": "5:30 PM",
+          "dur": "30 min",
+          "title": "Supplemental Prevention Program X West Coast Wound",
+          "contact": "aknapp@westcoastwound.com",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "chaya.adelman@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "aknapp@westcoastwound.com",
+              "ext": true
+            },
+            {
+              "n": "nchorvat@westcoastwound.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/mxd-xmki-thn",
+          "_dayKey": "2026-07-28"
+        }
+      ],
+      "2026-07-29": [
+        {
+          "id": "gc-m-8494g0p0n1eh",
+          "ts": "3:00 PM",
+          "te": "3:30 PM",
+          "dur": "30 min",
+          "title": "SPP with Pinecrest Group x Servpro of Bountiful",
+          "contact": "josh@bountifulservpro.com",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "jack.shimonov@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "josh@bountifulservpro.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/muz-cxdh-oto",
+          "_dayKey": "2026-07-29"
+        },
+        {
+          "id": "gc-m-5b4rehi722pl",
+          "ts": "4:00 PM",
+          "te": "4:30 PM",
+          "dur": "30 min",
+          "title": "SPP Follow Up X Layne Final Mile",
+          "contact": "john.m.starr82@gmail.com",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "chaya.adelman@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "john.m.starr82@gmail.com",
+              "ext": true
+            },
+            {
+              "n": "stoya1957@gmail.com",
+              "ext": true
+            },
+            {
+              "n": "donlayne85@outlook.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/wkp-ymch-csr",
+          "_dayKey": "2026-07-29"
+        }
+      ],
+      "2026-07-30": [],
+      "2026-07-31": []
+    },
+    "ben": {
+      "2026-07-27": [
+        {
+          "id": "gc-b-eroq5on9kp6u",
+          "ts": "4:00 PM",
+          "te": "5:00 PM",
+          "dur": "1 hr",
+          "title": "SPP - Deon / Ben",
+          "contact": "rabbinathan@yeshivaelementary.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "rabbinathan@yeshivaelementary.com",
+              "ext": true
+            },
+            {
+              "n": "orly.tabaria@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/qgk-wtvs-cun",
+          "_dayKey": "2026-07-27"
+        }
+      ],
+      "2026-07-28": [
+        {
+          "id": "gc-b-49bguhjab2j8",
+          "ts": "6:00 PM",
+          "te": "6:45 PM",
+          "dur": "45 min",
+          "title": "Group Health Conversation - Commute Is Great Logistics LLC",
+          "contact": "cig-logistics@outlook.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "sam.gallor@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "cig-logistics@outlook.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/znd-znei-xwr",
+          "_dayKey": "2026-07-28"
+        },
+        {
+          "id": "gc-b-oqfmafqs1ru8",
+          "ts": "6:00 PM",
+          "te": "6:30 PM",
+          "dur": "30 min",
+          "title": "SPP Contract Review X Dubolyu Logistics",
+          "contact": "jamielwelch@dubolyulogistics.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "chaya.adelman@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "jamielwelch@dubolyulogistics.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/znq-hdsw-wof",
+          "_dayKey": "2026-07-28"
+        },
+        {
+          "id": "gc-b-95f3dsgctbio",
+          "ts": "8:00 PM",
+          "te": "8:45 PM",
+          "dur": "45 min",
+          "title": "Supplemental Prevention Plan Discussion - Premier Logistics Services",
+          "contact": "ldamico@premierlsfl.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "orly.tabaria@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "ldamico@premierlsfl.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/cev-ndns-etx",
+          "_dayKey": "2026-07-28"
+        }
+      ],
+      "2026-07-29": [],
+      "2026-07-30": [],
+      "2026-07-31": []
+    }
+  },
+  "pto": {}
+}
