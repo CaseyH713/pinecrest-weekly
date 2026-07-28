@@ -1,6 +1,6 @@
 {
   "week": "2026-07-27",
-  "updatedAt": "2026-07-27T15:12:23.222Z",
+  "updatedAt": "2026-07-28T14:35:49.345Z",
   "meetings": {
     "judah": {
       "2026-07-27": [],
@@ -37,7 +37,70 @@
           "_dayKey": "2026-07-30"
         }
       ],
-      "2026-07-31": []
+      "2026-07-31": [
+        {
+          "id": "gc-j-oiave1rh95qe",
+          "ts": "2:30 PM",
+          "te": "3:00 PM",
+          "dur": "30 min",
+          "title": "Section 125 Follow Up ",
+          "contact": "freddy@vsbaz.com",
+          "attendees": [
+            {
+              "n": "freddy@vsbaz.com",
+              "ext": true
+            },
+            {
+              "n": "david.shafron@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "judah@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/sny-dbqb-rpq",
+          "_dayKey": "2026-07-31"
+        },
+        {
+          "id": "gc-j-tkjo0s3k39u1",
+          "ts": "8:30 PM",
+          "te": "9:00 PM",
+          "dur": "30 min",
+          "title": "Pinecrest x Xclusive Payroll Tax Savings",
+          "contact": "ann.murray@nelsonmullins.com",
+          "attendees": [
+            {
+              "n": "eli@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "david.shafron@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "judah@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "ann.murray@nelsonmullins.com",
+              "ext": true
+            },
+            {
+              "n": "nicole.beall@xclusiveservices.com",
+              "ext": true
+            },
+            {
+              "n": "britt.goldman@xclusiveservices.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/jer-jzzn-kpd",
+          "_dayKey": "2026-07-31"
+        }
+      ]
     },
     "matt": {
       "2026-07-27": [],
@@ -266,9 +329,39 @@
         }
       ],
       "2026-07-29": [],
-      "2026-07-30": [],
+      "2026-07-30": [
+        {
+          "id": "gc-b-deq2cq3mfdvc",
+          "ts": "7:50 PM",
+          "te": "8:20 PM",
+          "dur": "30 min",
+          "title": "SPP Follow Up Call - Continental Property Services",
+          "contact": "brenda@cpsinc.org",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "ari.lowenstein@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "brenda@cpsinc.org",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "",
+          "_dayKey": "2026-07-30"
+        }
+      ],
       "2026-07-31": []
     }
   },
-  "pto": {}
+  "pto": {
+    "James Johnson": {
+      "2026-07-27": 8
+    }
+  }
 }
