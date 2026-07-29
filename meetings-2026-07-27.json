@@ -1,6 +1,6 @@
 {
   "week": "2026-07-27",
-  "updatedAt": "2026-07-28T14:35:49.345Z",
+  "updatedAt": "2026-07-29T14:30:51.498Z",
   "meetings": {
     "judah": {
       "2026-07-27": [],
@@ -61,6 +61,31 @@
           ],
           "org": "",
           "meet": "https://meet.google.com/sny-dbqb-rpq",
+          "_dayKey": "2026-07-31"
+        },
+        {
+          "id": "gc-j-06bf7jaaceu6",
+          "ts": "3:00 PM",
+          "te": "3:30 PM",
+          "dur": "30 min",
+          "title": "Section 125 review x David Kaplan",
+          "contact": "dkaplan@denyseco.com",
+          "attendees": [
+            {
+              "n": "judah@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "sarah.ringelheim@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "dkaplan@denyseco.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/jwg-mgwp-wmh",
           "_dayKey": "2026-07-31"
         },
         {
@@ -218,9 +243,64 @@
           "org": "",
           "meet": "https://meet.google.com/wkp-ymch-csr",
           "_dayKey": "2026-07-29"
+        },
+        {
+          "id": "gc-m-dua22pisi995",
+          "ts": "8:00 PM",
+          "te": "9:00 PM",
+          "dur": "1 hr",
+          "title": "Todd, Matt - WC Quote Call",
+          "contact": "todd@belltowndelivery.com",
+          "attendees": [
+            {
+              "n": "greg.yavner@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "todd@belltowndelivery.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/isz-sesr-arq",
+          "_dayKey": "2026-07-29"
         }
       ],
-      "2026-07-30": [],
+      "2026-07-30": [
+        {
+          "id": "gc-m-vbaee2n6vv01",
+          "ts": "2:00 PM",
+          "te": "2:15 PM",
+          "dur": "15 min",
+          "title": "Pinecrest SPP x The Cleary Company",
+          "contact": "jstarcher@clearycompany.com",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "james.johnson@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "jstarcher@clearycompany.com",
+              "ext": true
+            },
+            {
+              "n": "jeff@clearycompany.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/ctv-fcvx-ime",
+          "_dayKey": "2026-07-30"
+        }
+      ],
       "2026-07-31": []
     },
     "ben": {
@@ -301,35 +381,69 @@
           "org": "",
           "meet": "https://meet.google.com/znq-hdsw-wof",
           "_dayKey": "2026-07-28"
-        },
+        }
+      ],
+      "2026-07-29": [
         {
-          "id": "gc-b-95f3dsgctbio",
-          "ts": "8:00 PM",
-          "te": "8:45 PM",
+          "id": "gc-b-p7nv6ob5pk48",
+          "ts": "3:30 PM",
+          "te": "4:15 PM",
           "dur": "45 min",
-          "title": "Supplemental Prevention Plan Discussion - Premier Logistics Services",
-          "contact": "ldamico@premierlsfl.com",
+          "title": "SPP Initial + Follow Up Call",
+          "contact": "levinem2@gmail.com",
           "attendees": [
             {
               "n": "ben@pinecrestgroup.com",
               "ext": false
             },
             {
+              "n": "levinem2@gmail.com",
+              "ext": true
+            },
+            {
               "n": "orly.tabaria@pinecrestgroup.com",
               "ext": false
             },
             {
-              "n": "ldamico@premierlsfl.com",
+              "n": "tom@2020delivery.us",
               "ext": true
             }
           ],
           "org": "",
-          "meet": "https://meet.google.com/cev-ndns-etx",
-          "_dayKey": "2026-07-28"
+          "meet": "https://meet.google.com/xgu-ussp-vfq",
+          "_dayKey": "2026-07-29"
         }
       ],
-      "2026-07-29": [],
       "2026-07-30": [
+        {
+          "id": "gc-b-a87kf8l8ebtd",
+          "ts": "4:30 PM",
+          "te": "5:00 PM",
+          "dur": "30 min",
+          "title": "Workers Comp Quote Review X Dash Logistics",
+          "contact": "andrew@go-hq.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "david.azose@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "chaya.adelman@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "andrew@go-hq.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/ajb-ktzg-sqx",
+          "_dayKey": "2026-07-30"
+        },
         {
           "id": "gc-b-deq2cq3mfdvc",
           "ts": "7:50 PM",
