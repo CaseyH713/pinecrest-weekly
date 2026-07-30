@@ -1,6 +1,6 @@
 {
   "week": "2026-07-20",
-  "updatedAt": "2026-07-29T14:30:53.215Z",
+  "updatedAt": "2026-07-30T14:30:06.887Z",
   "meetings": {
     "judah": {
       "2026-07-20": [],
@@ -394,35 +394,6 @@
           ],
           "org": "",
           "meet": "https://meet.google.com/nxa-repr-jzj",
-          "_dayKey": "2026-07-20"
-        },
-        {
-          "id": "gc-b-8h8bc5oel4e5",
-          "ts": "3:30 PM",
-          "te": "4:15 PM",
-          "dur": "45 min",
-          "title": "Supplemental Prevention Plan - Section 125 - Elite Riders Express ",
-          "contact": "eliteridersexpress@gmail.com",
-          "attendees": [
-            {
-              "n": "ben@pinecrestgroup.com",
-              "ext": false
-            },
-            {
-              "n": "orly.tabaria@pinecrestgroup.com",
-              "ext": false
-            },
-            {
-              "n": "eliteridersexpress@gmail.com",
-              "ext": true
-            },
-            {
-              "n": "estefania@eliteridersexpress.com",
-              "ext": true
-            }
-          ],
-          "org": "",
-          "meet": "https://meet.google.com/tos-gfix-tjr",
           "_dayKey": "2026-07-20"
         },
         {

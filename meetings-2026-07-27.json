@@ -1,6 +1,6 @@
 {
   "week": "2026-07-27",
-  "updatedAt": "2026-07-29T14:30:51.498Z",
+  "updatedAt": "2026-07-30T14:30:05.030Z",
   "meetings": {
     "judah": {
       "2026-07-27": [],
@@ -245,6 +245,35 @@
           "_dayKey": "2026-07-29"
         },
         {
+          "id": "gc-m-cu28dsndm06r",
+          "ts": "6:30 PM",
+          "te": "7:00 PM",
+          "dur": "30 min",
+          "title": "WC proposal call x Mack Logistics",
+          "contact": "macklogisticspa@gmail.com",
+          "attendees": [
+            {
+              "n": "david.azose@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "sarah.ringelheim@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "macklogisticspa@gmail.com",
+              "ext": true
+            },
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/ogf-gajx-xid",
+          "_dayKey": "2026-07-29"
+        },
+        {
           "id": "gc-m-dua22pisi995",
           "ts": "8:00 PM",
           "te": "9:00 PM",
@@ -470,7 +499,37 @@
           "_dayKey": "2026-07-30"
         }
       ],
-      "2026-07-31": []
+      "2026-07-31": [
+        {
+          "id": "gc-b-elcpmjtfp03s",
+          "ts": "4:00 PM",
+          "te": "4:30 PM",
+          "dur": "30 min",
+          "title": "Nexus Logistics-Workers Comp Renewal Quote",
+          "contact": "mohameddsp19@gmail.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "orly.tabaria@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "david.azose@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "mohameddsp19@gmail.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/wwd-upts-zrs",
+          "_dayKey": "2026-07-31"
+        }
+      ]
     }
   },
   "pto": {
