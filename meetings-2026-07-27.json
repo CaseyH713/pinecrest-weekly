@@ -1,6 +1,6 @@
 {
   "week": "2026-07-27",
-  "updatedAt": "2026-07-30T14:30:05.030Z",
+  "updatedAt": "2026-07-31T14:33:32.938Z",
   "meetings": {
     "judah": {
       "2026-07-27": [],
@@ -40,10 +40,10 @@
       "2026-07-31": [
         {
           "id": "gc-j-oiave1rh95qe",
-          "ts": "2:30 PM",
-          "te": "3:00 PM",
+          "ts": "9:15 AM",
+          "te": "9:45 AM",
           "dur": "30 min",
-          "title": "Section 125 Follow Up ",
+          "title": "Section 125 Follow Up",
           "contact": "freddy@vsbaz.com",
           "attendees": [
             {
@@ -65,8 +65,8 @@
         },
         {
           "id": "gc-j-06bf7jaaceu6",
-          "ts": "3:00 PM",
-          "te": "3:30 PM",
+          "ts": "3:30 PM",
+          "te": "4:00 PM",
           "dur": "30 min",
           "title": "Section 125 review x David Kaplan",
           "contact": "dkaplan@denyseco.com",
@@ -86,6 +86,60 @@
           ],
           "org": "",
           "meet": "https://meet.google.com/jwg-mgwp-wmh",
+          "_dayKey": "2026-07-31"
+        },
+        {
+          "id": "gc-j-cj772713m0si",
+          "ts": "5:00 PM",
+          "te": "5:30 PM",
+          "dur": "30 min",
+          "title": "Pinecrest x Blake Payroll Tax Savings Program",
+          "contact": "blake@sinyc.com",
+          "attendees": [
+            {
+              "n": "blake@sinyc.com",
+              "ext": true
+            },
+            {
+              "n": "david.shafron@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "judah@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "blake@nytp.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/xyr-bens-adq",
+          "_dayKey": "2026-07-31"
+        },
+        {
+          "id": "gc-j-i4gssas53kao",
+          "ts": "7:00 PM",
+          "te": "7:30 PM",
+          "dur": "30 min",
+          "title": "Pinecrest x Nexus Payroll Tax Savings Plan",
+          "contact": "george@nexusemployment.com",
+          "attendees": [
+            {
+              "n": "david.shafron@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "judah@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "george@nexusemployment.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/ntz-qqoa-ofs",
           "_dayKey": "2026-07-31"
         },
         {
@@ -495,7 +549,7 @@
             }
           ],
           "org": "",
-          "meet": "",
+          "meet": "https://meet.google.com/ije-hhkz-zyr",
           "_dayKey": "2026-07-30"
         }
       ],
