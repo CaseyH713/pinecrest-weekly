@@ -1,6 +1,6 @@
 {
   "week": "2026-07-27",
-  "updatedAt": "2026-08-02T13:52:35.515Z",
+  "updatedAt": "2026-08-03T15:14:32.048Z",
   "meetings": {
     "judah": {
       "2026-07-27": [],
@@ -442,31 +442,6 @@
           ],
           "org": "",
           "meet": "https://meet.google.com/znd-znei-xwr",
-          "_dayKey": "2026-07-28"
-        },
-        {
-          "id": "gc-b-oqfmafqs1ru8",
-          "ts": "6:00 PM",
-          "te": "6:30 PM",
-          "dur": "30 min",
-          "title": "SPP Contract Review X Dubolyu Logistics",
-          "contact": "jamielwelch@dubolyulogistics.com",
-          "attendees": [
-            {
-              "n": "ben@pinecrestgroup.com",
-              "ext": false
-            },
-            {
-              "n": "chaya.adelman@pinecrestgroup.com",
-              "ext": false
-            },
-            {
-              "n": "jamielwelch@dubolyulogistics.com",
-              "ext": true
-            }
-          ],
-          "org": "",
-          "meet": "https://meet.google.com/znq-hdsw-wof",
           "_dayKey": "2026-07-28"
         }
       ],

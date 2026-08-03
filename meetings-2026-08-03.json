@@ -1,0 +1,329 @@
+{
+  "week": "2026-08-03",
+  "updatedAt": "2026-08-03T15:14:29.663Z",
+  "meetings": {
+    "judah": {
+      "2026-08-03": [
+        {
+          "id": "gc-j-mtttihdl23bf",
+          "ts": "5:00 PM",
+          "te": "5:30 PM",
+          "dur": "30 min",
+          "title": "Pinecrest Group - Payroll Tax Savings",
+          "contact": "kameika.watson@oomc.com",
+          "attendees": [
+            {
+              "n": "mallory.maxwell@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "judah@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "kameika.watson@oomc.com",
+              "ext": true
+            },
+            {
+              "n": "Melanie Behrman",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/obt-opjm-ewd",
+          "_dayKey": "2026-08-03"
+        }
+      ],
+      "2026-08-04": [],
+      "2026-08-05": [],
+      "2026-08-06": [],
+      "2026-08-07": []
+    },
+    "matt": {
+      "2026-08-03": [],
+      "2026-08-04": [
+        {
+          "id": "gc-m-gu4vfmtvkvdc",
+          "ts": "7:00 PM",
+          "te": "7:30 PM",
+          "dur": "30 min",
+          "title": "Supplemental Prevention Plan Follow up X West Coast Wound Care",
+          "contact": "aknapp@westcoastwound.com",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "chaya.adelman@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "aknapp@westcoastwound.com",
+              "ext": true
+            },
+            {
+              "n": "nchorvat@westcoastwound.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/ejf-bkwc-xzf",
+          "_dayKey": "2026-08-04"
+        }
+      ],
+      "2026-08-05": [
+        {
+          "id": "gc-m-4o5e3l3ia1j7",
+          "ts": "6:00 PM",
+          "te": "6:15 PM",
+          "dur": "15 min",
+          "title": "PinecrestGroup SPP x The Sicilian Oven",
+          "contact": "avega@sicilianoven.com",
+          "attendees": [
+            {
+              "n": "james.johnson@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "avega@sicilianoven.com",
+              "ext": true
+            },
+            {
+              "n": "cpannunzio@sicilianoven.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/rtx-fywx-wmd",
+          "_dayKey": "2026-08-05"
+        },
+        {
+          "id": "gc-m-l7c65ecafu22",
+          "ts": "7:00 PM",
+          "te": "7:15 PM",
+          "dur": "15 min",
+          "title": "PinecrestGroup SPP x Beckett Thermal Solutions",
+          "contact": "ken.harp@beckettthermal.com",
+          "attendees": [
+            {
+              "n": "james.johnson@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "ken.harp@beckettthermal.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/waz-fcsw-ucw",
+          "_dayKey": "2026-08-05"
+        }
+      ],
+      "2026-08-06": [
+        {
+          "id": "gc-m-3es168d5v0eu",
+          "ts": "6:00 PM",
+          "te": "6:15 PM",
+          "dur": "15 min",
+          "title": "Pinecrest Group SPP x Generations Healthcare Services",
+          "contact": "sabatha@genhomecare.org",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "james.johnson@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "sabatha@genhomecare.org",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/dkq-ghgz-hhh",
+          "_dayKey": "2026-08-06"
+        }
+      ],
+      "2026-08-07": []
+    },
+    "ben": {
+      "2026-08-03": [
+        {
+          "id": "gc-b-8h8bc5oel4e5",
+          "ts": "3:30 PM",
+          "te": "4:15 PM",
+          "dur": "45 min",
+          "title": "Supplemental Prevention Plan - Section 125 - Elite Riders Express ",
+          "contact": "eliteridersexpress@gmail.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "orly.tabaria@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "eliteridersexpress@gmail.com",
+              "ext": true
+            },
+            {
+              "n": "estefania@eliteridersexpress.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/tos-gfix-tjr",
+          "_dayKey": "2026-08-03"
+        },
+        {
+          "id": "gc-b-3r1ikadmvbpj",
+          "ts": "5:00 PM",
+          "te": "5:45 PM",
+          "dur": "45 min",
+          "title": "UDP - WC Intro - Amanda / Ben / David",
+          "contact": "afinland@disposalpartners.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "orly.tabaria@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "david.azose@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "afinland@disposalpartners.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/jzc-ikme-cjq",
+          "_dayKey": "2026-08-03"
+        }
+      ],
+      "2026-08-04": [
+        {
+          "id": "gc-b-oqfmafqs1ru8",
+          "ts": "6:00 PM",
+          "te": "6:30 PM",
+          "dur": "30 min",
+          "title": "SPP Contract Review X Dubolyu Logistics",
+          "contact": "jamielwelch@dubolyulogistics.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "chaya.adelman@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "jamielwelch@dubolyulogistics.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/znq-hdsw-wof",
+          "_dayKey": "2026-08-04"
+        },
+        {
+          "id": "gc-b-noqil5015kcn",
+          "ts": "7:15 PM",
+          "te": "8:00 PM",
+          "dur": "45 min",
+          "title": "Bison Peak - Supplemental Prevention Plan",
+          "contact": "sheena@bisonpeaklogistics.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "orly.tabaria@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "sheena@bisonpeaklogistics.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/rbx-rrqx-hxy",
+          "_dayKey": "2026-08-04"
+        },
+        {
+          "id": "gc-b-95f3dsgctbio",
+          "ts": "8:00 PM",
+          "te": "8:45 PM",
+          "dur": "45 min",
+          "title": "Supplemental Prevention Plan Discussion - Premier Logistics Services",
+          "contact": "ldamico@premierlsfl.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "orly.tabaria@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "ldamico@premierlsfl.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/cev-ndns-etx",
+          "_dayKey": "2026-08-04"
+        },
+        {
+          "id": "gc-b-hpj6lmq5pa1d",
+          "ts": "9:00 PM",
+          "te": "9:45 PM",
+          "dur": "45 min",
+          "title": "SPP Initial Call - Advance Delivery",
+          "contact": "andy.murry1121@gmail.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "orly.tabaria@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "andy.murry1121@gmail.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/oyb-wevj-hgo",
+          "_dayKey": "2026-08-04"
+        }
+      ],
+      "2026-08-05": [],
+      "2026-08-06": [],
+      "2026-08-07": []
+    }
+  },
+  "pto": {}
+}
