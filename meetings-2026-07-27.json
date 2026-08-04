@@ -1,6 +1,6 @@
 {
   "week": "2026-07-27",
-  "updatedAt": "2026-08-03T15:14:32.048Z",
+  "updatedAt": "2026-08-04T14:38:12.687Z",
   "meetings": {
     "judah": {
       "2026-07-27": [],
@@ -156,31 +156,6 @@
           ],
           "org": "",
           "meet": "https://meet.google.com/jer-jzzn-kpd",
-          "_dayKey": "2026-07-31"
-        },
-        {
-          "id": "gc-j-oiave1rh95qe",
-          "ts": "9:15 PM",
-          "te": "9:45 PM",
-          "dur": "30 min",
-          "title": "Section 125 Follow Up",
-          "contact": "freddy@vsbaz.com",
-          "attendees": [
-            {
-              "n": "freddy@vsbaz.com",
-              "ext": true
-            },
-            {
-              "n": "david.shafron@pinecrestgroup.com",
-              "ext": false
-            },
-            {
-              "n": "judah@pinecrestgroup.com",
-              "ext": false
-            }
-          ],
-          "org": "",
-          "meet": "https://meet.google.com/sny-dbqb-rpq",
           "_dayKey": "2026-07-31"
         }
       ]

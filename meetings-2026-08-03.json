@@ -1,6 +1,6 @@
 {
   "week": "2026-08-03",
-  "updatedAt": "2026-08-03T15:14:29.663Z",
+  "updatedAt": "2026-08-04T14:38:11.012Z",
   "meetings": {
     "judah": {
       "2026-08-03": [
@@ -34,7 +34,33 @@
           "_dayKey": "2026-08-03"
         }
       ],
-      "2026-08-04": [],
+      "2026-08-04": [
+        {
+          "id": "gc-j-oiave1rh95qe",
+          "ts": "3:15 PM",
+          "te": "3:45 PM",
+          "dur": "30 min",
+          "title": "Section 125 Follow Up",
+          "contact": "freddy@vsbaz.com",
+          "attendees": [
+            {
+              "n": "freddy@vsbaz.com",
+              "ext": true
+            },
+            {
+              "n": "david.shafron@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "judah@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/sny-dbqb-rpq",
+          "_dayKey": "2026-08-04"
+        }
+      ],
       "2026-08-05": [],
       "2026-08-06": [],
       "2026-08-07": []
@@ -42,6 +68,31 @@
     "matt": {
       "2026-08-03": [],
       "2026-08-04": [
+        {
+          "id": "gc-m-cob7phni1p29",
+          "ts": "7:00 PM",
+          "te": "7:45 PM",
+          "dur": "45 min",
+          "title": "Group Health Next steps - Chism Trucking Inc",
+          "contact": "chismtrucking.inc@gmail.com",
+          "attendees": [
+            {
+              "n": "chismtrucking.inc@gmail.com",
+              "ext": true
+            },
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "sam.gallor@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/pwo-drux-uwh",
+          "_dayKey": "2026-08-04"
+        },
         {
           "id": "gc-m-gu4vfmtvkvdc",
           "ts": "7:00 PM",
@@ -130,6 +181,31 @@
       ],
       "2026-08-06": [
         {
+          "id": "gc-m-5h82vpnd5qmv",
+          "ts": "4:00 PM",
+          "te": "4:15 PM",
+          "dur": "15 min",
+          "title": "Pinecrest SPP x Dupaco Community Credit Union",
+          "contact": "jkirby@dupaco.com",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "james.johnson@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "jkirby@dupaco.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/bgh-bdkn-qrn",
+          "_dayKey": "2026-08-06"
+        },
+        {
           "id": "gc-m-3es168d5v0eu",
           "ts": "6:00 PM",
           "te": "6:15 PM",
@@ -215,6 +291,35 @@
           ],
           "org": "",
           "meet": "https://meet.google.com/jzc-ikme-cjq",
+          "_dayKey": "2026-08-03"
+        },
+        {
+          "id": "gc-b-mokdc7sldr2p",
+          "ts": "9:30 PM",
+          "te": "10:00 PM",
+          "dur": "30 min",
+          "title": "SPP Initial Call - Esther / Ben",
+          "contact": "lamont4amazon@gmail.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "orly.tabaria@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "lamont4amazon@gmail.com",
+              "ext": true
+            },
+            {
+              "n": "anthemdeliveryservices@gmail.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/hkd-uowj-vet",
           "_dayKey": "2026-08-03"
         }
       ],
