@@ -1,6 +1,6 @@
 {
   "week": "2026-08-03",
-  "updatedAt": "2026-08-04T14:38:11.012Z",
+  "updatedAt": "2026-08-05T14:31:13.774Z",
   "meetings": {
     "judah": {
       "2026-08-03": [
@@ -69,31 +69,6 @@
       "2026-08-03": [],
       "2026-08-04": [
         {
-          "id": "gc-m-cob7phni1p29",
-          "ts": "7:00 PM",
-          "te": "7:45 PM",
-          "dur": "45 min",
-          "title": "Group Health Next steps - Chism Trucking Inc",
-          "contact": "chismtrucking.inc@gmail.com",
-          "attendees": [
-            {
-              "n": "chismtrucking.inc@gmail.com",
-              "ext": true
-            },
-            {
-              "n": "matt@pinecrestgroup.com",
-              "ext": false
-            },
-            {
-              "n": "sam.gallor@pinecrestgroup.com",
-              "ext": false
-            }
-          ],
-          "org": "",
-          "meet": "https://meet.google.com/pwo-drux-uwh",
-          "_dayKey": "2026-08-04"
-        },
-        {
           "id": "gc-m-gu4vfmtvkvdc",
           "ts": "7:00 PM",
           "te": "7:30 PM",
@@ -125,6 +100,31 @@
       ],
       "2026-08-05": [
         {
+          "id": "gc-m-cob7phni1p29",
+          "ts": "6:00 PM",
+          "te": "6:45 PM",
+          "dur": "45 min",
+          "title": " Group Health Next steps - Chism Trucking Inc",
+          "contact": "chismtrucking.inc@gmail.com",
+          "attendees": [
+            {
+              "n": "chismtrucking.inc@gmail.com",
+              "ext": true
+            },
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "sam.gallor@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/pwo-drux-uwh",
+          "_dayKey": "2026-08-05"
+        },
+        {
           "id": "gc-m-4o5e3l3ia1j7",
           "ts": "6:00 PM",
           "te": "6:15 PM",
@@ -138,6 +138,10 @@
             },
             {
               "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "jack.shimonov@pinecrestgroup.com",
               "ext": false
             },
             {
@@ -231,7 +235,58 @@
           "_dayKey": "2026-08-06"
         }
       ],
-      "2026-08-07": []
+      "2026-08-07": [
+        {
+          "id": "gc-m-d425luf5dlsr",
+          "ts": "2:00 PM",
+          "te": "2:30 PM",
+          "dur": "30 min",
+          "title": "SPP with Pinecrest x Fidelis Delivery Solutions ",
+          "contact": "jwood.fidelis@gmail.com",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "jwood.fidelis@gmail.com",
+              "ext": true
+            },
+            {
+              "n": "jack.shimonov@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/dbu-ncnu-pec",
+          "_dayKey": "2026-08-07"
+        },
+        {
+          "id": "gc-m-bp5jb8lek55m",
+          "ts": "3:00 PM",
+          "te": "3:45 PM",
+          "dur": "45 min",
+          "title": "Group Health Proposal - HOODZ of NW Atlanta",
+          "contact": "nwatlanta@hoodz.us.com",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "nwatlanta@hoodz.us.com",
+              "ext": true
+            },
+            {
+              "n": "sam.gallor@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/ros-txnz-hsw",
+          "_dayKey": "2026-08-07"
+        }
+      ]
     },
     "ben": {
       "2026-08-03": [
@@ -350,31 +405,6 @@
           "_dayKey": "2026-08-04"
         },
         {
-          "id": "gc-b-noqil5015kcn",
-          "ts": "7:15 PM",
-          "te": "8:00 PM",
-          "dur": "45 min",
-          "title": "Bison Peak - Supplemental Prevention Plan",
-          "contact": "sheena@bisonpeaklogistics.com",
-          "attendees": [
-            {
-              "n": "ben@pinecrestgroup.com",
-              "ext": false
-            },
-            {
-              "n": "orly.tabaria@pinecrestgroup.com",
-              "ext": false
-            },
-            {
-              "n": "sheena@bisonpeaklogistics.com",
-              "ext": true
-            }
-          ],
-          "org": "",
-          "meet": "https://meet.google.com/rbx-rrqx-hxy",
-          "_dayKey": "2026-08-04"
-        },
-        {
           "id": "gc-b-95f3dsgctbio",
           "ts": "8:00 PM",
           "te": "8:45 PM",
@@ -398,14 +428,45 @@
           "org": "",
           "meet": "https://meet.google.com/cev-ndns-etx",
           "_dayKey": "2026-08-04"
+        }
+      ],
+      "2026-08-05": [
+        {
+          "id": "gc-b-13dg4oh7nsnu",
+          "ts": "3:00 PM",
+          "te": "3:30 PM",
+          "dur": "30 min",
+          "title": "Fil / Ben - WC Quotes",
+          "contact": "ftglogistics215@gmail.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "chaya.adelman@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "david.azose@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "ftglogistics215@gmail.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/bpt-heyg-xfk",
+          "_dayKey": "2026-08-05"
         },
         {
-          "id": "gc-b-hpj6lmq5pa1d",
-          "ts": "9:00 PM",
-          "te": "9:45 PM",
+          "id": "gc-b-noqil5015kcn",
+          "ts": "4:00 PM",
+          "te": "4:45 PM",
           "dur": "45 min",
-          "title": "SPP Initial Call - Advance Delivery",
-          "contact": "andy.murry1121@gmail.com",
+          "title": "Bison Peak - Supplemental Prevention Plan",
+          "contact": "sheena@bisonpeaklogistics.com",
           "attendees": [
             {
               "n": "ben@pinecrestgroup.com",
@@ -416,16 +477,15 @@
               "ext": false
             },
             {
-              "n": "andy.murry1121@gmail.com",
+              "n": "sheena@bisonpeaklogistics.com",
               "ext": true
             }
           ],
           "org": "",
-          "meet": "https://meet.google.com/oyb-wevj-hgo",
-          "_dayKey": "2026-08-04"
+          "meet": "https://meet.google.com/rbx-rrqx-hxy",
+          "_dayKey": "2026-08-05"
         }
       ],
-      "2026-08-05": [],
       "2026-08-06": [],
       "2026-08-07": []
     }
