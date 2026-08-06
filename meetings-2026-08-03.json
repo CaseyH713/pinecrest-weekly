@@ -1,6 +1,6 @@
 {
   "week": "2026-08-03",
-  "updatedAt": "2026-08-05T14:31:13.774Z",
+  "updatedAt": "2026-08-06T14:33:18.332Z",
   "meetings": {
     "judah": {
       "2026-08-03": [
@@ -285,6 +285,31 @@
           "org": "",
           "meet": "https://meet.google.com/ros-txnz-hsw",
           "_dayKey": "2026-08-07"
+        },
+        {
+          "id": "gc-m-vvvlnh09e7ea",
+          "ts": "8:00 PM",
+          "te": "8:30 PM",
+          "dur": "30 min",
+          "title": "Group Health MVP Review -  Energico Freight LLC",
+          "contact": "alec@energicofreight.com",
+          "attendees": [
+            {
+              "n": "alec@energicofreight.com",
+              "ext": true
+            },
+            {
+              "n": "sam.gallor@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/duy-qtsu-wvp",
+          "_dayKey": "2026-08-07"
         }
       ]
     },
@@ -486,8 +511,64 @@
           "_dayKey": "2026-08-05"
         }
       ],
-      "2026-08-06": [],
-      "2026-08-07": []
+      "2026-08-06": [
+        {
+          "id": "gc-b-993kidsgev13",
+          "ts": "6:00 PM",
+          "te": "6:30 PM",
+          "dur": "30 min",
+          "title": "Workers Comp Quote Review X Garret Venture Group",
+          "contact": "carlos@garrettventure.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "DeCarlos Garrett",
+              "ext": true
+            },
+            {
+              "n": "david.azose@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "chaya.adelman@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/tzq-ngsn-eea",
+          "_dayKey": "2026-08-06"
+        }
+      ],
+      "2026-08-07": [
+        {
+          "id": "gc-b-l5a0e6ddq5dq",
+          "ts": "7:00 PM",
+          "te": "7:30 PM",
+          "dur": "30 min",
+          "title": "FTG WC Follow Up",
+          "contact": "ftglogistics215@gmail.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "ftglogistics215@gmail.com",
+              "ext": true
+            },
+            {
+              "n": "David Azose",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/ntp-gntd-toa",
+          "_dayKey": "2026-08-07"
+        }
+      ]
     }
   },
   "pto": {}
