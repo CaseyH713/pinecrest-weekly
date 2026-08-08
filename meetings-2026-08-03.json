@@ -1,6 +1,6 @@
 {
   "week": "2026-08-03",
-  "updatedAt": "2026-08-07T13:37:41.758Z",
+  "updatedAt": "2026-08-08T13:11:22.883Z",
   "meetings": {
     "judah": {
       "2026-08-03": [
@@ -260,56 +260,6 @@
           "org": "",
           "meet": "https://meet.google.com/dbu-ncnu-pec",
           "_dayKey": "2026-08-07"
-        },
-        {
-          "id": "gc-m-bp5jb8lek55m",
-          "ts": "3:00 PM",
-          "te": "3:45 PM",
-          "dur": "45 min",
-          "title": "Group Health Proposal - HOODZ of NW Atlanta",
-          "contact": "nwatlanta@hoodz.us.com",
-          "attendees": [
-            {
-              "n": "matt@pinecrestgroup.com",
-              "ext": false
-            },
-            {
-              "n": "nwatlanta@hoodz.us.com",
-              "ext": true
-            },
-            {
-              "n": "sam.gallor@pinecrestgroup.com",
-              "ext": false
-            }
-          ],
-          "org": "",
-          "meet": "https://meet.google.com/ros-txnz-hsw",
-          "_dayKey": "2026-08-07"
-        },
-        {
-          "id": "gc-m-vvvlnh09e7ea",
-          "ts": "8:00 PM",
-          "te": "8:30 PM",
-          "dur": "30 min",
-          "title": "Group Health MVP Review -  Energico Freight LLC",
-          "contact": "alec@energicofreight.com",
-          "attendees": [
-            {
-              "n": "alec@energicofreight.com",
-              "ext": true
-            },
-            {
-              "n": "sam.gallor@pinecrestgroup.com",
-              "ext": false
-            },
-            {
-              "n": "matt@pinecrestgroup.com",
-              "ext": false
-            }
-          ],
-          "org": "",
-          "meet": "https://meet.google.com/duy-qtsu-wvp",
-          "_dayKey": "2026-08-07"
         }
       ]
     },
@@ -542,38 +492,13 @@
           "_dayKey": "2026-08-06"
         }
       ],
-      "2026-08-07": [
-        {
-          "id": "gc-b-l5a0e6ddq5dq",
-          "ts": "7:00 PM",
-          "te": "7:30 PM",
-          "dur": "30 min",
-          "title": "FTG WC Follow Up",
-          "contact": "ftglogistics215@gmail.com",
-          "attendees": [
-            {
-              "n": "ben@pinecrestgroup.com",
-              "ext": false
-            },
-            {
-              "n": "ftglogistics215@gmail.com",
-              "ext": true
-            },
-            {
-              "n": "David Azose",
-              "ext": false
-            }
-          ],
-          "org": "",
-          "meet": "https://meet.google.com/ntp-gntd-toa",
-          "_dayKey": "2026-08-07"
-        }
-      ]
+      "2026-08-07": []
     }
   },
   "pto": {
     "Abraham Benguigui": {
-      "2026-08-06": 8
+      "2026-08-06": 8,
+      "2026-08-07": 8
     }
   }
 }
