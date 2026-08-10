@@ -1,0 +1,465 @@
+{
+  "week": "2026-08-10",
+  "updatedAt": "2026-08-10T13:42:16.174Z",
+  "meetings": {
+    "judah": {
+      "2026-08-10": [],
+      "2026-08-11": [
+        {
+          "id": "gc-j-pj1288mllamp",
+          "ts": "2:00 PM",
+          "te": "2:30 PM",
+          "dur": "30 min",
+          "title": "Pinecrest x Justis Payroll Tax Savings",
+          "contact": "justislogistics@gmail.com",
+          "attendees": [
+            {
+              "n": "david.shafron@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "judah@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "justislogistics@gmail.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/qyz-hmxd-ozo",
+          "_dayKey": "2026-08-11"
+        },
+        {
+          "id": "gc-j-tiigi1567t4f",
+          "ts": "3:30 PM",
+          "te": "4:00 PM",
+          "dur": "30 min",
+          "title": "Pinecrest Group - Payroll Tax Savings convo ",
+          "contact": "stephanie.ray@hsi.team",
+          "attendees": [
+            {
+              "n": "mallory.maxwell@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "stephanie.ray@hsi.team",
+              "ext": true
+            },
+            {
+              "n": "judah@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "",
+          "_dayKey": "2026-08-11"
+        },
+        {
+          "id": "gc-j-0h3r8kbi7bok",
+          "ts": "7:30 PM",
+          "te": "8:00 PM",
+          "dur": "30 min",
+          "title": "Pinecrest Group - Payroll Tax Savings",
+          "contact": "billy.milican@royaltruck.com",
+          "attendees": [
+            {
+              "n": "mallory.maxwell@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "judah@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "billy.milican@royaltruck.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/qoa-udzb-cvn",
+          "_dayKey": "2026-08-11"
+        }
+      ],
+      "2026-08-12": [
+        {
+          "id": "gc-j-0ruhpf9vk0md",
+          "ts": "5:30 PM",
+          "te": "6:30 PM",
+          "dur": "1 hr",
+          "title": "Wil Call Now Judah & Greg - 125 + WC",
+          "contact": "wil@wilxlogistics.com",
+          "attendees": [
+            {
+              "n": "greg.yavner@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "judah@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "wil@wilxlogistics.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/rux-itgz-jvv",
+          "_dayKey": "2026-08-12"
+        }
+      ],
+      "2026-08-13": [],
+      "2026-08-14": []
+    },
+    "matt": {
+      "2026-08-10": [
+        {
+          "id": "gc-m-bp5jb8lek55m",
+          "ts": "2:00 PM",
+          "te": "2:45 PM",
+          "dur": "45 min",
+          "title": " Group Health Proposal - HOODZ of NW Atlanta",
+          "contact": "nwatlanta@hoodz.us.com",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "nwatlanta@hoodz.us.com",
+              "ext": true
+            },
+            {
+              "n": "sam.gallor@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/ros-txnz-hsw",
+          "_dayKey": "2026-08-10"
+        },
+        {
+          "id": "gc-m-fpu8261gqf45",
+          "ts": "5:00 PM",
+          "te": "5:15 PM",
+          "dur": "15 min",
+          "title": "Pinecrest SPP x National Fingerprint Inc",
+          "contact": "jallburn@nationalfingerprint.com",
+          "attendees": [
+            {
+              "n": "james.johnson@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "jallburn@nationalfingerprint.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/zqo-ydpw-syv",
+          "_dayKey": "2026-08-10"
+        },
+        {
+          "id": "gc-m-9r6dha44s76j",
+          "ts": "7:00 PM",
+          "te": "7:30 PM",
+          "dur": "30 min",
+          "title": "Supplemental Prevention Plan X Suzanne(NexusTek)",
+          "contact": "suzanne.harris@nexustek.com",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "chaya.adelman@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "suzanne.harris@nexustek.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/ccj-hrdg-dxi",
+          "_dayKey": "2026-08-10"
+        }
+      ],
+      "2026-08-11": [
+        {
+          "id": "gc-m-2s6jvke94qa1",
+          "ts": "2:30 PM",
+          "te": "2:45 PM",
+          "dur": "15 min",
+          "title": "PinecrestGroup SPP x Borton Fruit",
+          "contact": "gabriela.soria@bortonfruit.com",
+          "attendees": [
+            {
+              "n": "james.johnson@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "gabriela.soria@bortonfruit.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/dpf-vqwy-wpp",
+          "_dayKey": "2026-08-11"
+        }
+      ],
+      "2026-08-12": [
+        {
+          "id": "gc-m-bickb7lttjjg",
+          "ts": "3:00 PM",
+          "te": "3:15 PM",
+          "dur": "15 min",
+          "title": "PinecrestGroup SPP x ElderChoice",
+          "contact": "aallen@elderchoiceinc.com",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "james.johnson@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "aallen@elderchoiceinc.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/tto-bpjh-toc",
+          "_dayKey": "2026-08-12"
+        }
+      ],
+      "2026-08-13": [
+        {
+          "id": "gc-m-fjv5rcfj480f",
+          "ts": "4:30 PM",
+          "te": "5:00 PM",
+          "dur": "30 min",
+          "title": "Snowbird/Eliza  &  Shelley   Supplemental Prevention Program quote",
+          "contact": "elizap21@yahoo.com",
+          "attendees": [
+            {
+              "n": "diana.hakakian@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "elizap21@yahoo.com",
+              "ext": true
+            },
+            {
+              "n": "shelley@dauntlessdelivery.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/wxu-xcsk-cfd",
+          "_dayKey": "2026-08-13"
+        },
+        {
+          "id": "gc-m-beq2e0a41m2b",
+          "ts": "6:00 PM",
+          "te": "6:15 PM",
+          "dur": "15 min",
+          "title": "Pinecrest 125 SPP/ Mel Hambelton Ford",
+          "contact": "tyler.thomas@mhford.com",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "james.johnson@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "tyler.thomas@mhford.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/hfg-qyfr-zaz",
+          "_dayKey": "2026-08-13"
+        },
+        {
+          "id": "gc-m-jg1vj6lgmdo3",
+          "ts": "7:00 PM",
+          "te": "7:30 PM",
+          "dur": "30 min",
+          "title": "SPP Prevention Plan",
+          "contact": "sherry.arlt@people-science.com",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "ari.lowenstein@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "sherry.arlt@people-science.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/szy-xrgj-oav",
+          "_dayKey": "2026-08-13"
+        },
+        {
+          "id": "gc-m-27ru7af1hm4e",
+          "ts": "8:30 PM",
+          "te": "9:00 PM",
+          "dur": "30 min",
+          "title": "Supplemental Prevention Plan X Krista(KMB)",
+          "contact": "krista.kmbc@gmail.com",
+          "attendees": [
+            {
+              "n": "krista.kmbc@gmail.com",
+              "ext": true
+            },
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "chaya.adelman@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/ddz-viek-obt",
+          "_dayKey": "2026-08-13"
+        }
+      ],
+      "2026-08-14": []
+    },
+    "ben": {
+      "2026-08-10": [
+        {
+          "id": "gc-b-a7a823rc37uv",
+          "ts": "5:00 PM",
+          "te": "5:30 PM",
+          "dur": "30 min",
+          "title": "SPP Follow Up - Bison Peak",
+          "contact": "sheena@bisonpeaklogistics.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "orly.tabaria@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "sheena@bisonpeaklogistics.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/rpq-uauo-trk",
+          "_dayKey": "2026-08-10"
+        },
+        {
+          "id": "gc-b-n2floe01j20d",
+          "ts": "6:30 PM",
+          "te": "7:15 PM",
+          "dur": "45 min",
+          "title": "Potential Payroll Tax Savings & Employee Benefits Enhancement",
+          "contact": "kwall@portco.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "sam.gallor@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "kwall@portco.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/ipm-jboa-ovv",
+          "_dayKey": "2026-08-10"
+        }
+      ],
+      "2026-08-11": [
+        {
+          "id": "gc-b-7eufofadrnc8",
+          "ts": "5:00 PM",
+          "te": "6:00 PM",
+          "dur": "1 hr",
+          "title": "Health Insurance Proposal/SPP X Next Phase Logistics",
+          "contact": "mark@nextphaselogistics.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "mark@nextphaselogistics.com",
+              "ext": true
+            },
+            {
+              "n": "chaya.adelman@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/rgk-xsfj-qqo",
+          "_dayKey": "2026-08-11"
+        },
+        {
+          "id": "gc-b-l5a0e6ddq5dq",
+          "ts": "7:00 PM",
+          "te": "7:30 PM",
+          "dur": "30 min",
+          "title": "FTG WC Follow Up",
+          "contact": "ftglogistics215@gmail.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "ftglogistics215@gmail.com",
+              "ext": true
+            },
+            {
+              "n": "David Azose",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/ntp-gntd-toa",
+          "_dayKey": "2026-08-11"
+        }
+      ],
+      "2026-08-12": [],
+      "2026-08-13": [],
+      "2026-08-14": []
+    }
+  },
+  "pto": {}
+}
