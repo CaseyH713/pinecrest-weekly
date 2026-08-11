@@ -1,6 +1,6 @@
 {
   "week": "2026-08-10",
-  "updatedAt": "2026-08-10T13:42:16.174Z",
+  "updatedAt": "2026-08-11T13:41:11.477Z",
   "meetings": {
     "judah": {
       "2026-08-10": [],
@@ -74,6 +74,10 @@
             {
               "n": "billy.milican@royaltruck.com",
               "ext": true
+            },
+            {
+              "n": "shannon.swope@royaltruck.com",
+              "ext": true
             }
           ],
           "org": "",
@@ -108,7 +112,33 @@
           "_dayKey": "2026-08-12"
         }
       ],
-      "2026-08-13": [],
+      "2026-08-13": [
+        {
+          "id": "gc-j-q1fu83vk0l88",
+          "ts": "2:15 PM",
+          "te": "2:45 PM",
+          "dur": "30 min",
+          "title": "Pinecrest Group - Payroll Tax discussion",
+          "contact": "ahelton@premierscrap.com",
+          "attendees": [
+            {
+              "n": "mallory.maxwell@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "judah@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "ahelton@premierscrap.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/qzq-jmro-cqw",
+          "_dayKey": "2026-08-13"
+        }
+      ],
       "2026-08-14": []
     },
     "matt": {
@@ -152,6 +182,10 @@
             },
             {
               "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "jack.shimonov@pinecrestgroup.com",
               "ext": false
             },
             {
@@ -213,6 +247,31 @@
           ],
           "org": "",
           "meet": "https://meet.google.com/dpf-vqwy-wpp",
+          "_dayKey": "2026-08-11"
+        },
+        {
+          "id": "gc-m-d929fmjs8uk8",
+          "ts": "6:00 PM",
+          "te": "6:45 PM",
+          "dur": "45 min",
+          "title": "Workers Comp Proposal - Quick Fleet Delivery, Inc",
+          "contact": "",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "sam.gallor@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "david.azose@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/ipr-cgmg-fxy",
           "_dayKey": "2026-08-11"
         }
       ],
