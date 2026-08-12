@@ -1,6 +1,6 @@
 {
   "week": "2026-08-10",
-  "updatedAt": "2026-08-11T13:41:11.477Z",
+  "updatedAt": "2026-08-12T13:44:26.569Z",
   "meetings": {
     "judah": {
       "2026-08-10": [],
@@ -53,35 +53,6 @@
           ],
           "org": "",
           "meet": "",
-          "_dayKey": "2026-08-11"
-        },
-        {
-          "id": "gc-j-0h3r8kbi7bok",
-          "ts": "7:30 PM",
-          "te": "8:00 PM",
-          "dur": "30 min",
-          "title": "Pinecrest Group - Payroll Tax Savings",
-          "contact": "billy.milican@royaltruck.com",
-          "attendees": [
-            {
-              "n": "mallory.maxwell@pinecrestgroup.com",
-              "ext": false
-            },
-            {
-              "n": "judah@pinecrestgroup.com",
-              "ext": false
-            },
-            {
-              "n": "billy.milican@royaltruck.com",
-              "ext": true
-            },
-            {
-              "n": "shannon.swope@royaltruck.com",
-              "ext": true
-            }
-          ],
-          "org": "",
-          "meet": "https://meet.google.com/qoa-udzb-cvn",
           "_dayKey": "2026-08-11"
         }
       ],
@@ -241,6 +212,10 @@
               "ext": false
             },
             {
+              "n": "jack.shimonov@pinecrestgroup.com",
+              "ext": false
+            },
+            {
               "n": "gabriela.soria@bortonfruit.com",
               "ext": true
             }
@@ -250,23 +225,56 @@
           "_dayKey": "2026-08-11"
         },
         {
-          "id": "gc-m-d929fmjs8uk8",
-          "ts": "6:00 PM",
-          "te": "6:45 PM",
-          "dur": "45 min",
-          "title": "Workers Comp Proposal - Quick Fleet Delivery, Inc",
-          "contact": "",
+          "id": "gc-m-p48inf0qp09q",
+          "ts": "4:30 PM",
+          "te": "4:45 PM",
+          "dur": "15 min",
+          "title": "Pinecrest SPP x Borton Fruit",
+          "contact": "gabriela.soria@bortonfruit.com",
           "attendees": [
             {
               "n": "matt@pinecrestgroup.com",
               "ext": false
             },
             {
-              "n": "sam.gallor@pinecrestgroup.com",
+              "n": "james.johnson@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "jack.shimonov@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "gabriela.soria@bortonfruit.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/efu-hnra-ocy",
+          "_dayKey": "2026-08-11"
+        },
+        {
+          "id": "gc-m-d929fmjs8uk8",
+          "ts": "6:00 PM",
+          "te": "6:45 PM",
+          "dur": "45 min",
+          "title": "Workers Comp Proposal - Quick Fleet Delivery, Inc",
+          "contact": "notetostevepace@gmail.com",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
               "ext": false
             },
             {
               "n": "david.azose@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "notetostevepace@gmail.com",
+              "ext": true
+            },
+            {
+              "n": "michael.lang@pinecrestgroup.com",
               "ext": false
             }
           ],
@@ -303,6 +311,39 @@
         }
       ],
       "2026-08-13": [
+        {
+          "id": "gc-m-8ju6fjudpndr",
+          "ts": "4:00 PM",
+          "te": "4:30 PM",
+          "dur": "30 min",
+          "title": "Workers Comp Proposal - Quick Fleet Delivery, Inc",
+          "contact": "notetostevepace@gmail.com",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "sam.gallor@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "notetostevepace@gmail.com",
+              "ext": true
+            },
+            {
+              "n": "david.azose@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "michael.lang@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/fhb-npsn-jpn",
+          "_dayKey": "2026-08-13"
+        },
         {
           "id": "gc-m-fjv5rcfj480f",
           "ts": "4:30 PM",
@@ -516,7 +557,33 @@
         }
       ],
       "2026-08-12": [],
-      "2026-08-13": [],
+      "2026-08-13": [
+        {
+          "id": "gc-b-kbcrdjl4oi1m",
+          "ts": "3:15 PM",
+          "te": "4:00 PM",
+          "dur": "45 min",
+          "title": "PW Delivery Services - Supplemental Prevention Plan",
+          "contact": "pwdeliveryservicesllc@gmail.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "orly.tabaria@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "pwdeliveryservicesllc@gmail.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/kxv-cnbp-yre",
+          "_dayKey": "2026-08-13"
+        }
+      ],
       "2026-08-14": []
     }
   },
