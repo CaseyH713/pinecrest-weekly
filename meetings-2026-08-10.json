@@ -1,6 +1,6 @@
 {
   "week": "2026-08-10",
-  "updatedAt": "2026-08-12T13:44:26.569Z",
+  "updatedAt": "2026-08-13T13:45:35.611Z",
   "meetings": {
     "judah": {
       "2026-08-10": [],
@@ -56,33 +56,7 @@
           "_dayKey": "2026-08-11"
         }
       ],
-      "2026-08-12": [
-        {
-          "id": "gc-j-0ruhpf9vk0md",
-          "ts": "5:30 PM",
-          "te": "6:30 PM",
-          "dur": "1 hr",
-          "title": "Wil Call Now Judah & Greg - 125 + WC",
-          "contact": "wil@wilxlogistics.com",
-          "attendees": [
-            {
-              "n": "greg.yavner@pinecrestgroup.com",
-              "ext": false
-            },
-            {
-              "n": "judah@pinecrestgroup.com",
-              "ext": false
-            },
-            {
-              "n": "wil@wilxlogistics.com",
-              "ext": true
-            }
-          ],
-          "org": "",
-          "meet": "https://meet.google.com/rux-itgz-jvv",
-          "_dayKey": "2026-08-12"
-        }
-      ],
+      "2026-08-12": [],
       "2026-08-13": [
         {
           "id": "gc-j-q1fu83vk0l88",
@@ -301,6 +275,10 @@
               "ext": false
             },
             {
+              "n": "jack.shimonov@pinecrestgroup.com",
+              "ext": false
+            },
+            {
               "n": "aallen@elderchoiceinc.com",
               "ext": true
             }
@@ -449,7 +427,33 @@
           "_dayKey": "2026-08-13"
         }
       ],
-      "2026-08-14": []
+      "2026-08-14": [
+        {
+          "id": "gc-m-iug2fhh01pbl",
+          "ts": "11:30 AM",
+          "te": "12:00 PM",
+          "dur": "30 min",
+          "title": "SPP with Pinecrest Group x Environmental Office Solutions, Inc.",
+          "contact": "mservice@eosusa.com",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "mservice@eosusa.com",
+              "ext": true
+            },
+            {
+              "n": "jack.shimonov@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/ifp-wbzt-swm",
+          "_dayKey": "2026-08-14"
+        }
+      ]
     },
     "ben": {
       "2026-08-10": [
@@ -506,31 +510,6 @@
       ],
       "2026-08-11": [
         {
-          "id": "gc-b-7eufofadrnc8",
-          "ts": "5:00 PM",
-          "te": "6:00 PM",
-          "dur": "1 hr",
-          "title": "Health Insurance Proposal/SPP X Next Phase Logistics",
-          "contact": "mark@nextphaselogistics.com",
-          "attendees": [
-            {
-              "n": "ben@pinecrestgroup.com",
-              "ext": false
-            },
-            {
-              "n": "mark@nextphaselogistics.com",
-              "ext": true
-            },
-            {
-              "n": "chaya.adelman@pinecrestgroup.com",
-              "ext": false
-            }
-          ],
-          "org": "",
-          "meet": "https://meet.google.com/rgk-xsfj-qqo",
-          "_dayKey": "2026-08-11"
-        },
-        {
           "id": "gc-b-l5a0e6ddq5dq",
           "ts": "7:00 PM",
           "te": "7:30 PM",
@@ -558,6 +537,31 @@
       ],
       "2026-08-12": [],
       "2026-08-13": [
+        {
+          "id": "gc-b-7eufofadrnc8",
+          "ts": "2:00 PM",
+          "te": "3:00 PM",
+          "dur": "1 hr",
+          "title": "Health Insurance Proposal/SPP X Next Phase Logistics",
+          "contact": "mark@nextphaselogistics.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "mark@nextphaselogistics.com",
+              "ext": true
+            },
+            {
+              "n": "chaya.adelman@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/rgk-xsfj-qqo",
+          "_dayKey": "2026-08-13"
+        },
         {
           "id": "gc-b-kbcrdjl4oi1m",
           "ts": "3:15 PM",
@@ -587,5 +591,13 @@
       "2026-08-14": []
     }
   },
-  "pto": {}
+  "pto": {
+    "Abraham Benguigui": {
+      "2026-08-12": 8
+    },
+    "James Johnson": {
+      "2026-08-12": 8,
+      "2026-08-14": 8
+    }
+  }
 }
