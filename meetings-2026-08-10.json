@@ -1,6 +1,6 @@
 {
   "week": "2026-08-10",
-  "updatedAt": "2026-08-13T13:45:35.611Z",
+  "updatedAt": "2026-08-14T13:40:51.803Z",
   "meetings": {
     "judah": {
       "2026-08-10": [],
@@ -57,7 +57,8 @@
         }
       ],
       "2026-08-12": [],
-      "2026-08-13": [
+      "2026-08-13": [],
+      "2026-08-14": [
         {
           "id": "gc-j-q1fu83vk0l88",
           "ts": "2:15 PM",
@@ -81,10 +82,9 @@
           ],
           "org": "",
           "meet": "https://meet.google.com/qzq-jmro-cqw",
-          "_dayKey": "2026-08-13"
+          "_dayKey": "2026-08-14"
         }
-      ],
-      "2026-08-14": []
+      ]
     },
     "matt": {
       "2026-08-10": [
@@ -344,6 +344,10 @@
             },
             {
               "n": "shelley@dauntlessdelivery.com",
+              "ext": true
+            },
+            {
+              "n": "eliza@snowbird.express",
               "ext": true
             }
           ],
