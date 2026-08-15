@@ -1,6 +1,6 @@
 {
   "week": "2026-08-10",
-  "updatedAt": "2026-08-14T13:40:51.803Z",
+  "updatedAt": "2026-08-15T12:57:54.582Z",
   "meetings": {
     "judah": {
       "2026-08-10": [],
@@ -58,33 +58,7 @@
       ],
       "2026-08-12": [],
       "2026-08-13": [],
-      "2026-08-14": [
-        {
-          "id": "gc-j-q1fu83vk0l88",
-          "ts": "2:15 PM",
-          "te": "2:45 PM",
-          "dur": "30 min",
-          "title": "Pinecrest Group - Payroll Tax discussion",
-          "contact": "ahelton@premierscrap.com",
-          "attendees": [
-            {
-              "n": "mallory.maxwell@pinecrestgroup.com",
-              "ext": false
-            },
-            {
-              "n": "judah@pinecrestgroup.com",
-              "ext": false
-            },
-            {
-              "n": "ahelton@premierscrap.com",
-              "ext": true
-            }
-          ],
-          "org": "",
-          "meet": "https://meet.google.com/qzq-jmro-cqw",
-          "_dayKey": "2026-08-14"
-        }
-      ]
+      "2026-08-14": []
     },
     "matt": {
       "2026-08-10": [
