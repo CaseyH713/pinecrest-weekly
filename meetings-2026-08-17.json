@@ -1,0 +1,377 @@
+{
+  "week": "2026-08-17",
+  "updatedAt": "2026-08-17T13:04:01.215Z",
+  "meetings": {
+    "judah": {
+      "2026-08-17": [],
+      "2026-08-18": [
+        {
+          "id": "gc-j-55170cdqmbbu",
+          "ts": "3:00 PM",
+          "te": "3:30 PM",
+          "dur": "30 min",
+          "title": "Pinecrest Group - Payroll Tax Savings",
+          "contact": "breannee@beaudryoil.com",
+          "attendees": [
+            {
+              "n": "mallory.maxwell@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "judah@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "breannee@beaudryoil.com",
+              "ext": true
+            },
+            {
+              "n": "daciam@beaudryoil.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/rye-yvcf-ecp",
+          "_dayKey": "2026-08-18"
+        },
+        {
+          "id": "gc-j-0h3r8kbi7bok",
+          "ts": "7:30 PM",
+          "te": "8:00 PM",
+          "dur": "30 min",
+          "title": "Pinecrest Group - Payroll Tax Savings follow up",
+          "contact": "billy.milican@royaltruck.com",
+          "attendees": [
+            {
+              "n": "mallory.maxwell@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "judah@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "billy.milican@royaltruck.com",
+              "ext": true
+            },
+            {
+              "n": "shannon.swope@royaltruck.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/qoa-udzb-cvn",
+          "_dayKey": "2026-08-18"
+        }
+      ],
+      "2026-08-19": [
+        {
+          "id": "gc-j-0ruhpf9vk0md",
+          "ts": "5:30 PM",
+          "te": "6:30 PM",
+          "dur": "1 hr",
+          "title": "Wil Call Now Judah & Greg - 125 + WC",
+          "contact": "wil@wilxlogistics.com",
+          "attendees": [
+            {
+              "n": "greg.yavner@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "judah@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "wil@wilxlogistics.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/rux-itgz-jvv",
+          "_dayKey": "2026-08-19"
+        }
+      ],
+      "2026-08-20": [
+        {
+          "id": "gc-j-q1fu83vk0l88",
+          "ts": "2:15 PM",
+          "te": "2:45 PM",
+          "dur": "30 min",
+          "title": "Pinecrest Group - Payroll Tax discussion",
+          "contact": "ahelton@premierscrap.com",
+          "attendees": [
+            {
+              "n": "mallory.maxwell@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "judah@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "ahelton@premierscrap.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/qzq-jmro-cqw",
+          "_dayKey": "2026-08-20"
+        }
+      ],
+      "2026-08-21": []
+    },
+    "matt": {
+      "2026-08-17": [],
+      "2026-08-18": [
+        {
+          "id": "gc-m-nmgjjc1o15lh",
+          "ts": "4:30 PM",
+          "te": "5:15 PM",
+          "dur": "45 min",
+          "title": "SPP Prevention Plan/Health Insurance (NOT adp)",
+          "contact": "janetp@richardssupply.com",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "ari.lowenstein@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "janetp@richardssupply.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/ndf-keyt-eha",
+          "_dayKey": "2026-08-18"
+        },
+        {
+          "id": "gc-m-ockuuhel8efm",
+          "ts": "9:30 PM",
+          "te": "10:00 PM",
+          "dur": "30 min",
+          "title": "SPP with Pinecrest x STARPOINT LOGISTICS LLC",
+          "contact": "brian@starpointlogisticsllc.com",
+          "attendees": [
+            {
+              "n": "brian@starpointlogisticsllc.com",
+              "ext": true
+            },
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "jack.shimonov@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/cvd-htmc-vsc",
+          "_dayKey": "2026-08-18"
+        }
+      ],
+      "2026-08-19": [
+        {
+          "id": "gc-m-ivctss0a1rlo",
+          "ts": "5:00 PM",
+          "te": "5:15 PM",
+          "dur": "15 min",
+          "title": "PinecrestGroup SPP x FA Solutions",
+          "contact": "tbadgero@getfasolutions.com",
+          "attendees": [
+            {
+              "n": "matt@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "james.johnson@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "jack.shimonov@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "tbadgero@getfasolutions.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/pvd-dxgt-xsu",
+          "_dayKey": "2026-08-19"
+        }
+      ],
+      "2026-08-20": [],
+      "2026-08-21": []
+    },
+    "ben": {
+      "2026-08-17": [],
+      "2026-08-18": [
+        {
+          "id": "gc-b-mpjrbkkdtr1c",
+          "ts": "11:30 PM",
+          "te": "12:15 AM",
+          "dur": "45 min",
+          "title": "SPP Initial Call - Chaim / Ben",
+          "contact": "craskin@beecanhealth.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "craskin@beecanhealth.com",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/tyg-ybvp-tzr",
+          "_dayKey": "2026-08-18"
+        }
+      ],
+      "2026-08-19": [
+        {
+          "id": "gc-b-q0u230478ujd",
+          "ts": "3:00 PM",
+          "te": "3:45 PM",
+          "dur": "45 min",
+          "title": "SPP - Follow Up - Kate / Ben",
+          "contact": "kate.schlichter@anewleaf.org",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "kate.schlichter@anewleaf.org",
+              "ext": true
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/cdi-qmir-wjo",
+          "_dayKey": "2026-08-19"
+        },
+        {
+          "id": "gc-b-fnb3u15emafb",
+          "ts": "4:30 PM",
+          "te": "5:00 PM",
+          "dur": "30 min",
+          "title": "SPP - Tax Advantage - Initial Call - Thermo-Trol Systems",
+          "contact": "rfloyd@thermo-trol.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "hannah.bernays@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "rfloyd@thermo-trol.com",
+              "ext": true
+            },
+            {
+              "n": "jack@pinecrestconsulting.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/qjh-rxpy-kxo",
+          "_dayKey": "2026-08-19"
+        },
+        {
+          "id": "gc-b-le4qkmp43vft",
+          "ts": "6:00 PM",
+          "te": "6:45 PM",
+          "dur": "45 min",
+          "title": "WC Proposal - Martinez Professional Services",
+          "contact": "mpsllc2018@outlook.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "mpsllc2018@outlook.com",
+              "ext": true
+            },
+            {
+              "n": "David Azose",
+              "ext": false
+            },
+            {
+              "n": "michael.lang@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "chaya.adelman@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/vwy-xdao-kgx",
+          "_dayKey": "2026-08-19"
+        },
+        {
+          "id": "gc-b-bn9tp1lrrupo",
+          "ts": "8:00 PM",
+          "te": "8:30 PM",
+          "dur": "30 min",
+          "title": "SPP with AFP's - Fidelis Trucking Corp",
+          "contact": "fidelistrucking13@gmail.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "fidelistrucking13@gmail.com",
+              "ext": true
+            },
+            {
+              "n": "jack.shimonov@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/vpi-usta-oua",
+          "_dayKey": "2026-08-19"
+        }
+      ],
+      "2026-08-20": [
+        {
+          "id": "gc-b-jnjocvinv547",
+          "ts": "2:30 PM",
+          "te": "3:00 PM",
+          "dur": "30 min",
+          "title": "SPP Follow Up - Bob / Ben",
+          "contact": "bschaffart@ckfco.com",
+          "attendees": [
+            {
+              "n": "ben@pinecrestgroup.com",
+              "ext": false
+            },
+            {
+              "n": "bschaffart@ckfco.com",
+              "ext": true
+            },
+            {
+              "n": "hannah.bernays@pinecrestgroup.com",
+              "ext": false
+            }
+          ],
+          "org": "",
+          "meet": "https://meet.google.com/sep-shrc-gfo",
+          "_dayKey": "2026-08-20"
+        }
+      ],
+      "2026-08-21": []
+    }
+  },
+  "pto": {}
+}
