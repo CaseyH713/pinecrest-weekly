@@ -1,6 +1,6 @@
 {
-    "updatedAt":  "2026-08-20T03:34:04.856Z",
-    "source":  "monday_replica â€” Master Deal Board (board 7124590647), CORE Leads group, active items, by month of item_created. with125=c_125_sales_status, withWC=wc_sales_status, withGHI=ghi_status populated. Current month (2026-08) topped up from the Master Deal Board CORE Leads export. Products overlap (a lead can be flagged for more than one).",
+    "updatedAt":  "2026-08-20T03:43:54.664Z",
+    "source":  "monday_replica Ã¢â‚¬â€ Master Deal Board (board 7124590647), CORE Leads group, active items, by month of item_created. with125=c_125_sales_status, withWC=wc_sales_status, withGHI=ghi_status populated. Current month (2026-08) topped up from the Master Deal Board CORE Leads export. Products overlap (a lead can be flagged for more than one).",
     "window":  "trailing 12 months (bulk-import spikes Aug-2024 and Jan-2025 excluded from the default window)",
     "byMonth":  [
                     {
@@ -82,10 +82,10 @@
                     },
                     {
                         "month":  "2026-08",
-                        "total":  38,
-                        "with125":  21,
+                        "total":  40,
+                        "with125":  23,
                         "withWC":  1,
-                        "withGHI":  3
+                        "withGHI":  4
                     }
                 ],
     "history":  [
