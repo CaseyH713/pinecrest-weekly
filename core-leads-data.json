@@ -1,6 +1,6 @@
 {
-    "updatedAt":  "2026-08-20T03:43:54.664Z",
-    "source":  "monday_replica Ã¢â‚¬â€ Master Deal Board (board 7124590647), CORE Leads group, active items, by month of item_created. with125=c_125_sales_status, withWC=wc_sales_status, withGHI=ghi_status populated. Current month (2026-08) topped up from the Master Deal Board CORE Leads export. Products overlap (a lead can be flagged for more than one).",
+    "updatedAt":  "2026-08-24T04:05:03.033Z",
+    "source":  "monday_replica ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Master Deal Board (board 7124590647), CORE Leads group, active items, by month of item_created. with125=c_125_sales_status, withWC=wc_sales_status, withGHI=ghi_status populated. Current month (2026-08) topped up from the Master Deal Board CORE Leads export. Products overlap (a lead can be flagged for more than one).",
     "window":  "trailing 12 months (bulk-import spikes Aug-2024 and Jan-2025 excluded from the default window)",
     "byMonth":  [
                     {
@@ -82,13 +82,102 @@
                     },
                     {
                         "month":  "2026-08",
-                        "total":  40,
-                        "with125":  23,
+                        "total":  49,
+                        "with125":  26,
                         "withWC":  1,
-                        "withGHI":  4
+                        "withGHI":  3
                     }
                 ],
     "history":  [
+                    {
+                        "uploadedAt":  "2026-08-20T03:43:54.664Z",
+                        "byMonth":  [
+                                        {
+                                            "month":  "2025-09",
+                                            "total":  191,
+                                            "with125":  23,
+                                            "withWC":  3,
+                                            "withGHI":  191
+                                        },
+                                        {
+                                            "month":  "2025-10",
+                                            "total":  99,
+                                            "with125":  17,
+                                            "withWC":  2,
+                                            "withGHI":  99
+                                        },
+                                        {
+                                            "month":  "2025-11",
+                                            "total":  128,
+                                            "with125":  25,
+                                            "withWC":  3,
+                                            "withGHI":  128
+                                        },
+                                        {
+                                            "month":  "2025-12",
+                                            "total":  105,
+                                            "with125":  20,
+                                            "withWC":  7,
+                                            "withGHI":  105
+                                        },
+                                        {
+                                            "month":  "2026-01",
+                                            "total":  25,
+                                            "with125":  11,
+                                            "withWC":  3,
+                                            "withGHI":  22
+                                        },
+                                        {
+                                            "month":  "2026-02",
+                                            "total":  25,
+                                            "with125":  24,
+                                            "withWC":  1,
+                                            "withGHI":  19
+                                        },
+                                        {
+                                            "month":  "2026-03",
+                                            "total":  28,
+                                            "with125":  24,
+                                            "withWC":  1,
+                                            "withGHI":  28
+                                        },
+                                        {
+                                            "month":  "2026-04",
+                                            "total":  27,
+                                            "with125":  26,
+                                            "withWC":  2,
+                                            "withGHI":  26
+                                        },
+                                        {
+                                            "month":  "2026-05",
+                                            "total":  48,
+                                            "with125":  46,
+                                            "withWC":  0,
+                                            "withGHI":  38
+                                        },
+                                        {
+                                            "month":  "2026-06",
+                                            "total":  129,
+                                            "with125":  103,
+                                            "withWC":  15,
+                                            "withGHI":  45
+                                        },
+                                        {
+                                            "month":  "2026-07",
+                                            "total":  69,
+                                            "with125":  48,
+                                            "withWC":  17,
+                                            "withGHI":  13
+                                        },
+                                        {
+                                            "month":  "2026-08",
+                                            "total":  40,
+                                            "with125":  23,
+                                            "withWC":  1,
+                                            "withGHI":  4
+                                        }
+                                    ]
+                    },
                     {
                         "uploadedAt":  "2026-08-17T03:02:10.552Z",
                         "byMonth":  [
