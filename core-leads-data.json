@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-09-08T16:39:47.161145Z",
-  "source": "monday_replica -> Master Deal Board (board 7124590647), CORE Leads group, active items, by month of item_created. with125=125 Sales Status, withWC=WC Sales Status, withGHI=GHI Sales Status populated. Current month (2026-09) topped up from the Master Deal Board CORE Leads export (Master_Deal_Board_CORE_Leads_1788834460.xlsx, pulled 2026-09-07). Products overlap (a lead can be flagged for more than one).",
+  "updatedAt": "2026-09-08T17:09:49.632121Z",
+  "source": "monday_replica -> Master Deal Board (board 7124590647), CORE Leads group, active items, by month of item_created. with125=125 Sales Status, withWC=WC Sales Status, withGHI=GHI Sales Status populated. Current month (2026-09) topped up from the Master Deal Board CORE Leads export (Master_Deal_Board_CORE_Leads_1788834460.xlsx, pulled 2026-09-07). Products overlap (a lead can be flagged for more than one). [+composition mix on 2026-08/2026-09 for column drill-down]",
   "window": "trailing 12 months (bulk-import spikes Aug-2024 and Jan-2025 excluded from the default window)",
   "byMonth": [
     {
@@ -78,14 +78,34 @@
       "total": 59,
       "with125": 29,
       "withWC": 1,
-      "withGHI": 2
+      "withGHI": 2,
+      "mix": {
+        "none": 29,
+        "125only": 27,
+        "WConly": 1,
+        "GHIonly": 0,
+        "125WC": 0,
+        "125GHI": 2,
+        "WCGHI": 0,
+        "all3": 0
+      }
     },
     {
       "month": "2026-09",
       "total": 5,
       "with125": 4,
       "withWC": 1,
-      "withGHI": 1
+      "withGHI": 1,
+      "mix": {
+        "none": 1,
+        "125only": 3,
+        "WConly": 0,
+        "GHIonly": 0,
+        "125WC": 0,
+        "125GHI": 0,
+        "WCGHI": 0,
+        "all3": 1
+      }
     }
   ],
   "history": [
