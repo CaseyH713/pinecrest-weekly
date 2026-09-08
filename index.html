@@ -3048,7 +3048,8 @@ function coreRenderReport(byMonth, history) {
     const totalH = Math.round((d.total / maxTotal) * 190);
     const h125 = d.total ? Math.round((d.with125 / d.total) * totalH) : 0;
     const hOther = totalH - h125;
-    return `<div class="bar-col" title="${coreMonthLabel(d.month)}: ${d.total} leads — 125 ${d.with125}, WC ${d.withWC ?? 0}, GHI ${d.withGHI ?? 0}">
+    const barClick = d.mix ? ` onclick="coreShowMix('${d.month}','total',null)" style="cursor:pointer"` : '';
+    return `<div class="bar-col"${barClick} title="${coreMonthLabel(d.month)}: ${d.total} leads — 125 ${d.with125}, WC ${d.withWC ?? 0}, GHI ${d.withGHI ?? 0}${d.mix ? ' · click for makeup' : ''}">
       <div class="bar-total-label">${d.total}</div>
       <div class="bar-stack" style="height:${totalH}px">
         <div class="seg-other" style="height:${hOther}px"></div>
@@ -3058,13 +3059,21 @@ function coreRenderReport(byMonth, history) {
     </div>`;
   }).join('');
 
-  const cell = (n, tot) => n == null ? '—' : `${n} <span style="color:var(--text-3);font-size:11px">(${tot ? Math.round(n / tot * 100) : 0}%)</span>`;
+  window.coreMixByMonth = {};
+  byMonth.forEach(d => { if (d.mix) window.coreMixByMonth[d.month] = d.mix; });
+  const pctSpan = (n, tot) => `<span style="color:var(--text-3);font-size:11px">(${tot ? Math.round(n / tot * 100) : 0}%)</span>`;
+  const mcell = (val, month, metric, tot, withPct) => {
+    if (val == null) return '<td>—</td>';
+    const inner = withPct ? `${val} ${pctSpan(val, tot)}` : `${val}`;
+    if (!(window.coreMixByMonth && window.coreMixByMonth[month])) return `<td>${inner}</td>`;
+    return `<td><button type="button" class="core-mix-cell" onclick="coreShowMix('${month}','${metric}',this)">${inner}</button></td>`;
+  };
   const rows = byMonth.map(d => {
     const prev = prevMap[d.month];
     const delta = prev ? (d.total - prev.total) : null;
     const deltaTxt = delta === null ? '—' : (delta === 0 ? '±0' : (delta > 0 ? '+' + delta : String(delta)));
     const rowCls = d.month === 'Undated' ? ' class="undated-row"' : '';
-    return `<tr${rowCls}><td>${coreMonthLabel(d.month)}</td><td>${d.total}</td><td>${cell(d.with125, d.total)}</td><td>${cell(d.withWC, d.total)}</td><td>${cell(d.withGHI, d.total)}</td><td>${deltaTxt}</td></tr>`;
+    return `<tr${rowCls}><td>${coreMonthLabel(d.month)}</td>${mcell(d.total, d.month, 'total', d.total, false)}${mcell(d.with125, d.month, '125', d.total, true)}${mcell(d.withWC, d.month, 'wc', d.total, true)}${mcell(d.withGHI, d.month, 'ghi', d.total, true)}<td>${deltaTxt}</td></tr>`;
   }).join('');
 
   const th = (t, extra) => `<th style="text-align:${extra || 'right'};padding:8px;border-bottom:2px solid var(--navy);font-size:10px;text-transform:uppercase;color:var(--text-3)">${t}</th>`;
@@ -3090,8 +3099,30 @@ function coreRenderReport(byMonth, history) {
         <tbody>${rows}</tbody>
       </table>
       <div style="font-size:11px;color:var(--text-3);margin-top:10px">Product columns show leads flagged for each (count and % of that month's leads). A lead can be flagged for more than one, so the columns overlap and won't sum to Total.</div>
+      <div style="font-size:11px;color:var(--navy);margin-top:6px;font-weight:600">Click a Total / 125 / WC / GHI cell (or a bar) for a month with data to break down its composition. Available for August and September.</div>
     </div>
-    <style>#core-leads-view td{padding:8px;text-align:right;border-bottom:1px solid var(--surface,#f4f7fc)}#core-leads-view td:first-child{text-align:left}#core-leads-view tr.undated-row td{color:var(--text-3)}</style>`;
+    <div id="core-mix-panel" class="core-mix-panel" hidden></div>
+    <style>#core-leads-view td{padding:8px;text-align:right;border-bottom:1px solid var(--surface,#f4f7fc)}#core-leads-view td:first-child{text-align:left}#core-leads-view tr.undated-row td{color:var(--text-3)}
+    .core-mix-cell{font:inherit;color:var(--navy);background:none;border:none;border-radius:5px;padding:3px 6px;cursor:pointer;font-weight:600;transition:background .12s}
+    .core-mix-cell:hover{background:var(--navy-dim)}
+    .core-mix-cell[data-active="1"]{background:var(--navy);color:#fff}
+    .core-mix-cell[data-active="1"] span{color:rgba(255,255,255,.78)!important}
+    .core-mix-panel{background:var(--bg,#fff);border:1px solid var(--border);border-radius:10px;padding:18px 22px;margin-bottom:20px;box-shadow:0 6px 20px rgba(43,57,144,.08)}
+    .core-mix-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:12px}
+    .core-mix-title{font-size:14px;font-weight:700;color:var(--navy)}
+    .core-mix-sub{font-size:12px;color:var(--text-3);margin-left:6px}
+    .core-mix-close{background:none;border:none;font-size:16px;color:var(--text-3);cursor:pointer;line-height:1;padding:4px}
+    .core-mix-close:hover{color:var(--navy)}
+    .core-mix-row{display:flex;align-items:center;gap:12px;padding:5px 0}
+    .core-mix-lbl{flex:0 0 42%;font-size:12.5px;color:var(--text-1)}
+    .core-mix-barwrap{flex:1;height:10px;background:var(--surface,#f4f7fc);border-radius:5px;overflow:hidden}
+    .core-mix-bar{height:100%;background:var(--navy);border-radius:5px}
+    .core-mix-val{flex:0 0 84px;text-align:right;font-size:12.5px;font-weight:600;color:var(--navy);font-variant-numeric:tabular-nums}
+    .core-mix-pct{color:var(--text-3);font-weight:400;font-size:11px;margin-left:3px}
+    .core-mix-foot{font-size:11px;color:var(--text-3);margin-top:12px;border-top:1px solid var(--surface,#f4f7fc);padding-top:10px}
+    .core-mix-zero .core-mix-lbl,.core-mix-zero .core-mix-val{opacity:.4}
+    @media(max-width:480px){.core-mix-lbl{flex-basis:52%}.core-mix-val{flex-basis:64px}}
+    </style>`;
 }
 
 async function coreLoadPublished() {
@@ -3107,6 +3138,32 @@ async function coreLoadPublished() {
   }
 }
 
+function coreShowMix(month, metric, el) {
+  const mix = window.coreMixByMonth && window.coreMixByMonth[month];
+  const panel = document.getElementById('core-mix-panel');
+  if (!mix || !panel) return;
+  const LABELS = {none:'Unclassified (no product flag)','125only':'125 only',WConly:'WC only',GHIonly:'GHI only','125WC':'125 + WC','125GHI':'125 + GHI',WCGHI:'WC + GHI',all3:'125 + WC + GHI'};
+  const ORDER = ['none','125only','WConly','GHIonly','125WC','125GHI','WCGHI','all3'];
+  const MEMBER = {total:ORDER,'125':['125only','125WC','125GHI','all3'],wc:['WConly','125WC','WCGHI','all3'],ghi:['GHIonly','125GHI','WCGHI','all3']};
+  const MLABEL = {total:'Total leads','125':'125 Sales Status',wc:'WC Sales Status',ghi:'GHI Sales Status'};
+  const keys = MEMBER[metric] || ORDER;
+  const subtotal = keys.reduce((s,k)=>s+(mix[k]||0),0);
+  const maxv = Math.max(1, ...keys.map(k=>mix[k]||0));
+  const rowsHtml = keys.map(k=>{
+    const v = mix[k]||0, pct = subtotal?Math.round(v/subtotal*100):0, w = Math.round((v/maxv)*100);
+    return `<div class="core-mix-row${v===0?' core-mix-zero':''}"><div class="core-mix-lbl">${LABELS[k]}</div><div class="core-mix-barwrap"><div class="core-mix-bar" style="width:${w}%"></div></div><div class="core-mix-val">${v}<span class="core-mix-pct">${pct}%</span></div></div>`;
+  }).join('');
+  panel.innerHTML = `<div class="core-mix-head"><div><span class="core-mix-title">${coreMonthLabel(month)} · ${MLABEL[metric]||metric}</span><span class="core-mix-sub">${subtotal} lead${subtotal===1?'':'s'}</span></div><button class="core-mix-close" onclick="coreHideMix()" aria-label="Close">✕</button></div><div class="core-mix-body">${rowsHtml}</div><div class="core-mix-foot">These buckets are exclusive and sum to the ${subtotal} you clicked. Counts only, no company names.</div>`;
+  panel.hidden = false;
+  document.querySelectorAll('#core-leads-view .core-mix-cell[data-active="1"]').forEach(b=>b.setAttribute('data-active','0'));
+  if (el) el.setAttribute('data-active','1');
+  panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function coreHideMix() {
+  const p = document.getElementById('core-mix-panel');
+  if (p) p.hidden = true;
+  document.querySelectorAll('#core-leads-view .core-mix-cell[data-active="1"]').forEach(b=>b.setAttribute('data-active','0'));
+}
 function renderCoreLeads() {
   const tokenSaved = localStorage.getItem('pc_gh_token');
   const admin = isAdmin();
