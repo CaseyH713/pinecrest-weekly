@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-09-22T21:29:43.617Z",
-  "source": "monday_replica -> Master Deal Board (board 7124590647), CORE Leads group, active items, by month of item_created. with125=125 Sales Status, withWC=WC Sales Status, withGHI=GHI Sales Status populated. Current month (2026-09) topped up from the Master Deal Board CORE Leads export (Master_Deal_Board_CORE_Leads_1790112361.xlsx, pulled 2026-09-22). Products overlap (a lead can be flagged for more than one). [+composition mix on 2026-08/2026-09 for column drill-down]",
+  "updatedAt": "2026-09-30T17:15:58.000Z",
+  "source": "monday_replica -> Master Deal Board (board 7124590647), CORE Leads group, active items, by month of item_created. with125=125 Sales Status, withWC=WC Sales Status, withGHI=GHI Sales Status populated. Current month (2026-09) refreshed live from monday_replica (CORE Leads group, active items, by month of item_created) on 2026-09-30. Products overlap (a lead can be flagged for more than one). [+composition mix on 2026-08/2026-09 for column drill-down]",
   "window": "trailing 12 months (bulk-import spikes Aug-2024 and Jan-2025 excluded from the default window)",
   "byMonth": [
     {
@@ -92,15 +92,15 @@
     },
     {
       "month": "2026-09",
-      "total": 26,
-      "with125": 7,
+      "total": 32,
+      "with125": 10,
       "withWC": 0,
-      "withGHI": 1,
+      "withGHI": 2,
       "mix": {
-        "none": 19,
-        "125only": 6,
+        "none": 21,
+        "125only": 9,
         "WConly": 0,
-        "GHIonly": 0,
+        "GHIonly": 1,
         "125WC": 0,
         "125GHI": 1,
         "WCGHI": 0,
@@ -109,95 +109,6 @@
     }
   ],
   "history": [
-    {
-      "uploadedAt": "2026-08-24T04:05:03.033Z",
-      "byMonth": [
-        {
-          "month": "2025-09",
-          "total": 191,
-          "with125": 23,
-          "withWC": 3,
-          "withGHI": 191
-        },
-        {
-          "month": "2025-10",
-          "total": 99,
-          "with125": 17,
-          "withWC": 2,
-          "withGHI": 99
-        },
-        {
-          "month": "2025-11",
-          "total": 128,
-          "with125": 25,
-          "withWC": 3,
-          "withGHI": 128
-        },
-        {
-          "month": "2025-12",
-          "total": 105,
-          "with125": 20,
-          "withWC": 7,
-          "withGHI": 105
-        },
-        {
-          "month": "2026-01",
-          "total": 25,
-          "with125": 11,
-          "withWC": 3,
-          "withGHI": 22
-        },
-        {
-          "month": "2026-02",
-          "total": 25,
-          "with125": 24,
-          "withWC": 1,
-          "withGHI": 19
-        },
-        {
-          "month": "2026-03",
-          "total": 28,
-          "with125": 24,
-          "withWC": 1,
-          "withGHI": 28
-        },
-        {
-          "month": "2026-04",
-          "total": 27,
-          "with125": 26,
-          "withWC": 2,
-          "withGHI": 26
-        },
-        {
-          "month": "2026-05",
-          "total": 48,
-          "with125": 46,
-          "withWC": 0,
-          "withGHI": 38
-        },
-        {
-          "month": "2026-06",
-          "total": 129,
-          "with125": 103,
-          "withWC": 15,
-          "withGHI": 45
-        },
-        {
-          "month": "2026-07",
-          "total": 69,
-          "with125": 48,
-          "withWC": 17,
-          "withGHI": 13
-        },
-        {
-          "month": "2026-08",
-          "total": 56,
-          "with125": 28,
-          "withWC": 1,
-          "withGHI": 4
-        }
-      ]
-    },
     {
       "uploadedAt": "2026-08-20T03:43:54.664Z",
       "byMonth": [
@@ -1193,6 +1104,115 @@
             "125GHI": 0,
             "WCGHI": 0,
             "all3": 1
+          }
+        }
+      ]
+    },
+    {
+      "uploadedAt": "2026-09-22T21:29:43.617Z",
+      "byMonth": [
+        {
+          "month": "2025-10",
+          "total": 99,
+          "with125": 17,
+          "withWC": 2,
+          "withGHI": 99
+        },
+        {
+          "month": "2025-11",
+          "total": 128,
+          "with125": 25,
+          "withWC": 3,
+          "withGHI": 128
+        },
+        {
+          "month": "2025-12",
+          "total": 105,
+          "with125": 20,
+          "withWC": 7,
+          "withGHI": 105
+        },
+        {
+          "month": "2026-01",
+          "total": 25,
+          "with125": 11,
+          "withWC": 3,
+          "withGHI": 22
+        },
+        {
+          "month": "2026-02",
+          "total": 25,
+          "with125": 24,
+          "withWC": 1,
+          "withGHI": 19
+        },
+        {
+          "month": "2026-03",
+          "total": 28,
+          "with125": 24,
+          "withWC": 1,
+          "withGHI": 28
+        },
+        {
+          "month": "2026-04",
+          "total": 27,
+          "with125": 26,
+          "withWC": 2,
+          "withGHI": 26
+        },
+        {
+          "month": "2026-05",
+          "total": 48,
+          "with125": 46,
+          "withWC": 0,
+          "withGHI": 38
+        },
+        {
+          "month": "2026-06",
+          "total": 129,
+          "with125": 103,
+          "withWC": 15,
+          "withGHI": 45
+        },
+        {
+          "month": "2026-07",
+          "total": 69,
+          "with125": 48,
+          "withWC": 17,
+          "withGHI": 13
+        },
+        {
+          "month": "2026-08",
+          "total": 59,
+          "with125": 29,
+          "withWC": 1,
+          "withGHI": 2,
+          "mix": {
+            "none": 29,
+            "125only": 27,
+            "WConly": 1,
+            "GHIonly": 0,
+            "125WC": 0,
+            "125GHI": 2,
+            "WCGHI": 0,
+            "all3": 0
+          }
+        },
+        {
+          "month": "2026-09",
+          "total": 26,
+          "with125": 7,
+          "withWC": 0,
+          "withGHI": 1,
+          "mix": {
+            "none": 19,
+            "125only": 6,
+            "WConly": 0,
+            "GHIonly": 0,
+            "125WC": 0,
+            "125GHI": 1,
+            "WCGHI": 0,
+            "all3": 0
           }
         }
       ]
